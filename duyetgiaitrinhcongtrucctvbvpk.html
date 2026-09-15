@@ -1,0 +1,981 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duyệt giải trình công trực – CTV BV/PK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Flatpickr Date Picker CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Common Design System & Sidebar Script -->
+<style>
+/* ==========================================================================
+   PAGE STYLES - DUYỆT GIẢI TRÌNH CÔNG TRỰC (MATCHING SCREENSHOTS EXACTLY)
+   ========================================================================== */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* TOP NAVBAR & SUB TABS */
+.top-subnav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+}
+
+.subnav-tab {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #64748b;
+    padding: 8px 4px 12px 4px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.subnav-tab:hover {
+    color: #1e293b;
+}
+
+.subnav-tab.active {
+    color: #1e293b;
+    border-bottom: 2px solid #1e293b;
+}
+
+/* FILTER CARD FORM */
+.filter-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.filter-grid-3col {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.filter-grid-4col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.filter-field input,
+.filter-field select {
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #1e293b;
+    background: #ffffff;
+    outline: none;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+    border-color: #2A3F54;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* TABLE TOOLBAR */
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.table-page-size {
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.table-page-size select {
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.table-right-btns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* DATA TABLE DESIGN (DARK HEADER MATCHING SCREENSHOT) */
+.tbl-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+table.med-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    min-width: 1900px;
+}
+
+table.med-table thead th {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    padding: 10px 10px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border: 1px solid #334155;
+}
+
+table.med-table tbody td {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+table.med-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.date-link {
+    color: #2A3F54;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.date-link:hover {
+    text-decoration: underline;
+}
+
+.action-icon {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.action-icon:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+/* PAGINATION BAR */
+.pag-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.pag-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pag-btn {
+    height: 30px;
+    min-width: 30px;
+    padding: 0 8px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: #475569;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pag-btn:hover {
+    background: #f8fafc;
+}
+
+.pag-btn.active {
+    border-color: #1e293b;
+    background: #1e293b;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* MODAL OVERLAYS & POPUPS */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 680px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.modal-header {
+    height: 52px;
+    padding: 0 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+.modal-header .close-icon {
+    font-size: 18px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: #fafbfc;
+}
+
+/* HORIZONTAL STEPPER BAR */
+.horiz-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.horiz-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    z-index: 2;
+}
+
+.horiz-step.active {
+    color: #0f172a;
+}
+
+.horiz-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.horiz-circle.completed {
+    border-color: #334155;
+    color: #334155;
+}
+
+.horiz-circle.active {
+    background: #334155;
+    border-color: #334155;
+    color: #ffffff;
+}
+
+.horiz-line {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 8px;
+}
+
+/* APPROVAL HISTORY TABLE IN MODAL */
+.approve-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.approve-history-table th {
+    background: #f8fafc;
+    color: #475569;
+    padding: 8px 10px;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.approve-history-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+}
+
+/* INNER FORM ACTION POPUP OVERLAY */
+.inner-popup {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    z-index: 1050;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+}
+
+.inner-popup.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên BV/PK <span>/</span> Chấm công BV/PK <span>/</span> <strong>Duyệt giải trình công trực</strong></div>
+                <div class="page-title">Duyệt giải trình công trực</div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- TOP SUB NAVIGATION TABS -->
+            <div class="top-subnav">
+                <a href="bangdulieucongtrucctvbvpk.html" class="subnav-tab">
+                    <i class="fa-solid fa-user-nurse"></i> Dữ liệu chấm công trực
+                </a>
+                <a href="duyetgiaitrinhcongtrucctvbvpk.html" class="subnav-tab active">
+                    <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                </a>
+            </div>
+
+            <!-- SEARCH FILTER CARD (EXACT MATCH TO SCREENSHOT 1 & 2) -->
+            <div class="filter-card">
+                <div class="filter-grid-3col">
+                    <div class="filter-field">
+                        <label>Tìm kiếm</label>
+                        <input type="text" placeholder="Nhập tìm kiếm theo tên, mã nhân viên">
+                    </div>
+                    <div class="filter-field">
+                        <label>Trạng thái chấm công trực</label>
+                        <select id="filterAttStatus">
+                            <option value="">Chọn trạng thái</option>
+                            <option value="Không có dữ liệu chấm trực">Không có dữ liệu chấm trực</option>
+                            <option value="Hợp lệ">Hợp lệ</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Trạng thái GTC</label>
+                        <select id="filterGTCStatus">
+                            <option value="Chờ duyệt" selected>Chờ duyệt ✕</option>
+                            <option value="Đã duyệt">Đã duyệt</option>
+                            <option value="Từ chối">Từ chối</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-grid-4col">
+                    <div class="filter-field">
+                        <label>Thời gian</label>
+                        <input type="text" id="filterDateRange" value="01/08/2026 - 31/08/2026">
+                    </div>
+                    <div class="filter-field">
+                        <label>Nhóm trực</label>
+                        <select id="filterDutyGroup">
+                            <option value="">Chọn Nhóm trực</option>
+                            <option value="KTV - Tối">KTV - Tối</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Phòng trực</label>
+                        <select id="filterDutyRoom">
+                            <option value="">Chọn ca làm việc</option>
+                            <option value="Phú Thọ - Cường test lịch trực - Sáng">Phú Thọ - Cường test lịch trực - Sáng</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Đơn vị / Phòng bàn</label>
+                        <select id="filterDept">
+                            <option value="">Chọn đơn vị</option>
+                            <option value="Mê Linh - Phòng Xét nghiệm">Mê Linh - Phòng Xét nghiệm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="btn btn-primary" style="background: #2A3F54;" onclick="applySearch()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                    <button class="btn btn-secondary" onclick="resetSearch()"><i class="fa-solid fa-arrow-rotate-left"></i> Đặt lại</button>
+                </div>
+            </div>
+
+            <!-- TABLE CONTROLS TOOLBAR -->
+            <div class="table-toolbar">
+                <div class="table-page-size">
+                    Hiển thị 
+                    <select id="pageSizeSelect" onchange="changePageSize()">
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    bản ghi.
+                </div>
+                <div class="table-right-btns">
+                    <button class="btn btn-secondary" style="opacity: 0.6; cursor: not-allowed;" disabled><i class="fa-solid fa-download"></i> Xuất dữ liệu</button>
+                    <button class="btn btn-secondary" onclick="batchApprove()"><i class="fa-solid fa-list-check"></i> Duyệt hàng loạt</button>
+                    <button class="btn btn-secondary" style="padding: 0 10px;" title="Tùy chỉnh cột hiển thị"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+
+            <!-- DATA TABLE -->
+            <div class="tbl-wrap">
+                <table class="med-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAll"></th>
+                            <th style="width: 50px; text-align: center;">STT</th>
+                            <th>Ngày</th>
+                            <th>Thứ</th>
+                            <th>Mã nhân viên</th>
+                            <th>Họ và tên</th>
+                            <th>Đơn vị / Phòng bàn</th>
+                            <th>Phòng trực</th>
+                            <th style="text-align: center;">Thời gian trực</th>
+                            <th style="text-align: center;">Giờ vào</th>
+                            <th style="text-align: center;">Giờ ra</th>
+                            <th style="text-align: center;">Chấm vào trực</th>
+                            <th style="text-align: center;">Chấm ra trực</th>
+                            <th>Vị trí chấm vào</th>
+                            <th>Vị trí chấm ra</th>
+                            <th style="text-align: center;">Số giờ /công chấm trực</th>
+                            <th style="text-align: center;">TG đi muộn (phút)</th>
+                            <th style="text-align: center;">TG về sớm (phút)</th>
+                            <th>Trạng thái chấm trực</th>
+                            <th>Giải trình trực</th>
+                            <th style="text-align: center;">Số giờ /công trực đề xuất</th>
+                            <th>Trạng thái duyệt GTC</th>
+                            <th style="text-align: center;">Số giờ /công trực ghi nhận</th>
+                            <th style="width: 80px; text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="med-table-body">
+                        <!-- Rendered by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION BAR -->
+            <div class="pag-bar">
+                <div id="pag-info">1 - 5 trong tổng 5</div>
+                <div class="pag-buttons">
+                    <button class="pag-btn">«</button>
+                    <button class="pag-btn">‹</button>
+                    <button class="pag-btn active">1</button>
+                    <button class="pag-btn">›</button>
+                    <button class="pag-btn">»</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL DUYỆT GIẢI TRÌNH CÔNG TRỰC (MATCHING SCREENSHOT 1 & 2)
+     ========================================================================== -->
+<div class="modal-overlay" id="modalDuyetGiaiTrinh">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span>Duyệt giải trình công trực</span>
+            <i class="fa-solid fa-xmark close-icon" onclick="closeModal('modalDuyetGiaiTrinh')"></i>
+        </div>
+        
+        <div class="modal-body">
+            <!-- HORIZONTAL STEPPER -->
+            <div class="horiz-stepper">
+                <div class="horiz-step">
+                    <div class="horiz-circle completed"><i class="fa-solid fa-check"></i></div>
+                    <span>Tạo giải trình công trực</span>
+                </div>
+                <div class="horiz-line"></div>
+                <div class="horiz-step active">
+                    <div class="horiz-circle active">2</div>
+                    <span>Hạnh test duyệt 2</span>
+                </div>
+                <div class="horiz-line"></div>
+                <div class="horiz-step">
+                    <div class="horiz-circle">3</div>
+                    <span>Hạnh test duyệt 3</span>
+                </div>
+            </div>
+
+            <!-- DETAIL INFO GRID (EXACT MATCH TO SCREENSHOT 1 & 2) -->
+            <div style="display: grid; grid-template-columns: 180px 1fr; gap: 10px 16px; font-size: 13px; margin-bottom: 20px; background: #ffffff; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                <span style="color: #64748b; font-weight: 600;">Ngày giải trình:</span>
+                <span id="dtlDate" style="color: #0f172a; font-weight: 600;">10/08/2026</span>
+
+                <span style="color: #64748b; font-weight: 600;">Phòng trực:</span>
+                <span id="dtlRoom" style="color: #0f172a;">Phú Thọ - Cường test lịch trực - Sáng</span>
+
+                <span style="color: #64748b; font-weight: 600;">Trạng thái chấm trực:</span>
+                <span id="dtlAttStatus" style="color: #475569;">Không có dữ liệu chấm trực</span>
+
+                <span style="color: #64748b; font-weight: 600;">Số giờ /công chấm trực:</span>
+                <span id="dtlWorkClock" style="color: #0f172a;">--</span>
+
+                <span style="color: #64748b; font-weight: 600;">Lý do giải trình*:</span>
+                <span id="dtlReason" style="color: #0f172a;">Quên bấm giờ công trực do ca cấp cứu</span>
+
+                <span style="color: #64748b; font-weight: 600;">Số giờ /công trực đề xuất:</span>
+                <span id="dtlProposedWork" style="color: #0f172a; font-weight: 600;">0.5</span>
+
+                <span style="color: #64748b; font-weight: 600;">Số giờ /công trực được duyệt:</span>
+                <span id="dtlApprovedWork" style="color: #64748b;">-</span>
+            </div>
+
+            <!-- COLLAPSIBLE THÔNG TIN DUYỆT SECTION -->
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 14px; color: #0f172a;" onclick="toggleDtlInfo()">
+                    <span><i class="fa-solid fa-chevron-down" id="arrowDtlInfo"></i> Thông tin duyệt</span>
+                </div>
+                
+                <div id="dtlInfoBox" style="margin-top: 10px;">
+                    <table class="approve-history-table">
+                        <thead>
+                            <tr>
+                                <th>Ngày giờ</th>
+                                <th>Người thực hiện</th>
+                                <th>Hành động</th>
+                                <th>Ý kiến</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>11:08 10/08/2026</td>
+                                <td>Trần Thị Hồng Hạnh</td>
+                                <td>Tạo mới</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>11:08 10/08/2026</td>
+                                <td>Trần Thị Hồng Hạnh</td>
+                                <td>Trình duyệt</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" style="background: #2A3F54;" onclick="openInnerActionForm()"><i class="fa-solid fa-check-double"></i> Duyệt</button>
+            <button class="btn btn-secondary" onclick="closeModal('modalDuyetGiaiTrinh')">Thoát</button>
+        </div>
+
+        <!-- INNER FORM ACTION POPUP -->
+        <div class="inner-popup" id="innerActionForm">
+            <div class="modal-header">
+                <span>Duyệt giải trình công trực</span>
+                <i class="fa-solid fa-xmark close-icon" onclick="closeInnerActionForm()"></i>
+            </div>
+            <div class="modal-body" style="padding: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 12px; font-weight: 600; color: #475569;">Ý kiến duyệt <span style="color: #dc2626;">*</span></label>
+                        <textarea id="innerComment" placeholder="Nhập ý kiến duyệt" style="height: 64px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; font-size: 13px; outline: none; resize: none;"></textarea>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 12px; font-weight: 600; color: #475569;">Số giờ /công trực được duyệt:</label>
+                        <input type="text" id="innerApprovedWork" value="0.5" style="height: 36px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" style="background: #2A3F54;" onclick="submitApproveAction('Duyệt công')">Duyệt công</button>
+                <button class="btn btn-primary" style="background: #2A3F54;" onclick="submitApproveAction('Duyệt lý do')">Duyệt lý do</button>
+                <button class="btn btn-danger" onclick="submitApproveAction('Từ chối')">Từ chối</button>
+                <button class="btn btn-secondary" onclick="closeInnerActionForm()">Thoát</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+const mockDutyData = [
+    { stt: 1, date: "10/08/2026", dayOfWeek: "Thứ Hai", empId: "7225", name: "Sơn Thị Thao", dept: "Mê Linh - Phòng Xét nghiệm", room: "Phú Thọ - Cường test lịch trực - Sáng", dutyTime: "09:30 - 10:20", inTime: "09:30", outTime: "10:20", clockIn: "--", clockOut: "--", locIn: "", locOut: "", workClock: "12", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm trực", excuseText: "", proposedWork: "0.5h", approveStatus: "Chờ duyệt", recWork: "" },
+    { stt: 2, date: "10/08/2026", dayOfWeek: "Thứ Hai", empId: "11225", name: "Đặng Đình Luyện", dept: "Mê Linh - Phòng Xét nghiệm", room: "Phú Thọ - Cường test lịch trực - Sáng", dutyTime: "09:30 - 10:20", inTime: "09:30", outTime: "10:20", clockIn: "--", clockOut: "--", locIn: "", locOut: "", workClock: "12", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm trực", excuseText: "", proposedWork: "0.5h", approveStatus: "Chờ duyệt", recWork: "" },
+    { stt: 3, date: "10/08/2026", dayOfWeek: "Thứ Hai", empId: "11225", name: "Đặng Đình Luyện", dept: "Mê Linh - Phòng Xét nghiệm", room: "Phú Thọ - Cường test lịch trực - Sáng", dutyTime: "09:30 - 10:20", inTime: "09:30", outTime: "10:20", clockIn: "--", clockOut: "--", locIn: "", locOut: "", workClock: "12", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm trực", excuseText: "", proposedWork: "0.5h", approveStatus: "Chờ duyệt", recWork: "" },
+    { stt: 4, date: "10/08/2026", dayOfWeek: "Thứ Hai", empId: "2466", name: "Nguyễn Thị Huyền", dept: "MED Tây Hồ", room: "Ba Đình - Trực Điều dưỡng, KTV - Tối", dutyTime: "17:30 - 07:00", inTime: "17:00", outTime: "07:00", clockIn: "--", clockOut: "--", locIn: "", locOut: "", workClock: "12", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm trực", excuseText: "", proposedWork: "0.5", approveStatus: "Chờ duyệt", recWork: "" },
+    { stt: 5, date: "10/08/2026", dayOfWeek: "Thứ Hai", empId: "12340", name: "Nguyễn Hoàng Việt", dept: "MED Tây Hồ", room: "Ba Đình - Trực Điều dưỡng, KTV - Tối", dutyTime: "17:30 - 07:00", inTime: "17:00", outTime: "07:00", clockIn: "--", clockOut: "--", locIn: "", locOut: "", workClock: "12", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm trực", excuseText: "", proposedWork: "0.5", approveStatus: "Chờ duyệt", recWork: "" }
+];
+
+let selectedRowIndex = 0;
+
+document.addEventListener("DOMContentLoaded", function() {
+    flatpickr("#filterDateRange", {
+        mode: "range",
+        dateFormat: "d/m/Y",
+        defaultDate: ["01/08/2026", "31/08/2026"],
+        locale: "vn"
+    });
+
+    renderDutyTable(mockDutyData);
+});
+
+function renderDutyTable(data) {
+    const tbody = document.getElementById("med-table-body");
+    tbody.innerHTML = "";
+
+    data.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align: center;"><input type="checkbox" class="row-check"></td>
+            <td style="text-align: center; color: #64748b;">${row.stt}</td>
+            <td><a class="date-link" onclick="openApproveModal(${idx})">${row.date}</a></td>
+            <td>${row.dayOfWeek}</td>
+            <td>${row.empId}</td>
+            <td><strong>${row.name}</strong></td>
+            <td>${row.dept}</td>
+            <td>${row.room}</td>
+            <td style="text-align: center;">${row.dutyTime}</td>
+            <td style="text-align: center;">${row.inTime}</td>
+            <td style="text-align: center;">${row.outTime}</td>
+            <td style="text-align: center; color: #94a3b8;">${row.clockIn}</td>
+            <td style="text-align: center; color: #94a3b8;">${row.clockOut}</td>
+            <td>${row.locIn}</td>
+            <td>${row.locOut}</td>
+            <td style="text-align: center;">${row.workClock}</td>
+            <td style="text-align: center;">${row.lateMin}</td>
+            <td style="text-align: center;">${row.earlyMin}</td>
+            <td><span class="badge badge-secondary">${row.attStatus}</span></td>
+            <td>${row.excuseText}</td>
+            <td style="text-align: center;"><strong>${row.proposedWork}</strong></td>
+            <td><span class="badge badge-warning" style="cursor: pointer;" onclick="openApproveModal(${idx})">${row.approveStatus}</span></td>
+            <td style="text-align: center;">${row.recWork}</td>
+            <td style="text-align: center; white-space: nowrap;">
+                <button class="action-icon" title="Duyệt giải trình công trực" onclick="openApproveModal(${idx})"><i class="fa-regular fa-eye"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("pag-info").textContent = `1 - ${data.length} trong tổng ${data.length}`;
+}
+
+function openApproveModal(idx) {
+    selectedRowIndex = idx;
+    const row = mockDutyData[idx];
+    document.getElementById("dtlDate").textContent = row.date;
+    document.getElementById("dtlRoom").textContent = row.room;
+    document.getElementById("dtlAttStatus").textContent = row.attStatus;
+    document.getElementById("dtlWorkClock").textContent = row.workClock || "--";
+    document.getElementById("dtlReason").textContent = row.excuseText || "Quên bấm giờ công trực do ca cấp cứu";
+    document.getElementById("dtlProposedWork").textContent = row.proposedWork || "0.5";
+    document.getElementById("dtlApprovedWork").textContent = row.recWork || "-";
+    
+    closeInnerActionForm();
+    document.getElementById("modalDuyetGiaiTrinh").classList.add("active");
+}
+
+function openInnerActionForm() {
+    document.getElementById("innerActionForm").classList.add("active");
+}
+
+function closeInnerActionForm() {
+    document.getElementById("innerActionForm").classList.remove("active");
+}
+
+function toggleDtlInfo() {
+    const box = document.getElementById("dtlInfoBox");
+    const arrow = document.getElementById("arrowDtlInfo");
+    if (box.style.display === "none") {
+        box.style.display = "block";
+        arrow.className = "fa-solid fa-chevron-down";
+    } else {
+        box.style.display = "none";
+        arrow.className = "fa-solid fa-chevron-right";
+    }
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+}
+
+function submitApproveAction(actionType) {
+    const comment = document.getElementById("innerComment").value;
+    const approvedWork = document.getElementById("innerApprovedWork").value;
+
+    if (actionType !== 'Thoát' && !comment && actionType === 'Từ chối') {
+        alert("Vui lòng nhập ý kiến khi từ chối!");
+        return;
+    }
+
+    if (mockDutyData[selectedRowIndex]) {
+        if (actionType === 'Duyệt công' || actionType === 'Duyệt lý do') {
+            mockDutyData[selectedRowIndex].approveStatus = "Đã duyệt";
+            mockDutyData[selectedRowIndex].recWork = approvedWork;
+        } else if (actionType === 'Từ chối') {
+            mockDutyData[selectedRowIndex].approveStatus = "Từ chối";
+        }
+    }
+
+    closeInnerActionForm();
+    closeModal('modalDuyetGiaiTrinh');
+    renderDutyTable(mockDutyData);
+
+    alert(`Thao tác "${actionType}" giải trình công trực đã được lưu thành công!`);
+}
+
+function applySearch() {
+    renderDutyTable(mockDutyData);
+}
+
+function resetSearch() {
+    document.getElementById("filterAttStatus").value = "";
+    document.getElementById("filterGTCStatus").value = "Chờ duyệt";
+    document.getElementById("filterDutyGroup").value = "";
+    document.getElementById("filterDutyRoom").value = "";
+    document.getElementById("filterDept").value = "";
+    renderDutyTable(mockDutyData);
+}
+
+function batchApprove() {
+    alert("Vui lòng chọn các bản ghi cần duyệt giải trình công trực hàng loạt.");
+}
+
+function changePageSize() {
+    const size = document.getElementById("pageSizeSelect").value;
+    document.getElementById("pag-info").textContent = `1 - ${mockDutyData.length} trong tổng ${mockDutyData.length}`;
+}
+</script>
+</body>
+</html>

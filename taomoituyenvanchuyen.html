@@ -1,0 +1,1591 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cấu hình tuyến vận chuyển – Chi tiết / Tạo mới</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+<link rel="stylesheet" href="css/common.css">
+
+<style>
+/* WORKSPACE LAYOUT */
+.route-workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .route-workspace-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* FORM CONTROLS & GRIDS */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.form-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .form-grid, .form-grid-2, .form-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #475569;
+    box-shadow: 0 0 0 2px rgba(71, 85, 105, 0.08);
+}
+
+.form-group input[disabled],
+.form-group select[disabled] {
+    background-color: #f8fafc;
+    color: #64748b;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+}
+
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-suffix input {
+    padding-right: 50px;
+}
+
+.input-suffix {
+    position: absolute;
+    right: 12px;
+    font-size: 11.5px;
+    color: #94a3b8;
+    pointer-events: none;
+    font-weight: 500;
+}
+
+/* DIMMED SECTION FOR INACTIVE REVERSE */
+.dimmed-section {
+    opacity: 0.45;
+    pointer-events: none;
+    filter: grayscale(0.5);
+    transition: all 0.2s ease;
+}
+
+/* SWITCH TOGGLE */
+.switch-btn.active {
+    background: #2A3F54 !important;
+    color: #ffffff !important;
+}
+
+/* STICKY SUMMARY CARD */
+.summary-sticky-card {
+    position: sticky;
+    top: 20px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.summary-sticky-card h3 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.summary-label {
+    font-size: 11.5px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.summary-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.summary-sub {
+    font-size: 11.5px;
+    color: #64748b;
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    color: #475569;
+    padding: 4px 0;
+}
+
+.fee-row.total {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+    margin-top: 6px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.bottom-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+/* ── MODAL TAB BAR ── */
+.modal-tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 24px;
+    background: #ffffff;
+}
+.modal-tab-btn {
+    padding: 12px 26px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.15s;
+    white-space: nowrap;
+}
+.modal-tab-btn:hover { color: #0f172a; }
+.modal-tab-btn.active { color: #2A3F54; font-weight: 600; }
+.modal-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #2A3F54;
+    border-radius: 3px 3px 0 0;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── FORMULA TAB STYLES ── */
+.formula-top-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 20px;
+}
+@media (max-width: 1100px) { .formula-top-layout { grid-template-columns: 1fr; } }
+
+.formula-input-group { position: relative; }
+.formula-input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #475569;
+}
+.formula-input-wrap {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.formula-input-wrap:focus-within { border-color: #475569; box-shadow: 0 0 0 2px rgba(71,85,105,0.08); }
+.formula-input-wrap input {
+    flex: 1; height: 36px; border: none !important; padding: 0 12px !important;
+    font-size: 13px; color: #334155; background: #fff; outline: none; min-width: 0;
+}
+.formula-input-unit {
+    height: 36px; padding: 0 10px; background: #f8fafc; border-left: 1px solid #e2e8f0;
+    display: flex; align-items: center; font-size: 11.5px; font-weight: 600;
+    color: #64748b; white-space: nowrap; flex-shrink: 0;
+}
+.formula-field-desc { font-size: 11px; color: #94a3b8; margin-top: 4px; font-style: italic; }
+
+.preview-panel-formula {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: sticky; top: 20px;
+}
+.preview-panel-header {
+    background: #334155; color: #fff; border-radius: 8px 8px 0 0;
+    padding: 11px 16px; display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; font-weight: 600;
+}
+.preview-panel-body { padding: 14px; }
+.preview-demo-inputs {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;
+    padding: 10px 12px; margin-bottom: 12px;
+}
+.preview-demo-title { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.preview-demo-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.preview-demo-row:last-child { margin-bottom: 0; }
+.preview-demo-row label { font-size: 11.5px; color: #475569; white-space: nowrap; }
+.preview-demo-row input { width: 78px; height: 26px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 6px; font-size: 12px; text-align: right; color: #1e293b; }
+.breakdown-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #f1f5f9; font-size: 12.5px; color: #475569; }
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label { display: flex; align-items: center; gap: 6px; }
+.breakdown-label i { font-size: 10px; color: #94a3b8; width: 12px; }
+.breakdown-val { font-weight: 600; color: #334155; }
+.breakdown-val.minus { color: #64748b; }
+.breakdown-divider { height: 1px; background: #e2e8f0; margin: 6px 0; }
+.total-row-formula { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; margin-top: 6px; }
+.total-val-formula { font-size: 15px; font-weight: 700; color: #0f172a; }
+
+.km-table-formula { width: 100%; border-collapse: collapse; }
+.km-table-formula thead th { background: #f8fafc; color: #475569; padding: 9px 13px; font-size: 12px; font-weight: 600; text-align: left; border-bottom: 2px solid #e2e8f0; }
+.km-table-formula tbody td { border-bottom: 1px solid #f1f5f9; padding: 7px 10px; vertical-align: middle; }
+.km-table-formula tbody tr:last-child td { border-bottom: none; }
+.km-table-formula tbody tr:hover td { background: #f8fafc; }
+.km-input-formula { width: 100%; height: 32px; border: 1px solid #e2e8f0; border-radius: 4px; padding: 0 10px; font-size: 13px; color: #334155; background: #fff; transition: all 0.15s; }
+.km-input-formula:focus { outline: none; border-color: #475569; box-shadow: 0 0 0 2px rgba(71,85,105,0.08); }
+.stt-cell-formula { text-align: center; font-size: 12px; font-weight: 600; color: #94a3b8; width: 44px; }
+.action-cell-formula { text-align: center; width: 50px; }
+.km-del-btn { height: 28px; width: 28px; padding: 0; border: 1px solid #e2e8f0; border-radius: 4px; background: #fff; color: #94a3b8; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.15s; }
+.km-del-btn:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+.warn-badge-formula { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 8px; }
+</style>
+
+<script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen" class="active">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <div class="breadcrumb">
+                <i class="fa-regular fa-house"></i> <span>/</span>
+                Cộng tác viên VCM <span>/</span>
+                Cấu hình VCM <span>/</span>
+                <a href="cauhinhtuyenvanchuyen.html" style="color:inherit; text-decoration:none;">Cấu hình tuyến vận chuyển</a> <span>/</span>
+                <strong id="pageBreadcrumbAction">Tạo mới tuyến vận chuyển</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; flex-wrap:wrap; gap:10px;">
+                <div class="page-title" id="pageTitleText">Tạo mới cấu hình tuyến vận chuyển</div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.location.href='cauhinhtuyenvanchuyen.html'">
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại
+                    </button>
+                    <button class="btn btn-primary" id="btnTopSave" onclick="saveRouteConfig()">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu cấu hình
+                    </button>
+                    <button class="btn btn-primary" id="btnTopEditMode" style="display:none;" onclick="switchToEditMode()">
+                        <i class="fa-regular fa-pen-to-square"></i> Chỉnh sửa tuyến này
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TAB BAR ── -->
+        <div class="modal-tab-bar" id="mainTabBar">
+            <button class="modal-tab-btn active" onclick="switchTab('route')" id="tabBtnRoute">
+                <i class="fa-solid fa-route"></i> Tuyến vận chuyển
+            </button>
+            <button class="modal-tab-btn" onclick="switchTab('formula')" id="tabBtnFormula">
+                <i class="fa-solid fa-calculator"></i> Công thức tính công
+            </button>
+        </div>
+
+        <div class="container">
+
+            <!-- ══ TAB 1: TUYẾN VẬN CHUYỂN ══ -->
+            <div id="tabRoute" class="tab-panel active">
+            <div class="route-workspace-grid">
+                
+                <!-- LEFT COLUMN: FORM SECTIONS -->
+                <div class="workspace-forms" style="display:flex; flex-direction:column; gap:20px;">
+
+                    
+                    <!-- CARD 1: THÔNG TIN CHUNG -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span><i class="fa-solid fa-circle-info" style="color:#64748b; margin-right:6px;"></i> Thông tin chung tuyến vận chuyển</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid-4">
+                                <div class="form-group">
+                                    <label>Mã cung <span style="color:#dc2626;">*</span></label>
+                                    <input id="routeCode" placeholder="Ví dụ: VCM001">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ký hiệu cung <span style="color:#dc2626;">*</span></label>
+                                    <input id="routeSymbol" placeholder="Ví dụ: HN01">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tên cung <span style="color:#dc2626;">*</span></label>
+                                    <input id="routeName" placeholder="Ví dụ: Hồng Hà - MEDVN">
+                                </div>
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <select id="routeStatus">
+                                        <option value="Hoạt động">Hoạt động</option>
+                                        <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: CHIỀU ĐI (VẬN CHUYỂN MẪU) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-arrow-right" style="color:#2A3F54;"></i>
+                                <span>Chiều đi (Vận chuyển mẫu xét nghiệm)</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Điểm đầu (Điểm nhận) <span style="color:#dc2626;">*</span></label>
+                                    <select id="routeStartPoint"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Điểm cuối (Điểm giao) <span style="color:#dc2626;">*</span></label>
+                                    <select id="routeEndPoint"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quãng đường chuẩn (km)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" id="routeDistance" placeholder="0" min="0" step="0.1">
+                                        <span class="input-suffix">km</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-grid-2" style="margin-top: 14px;">
+                                <div class="form-group">
+                                    <label>Giờ xuất phát đi <span style="color:#dc2626;">*</span></label>
+                                    <input type="time" id="routeStartTime">
+                                    <span id="lateAllowanceNotice" style="color: #d97706; font-size: 11.5px; margin-top: 4px; display: none; font-weight: 500;">
+                                        <i class="fa-solid fa-circle-exclamation"></i> Chạy sau 19h sẽ tự động áp dụng thêm phụ cấp ca muộn (+30.000 VNĐ)
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Giờ kết thúc dự kiến <span style="color:#dc2626;">*</span></label>
+                                    <input type="time" id="routeEndTime">
+                                </div>
+                            </div>
+
+                            <!-- DUNG SAI CHIỀU ĐI -->
+                            <div class="form-grid-2" style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 16px;">
+                                <div class="form-group" style="grid-column: span 2; font-weight: 600; font-size: 12px; color: #475569;">
+                                    QUY TẮC DUNG SAI CHẤM CÔNG CHIỀU ĐI
+                                </div>
+                                <div class="form-group">
+                                    <label>Cho phép chấm nhận sớm (Điểm đầu)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" id="routeEarlyCheckin" value="15" min="0">
+                                        <span class="input-suffix">phút</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cho phép chấm nhận muộn (Điểm đầu)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" id="routeLateCheckin" value="15" min="0">
+                                        <span class="input-suffix">phút</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TRẠM DỪNG / ĐIỂM TRUNG CHUYỂN CHIỀU ĐI -->
+                            <div style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 16px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                    <div style="font-weight: 600; font-size: 12.5px; color: #475569; display:flex; align-items:center; gap:6px;">
+                                        <i class="fa-solid fa-map-pin" style="color:#64748b;"></i>
+                                        <span>Các trạm dừng dọc đường (Điểm trung chuyển chiều đi)</span>
+                                    </div>
+                                    <button class="btn btn-secondary btn-sm" id="btnAddTransfer" type="button" onclick="addTransferRow()">
+                                        <i class="fa-solid fa-plus"></i> Thêm trạm dừng
+                                    </button>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th width="45" style="text-align:center;">STT</th>
+                                                <th>Tên điểm trung chuyển</th>
+                                                <th width="110">Giờ đến</th>
+                                                <th width="110">Sớm (phút)</th>
+                                                <th width="110">Muộn (phút)</th>
+                                                <th width="60" style="text-align: center;">Xóa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="transferBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3: CHIỀU VỀ (VẬN CHUYỂN ĐỒ) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-arrow-left" style="color:#16a34a;"></i>
+                                <span>Chiều về (Vận chuyển đồ / thiết bị)</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="switch-container" style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; margin-bottom:14px;">
+                                <span style="font-size:13px; font-weight:600; color:#334155;">Kèm tuyến vận chuyển đồ ở chiều về</span>
+                                <div class="switch-toggle-group" id="reverseToggle" style="display:flex; border:1px solid #cbd5e1; border-radius:4px; overflow:hidden;">
+                                    <button class="switch-btn active" data-value="0" type="button" onclick="setReverseOption(0)" style="padding:6px 16px; border:none; background:#ffffff; font-size:12px; font-weight:600; cursor:pointer;">Không</button>
+                                    <button class="switch-btn" data-value="1" type="button" onclick="setReverseOption(1)" style="padding:6px 16px; border:none; background:#ffffff; font-size:12px; font-weight:600; cursor:pointer;">Có</button>
+                                </div>
+                            </div>
+
+                            <div id="reverseFieldsContainer" class="dimmed-section" style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label>Điểm nhận đồ chiều về</label>
+                                        <select id="routeReverseStart"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Giờ nhận đồ</label>
+                                        <input type="time" id="routeReverseStartTime">
+                                    </div>
+                                </div>
+
+                                <div class="form-grid-2">
+                                    <div class="form-group">
+                                        <label>Cho phép nhận sớm (Chiều về)</label>
+                                        <div class="input-with-suffix">
+                                            <input type="number" id="routeReverseEarlyCheckin" value="10" min="0">
+                                            <span class="input-suffix">phút</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Cho phép nhận muộn (Chiều về)</label>
+                                        <div class="input-with-suffix">
+                                            <input type="number" id="routeReverseLateCheckin" value="10" min="0">
+                                            <span class="input-suffix">phút</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BẢNG ĐIỂM GIAO ĐỒ CHIỀU VỀ -->
+                                <div style="margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 16px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                        <div style="font-weight: 600; font-size: 12.5px; color: #475569; display:flex; align-items:center; gap:6px;">
+                                            <i class="fa-solid fa-truck-ramp-box" style="color:#64748b;"></i>
+                                            <span>Danh sách các điểm giao đồ (Điểm dừng trả đồ chiều về)</span>
+                                        </div>
+                                        <button class="btn btn-secondary btn-sm" id="btnAddReverseDropoff" type="button" onclick="addReverseDropoffRow()">
+                                            <i class="fa-solid fa-plus"></i> Thêm điểm giao
+                                        </button>
+                                    </div>
+                                    <div class="table-container">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="45" style="text-align:center;">STT</th>
+                                                    <th>Điểm giao đồ chiều về</th>
+                                                    <th width="110">Giờ giao</th>
+                                                    <th width="110">Sớm (phút)</th>
+                                                    <th width="110">Muộn (phút)</th>
+                                                    <th width="60" style="text-align: center;">Xóa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="reverseDropoffBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 4: PHÂN BỔ CHI PHÍ -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-coins" style="color:#f59e0b;"></i>
+                                <span>Cước phí vận chuyển khứ hồi</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label>Cước mẫu (Chiều đi)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" id="routeMainFee" placeholder="Nhập số tiền...">
+                                        <span class="input-suffix">VNĐ</span>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="reverseFeeFormGroup">
+                                    <label>Cước đồ (Chiều về)</label>
+                                    <div class="input-with-suffix">
+                                        <input type="number" id="routeReverseFee" placeholder="Nhập số tiền...">
+                                        <span class="input-suffix">VNĐ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: STICKY SUMMARY CARD -->
+                <div class="summary-sticky-card">
+                    <h3>
+                        <i class="fa-solid fa-clipboard-list" style="color:#2A3F54;"></i>
+                        <span>Tóm tắt tuyến đường</span>
+                    </h3>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Mã & Tên Tuyến</span>
+                        <span class="summary-value" id="sumRouteName">-</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Chiều đi (Vận chuyển mẫu)</span>
+                        <span class="summary-value" id="sumOutbound">-</span>
+                        <span class="summary-sub" id="sumOutboundTime">-</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label">Trạm dừng chiều đi</span>
+                        <span class="summary-value" id="sumOutboundTransfers">0 trạm dừng</span>
+                    </div>
+                    
+                    <div class="summary-item" style="border-top: 1px dashed #e2e8f0; padding-top: 10px;">
+                        <span class="summary-label">Chiều về (Vận chuyển đồ)</span>
+                        <span class="summary-value" id="sumInbound">Không hoạt động</span>
+                        <span class="summary-sub" id="sumInboundTime">-</span>
+                        <span class="summary-sub" id="sumInboundDropoffs">0 điểm giao</span>
+                    </div>
+                    
+                    <!-- CHI TIẾT CƯỚC -->
+                    <div class="summary-item" style="border-top: 1px solid #cbd5e1; padding-top: 10px; margin-top: 4px;">
+                        <span class="summary-label" style="font-weight: 700; color: #475569;">Chi tiết cước phí</span>
+                        
+                        <div class="fee-row" id="sumMainFeeRow">
+                            <span>Cước mẫu (Chiều đi):</span>
+                            <span class="fee-value" id="sumMainFeeVal">0 VNĐ</span>
+                        </div>
+                        <div class="fee-row" id="sumReverseFeeRow" style="display:none;">
+                            <span>Cước đồ (Chiều về):</span>
+                            <span class="fee-value" id="sumReverseFeeVal">0 VNĐ</span>
+                        </div>
+                        <div class="fee-row" id="sumLateAllowanceRow" style="display:none; color: #d97706; font-weight: 500;">
+                            <span>Phụ cấp sau 19h:</span>
+                            <span class="fee-value" id="sumLateAllowanceVal">+30.000 VNĐ</span>
+                        </div>
+                        <div class="fee-row total">
+                            <span>TỔNG CƯỚC:</span>
+                            <span class="fee-value" style="font-size: 14px; font-weight: 700; color: #0f172a;" id="sumFee">0 VNĐ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-item" style="border-top: 1px dashed #e2e8f0; padding-top: 10px;">
+                        <span class="summary-label">Trạng thái cấu hình</span>
+                        <span id="sumStatus">-</span>
+                    </div>
+
+                    <div style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+                        <button class="btn btn-primary" style="width:100%;" id="btnSideSave" onclick="saveRouteConfig()">
+                            <i class="fa-solid fa-floppy-disk"></i> Lưu cấu hình tuyến
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM ACTION BAR (Tab 1) -->
+            <div class="bottom-action-bar" id="routeBottomBar">
+                <button class="btn btn-secondary" onclick="window.location.href='cauhinhtuyenvanchuyen.html'">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
+                </button>
+                <button class="btn btn-primary" id="btnBottomSave" onclick="saveRouteConfig()">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu cấu hình tuyến
+                </button>
+            </div>
+
+            </div><!-- /tabRoute -->
+
+            <!-- ══ TAB 2: CÔNG THỨC TÍNH CÔNG ══ -->
+            <div id="tabFormula" class="tab-panel">
+
+                <!-- ROW 1: PARAMS + PREVIEW -->
+                <div class="formula-top-layout">
+
+                    <!-- THÔNG SỐ CƠ BẢN -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span><i class="fa-solid fa-sliders" style="color:#64748b; margin-right:6px;"></i> Thông số cơ bản</span>
+                            <span style="font-size:12px; font-weight:400; color:#94a3b8;">Bắt buộc nhập đầy đủ</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid-2">
+                                <div class="formula-input-group">
+                                    <label>Thời gian di chuyển <span style="color:#dc2626;">*</span></label>
+                                    <div class="formula-input-wrap">
+                                        <input type="number" id="cfgTravelTime" value="2.5" step="0.1" min="0" oninput="recalcFormula()">
+                                        <span class="formula-input-unit">phút/km</span>
+                                    </div>
+                                    <div class="formula-field-desc">Thời gian chuẩn để di chuyển 1 km</div>
+                                </div>
+                                <div class="formula-input-group">
+                                    <label>Cước di chuyển <span style="color:#dc2626;">*</span></label>
+                                    <div class="formula-input-wrap">
+                                        <input type="number" id="cfgMinuteRate" value="1500" min="0" oninput="recalcFormula()">
+                                        <span class="formula-input-unit">VNĐ/phút</span>
+                                    </div>
+                                    <div class="formula-field-desc">Đơn giá áp dụng theo từng phút di chuyển</div>
+                                </div>
+                                <div class="formula-input-group">
+                                    <label>Cước trung chuyển <span style="color:#dc2626;">*</span></label>
+                                    <div class="formula-input-wrap">
+                                        <input type="number" id="cfgTransferRate" value="15000" min="0" oninput="recalcFormula()">
+                                        <span class="formula-input-unit">VNĐ/điểm</span>
+                                    </div>
+                                    <div class="formula-field-desc">Số tiền áp dụng tại mỗi điểm trung chuyển</div>
+                                </div>
+                                <div class="formula-input-group">
+                                    <label>Thuế khấu trừ <span style="color:#dc2626;">*</span></label>
+                                    <div class="formula-input-wrap">
+                                        <input type="number" id="cfgTaxRate" value="10" min="0" max="100" step="0.5" oninput="recalcFormula()">
+                                        <span class="formula-input-unit">%</span>
+                                    </div>
+                                    <div class="formula-field-desc">Thuế TNCN khấu trừ tại nguồn trên tổng cước</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PREVIEW PANEL -->
+                    <div class="preview-panel-formula">
+                        <div class="preview-panel-header">
+                            <span><i class="fa-solid fa-calculator" style="margin-right:6px;"></i>Tổng cước thực nhận</span>
+                            <span style="font-size:11px; color:#94a3b8; background:rgba(255,255,255,0.1); border-radius:4px; padding:2px 8px;">Demo realtime</span>
+                        </div>
+                        <div class="preview-panel-body">
+                            <div class="preview-demo-inputs">
+                                <div class="preview-demo-title">Dữ liệu thử nghiệm</div>
+                                <div class="preview-demo-row">
+                                    <label>Khoảng cách (km)</label>
+                                    <input type="number" id="demoKm" value="12" min="0" oninput="recalcFormula()">
+                                </div>
+                                <div class="preview-demo-row">
+                                    <label>Điểm trung chuyển</label>
+                                    <input type="number" id="demoTransfer" value="2" min="0" oninput="recalcFormula()">
+                                </div>
+                                <div class="preview-demo-row">
+                                    <label>Phụ cấp (VNĐ)</label>
+                                    <input type="number" id="demoAllowance" value="30000" min="0" oninput="recalcFormula()">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="breakdown-row">
+                                    <span class="breakdown-label"><i class="fa-solid fa-road"></i> Cước vận chuyển KM</span>
+                                    <span class="breakdown-val" id="prevKmFee">—</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span class="breakdown-label"><i class="fa-solid fa-clock"></i> Cước di chuyển</span>
+                                    <span class="breakdown-val" id="prevMoveFee">—</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span class="breakdown-label"><i class="fa-solid fa-map-pin"></i> Cước trung chuyển</span>
+                                    <span class="breakdown-val" id="prevTransferFee">—</span>
+                                </div>
+                                <div class="breakdown-row">
+                                    <span class="breakdown-label"><i class="fa-solid fa-gift"></i> Phụ cấp</span>
+                                    <span class="breakdown-val" id="prevAllowanceFml">—</span>
+                                </div>
+                                <div class="breakdown-divider"></div>
+                                <div class="breakdown-row">
+                                    <span class="breakdown-label"><i class="fa-solid fa-minus"></i> Thuế khấu trừ</span>
+                                    <span class="breakdown-val minus" id="prevTaxFml">—</span>
+                                </div>
+                            </div>
+                            <div class="total-row-formula">
+                                <span style="font-size:13px; font-weight:600; color:#1e293b; display:flex; align-items:center; gap:6px;">
+                                    <i class="fa-solid fa-wallet"></i> Thực nhận
+                                </span>
+                                <span class="total-val-formula" id="prevTotalFml">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: BIỂU GIÁ KM -->
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-table-list" style="color:#64748b; margin-right:6px;"></i> Biểu giá cước vận chuyển theo khoảng cách</span>
+                        <button class="btn btn-primary" onclick="addKmBracket()">
+                            <i class="fa-solid fa-plus"></i> Thêm khoảng KM
+                        </button>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <table class="km-table-formula" id="kmBracketsTable">
+                            <thead>
+                                <tr>
+                                    <th class="stt-cell-formula">STT</th>
+                                    <th>Km từ (≥)</th>
+                                    <th>Km đến (&lt;)</th>
+                                    <th>Giá cước (VNĐ/chuyến)</th>
+                                    <th class="action-cell-formula"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="kmBracketsBody">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="kmValidationMsg" style="padding: 8px 14px 10px; display:none;">
+                            <div class="warn-badge-formula">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span id="kmValidationText"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM ACTION BAR (Tab 2) -->
+                <div class="bottom-action-bar">
+                    <button class="btn btn-secondary" onclick="resetFormulaConfig()">
+                        <i class="fa-solid fa-rotate-left"></i> Đặt lại mặc định
+                    </button>
+                    <button class="btn btn-primary" onclick="saveFormulaConfig()">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu cấu hình công thức
+                    </button>
+                </div>
+
+            </div><!-- /tabFormula -->
+
+    </div>
+</div>
+
+
+<script>
+// DANH SÁCH ĐỊA ĐIỂM
+const locationsList = [
+    { value: "PKĐK MEDVN", label: "PKĐK MEDVN (82 Duy Tân, Cầu Giấy)" },
+    { value: "MED HỒNG HÀ", label: "MED HỒNG HÀ (42-44 Nghĩa Dũng, Ba Đình)" },
+    { value: "MED TÂY HỒ", label: "MED TÂY HỒ (99 Trích Sài, Tây Hồ)" },
+    { value: "MED THANH XUÂN", label: "MED THANH XUÂN (3 Khuất Duy Tiến, Thanh Xuân)" },
+    { value: "15D Hồng Hà", label: "15D Hồng Hà (Phúc Xá, Ba Đình)" },
+    { value: "BV Thu Cúc", label: "BV Thu Cúc (Thụy Khuê, Tây Hồ)" },
+    { value: "LABO TTTN", label: "LABO TTTN (Trung tâm xét nghiệm)" },
+    { value: "BV Đống Đa", label: "BV Đống Đa (Nguyễn Lương Bằng)" },
+    { value: "BV Xanh Pôn", label: "BV Xanh Pôn (Nguyễn Thái Học)" },
+    { value: "ĐH Quốc Gia", label: "ĐH Quốc Gia (Cầu Giấy)" },
+    { value: "Bưu điện Hà Đông", label: "Bưu điện Hà Đông (Hà Đông)" }
+];
+
+// MOCK DATA MẪU TUYẾN
+let mockRoutes = [
+    {
+        id: 1,
+        code: "VCM001",
+        symbol: "HN01",
+        name: "Hồng Hà - MEDVN",
+        startPoint: "MED HỒNG HÀ",
+        endPoint: "PKĐK MEDVN",
+        distance: 10.5,
+        mainFee: 150000,
+        reverseFee: 100000,
+        fee: 250000,
+        startTime: "07:30",
+        endTime: "08:00",
+        earlyCheckin: 15,
+        lateCheckin: 15,
+        hasReverse: 1,
+        reverseStartPoint: "PKĐK MEDVN",
+        reverseStartTime: "11:00",
+        reverseEarlyCheckin: 10,
+        reverseLateCheckin: 10,
+        status: "Hoạt động",
+        transfers: [
+            { name: "15D Hồng Hà", time: "07:45", early: 10, late: 10 }
+        ],
+        reverseDropoffs: [
+            { name: "MED HỒNG HÀ", time: "11:30", early: 10, late: 10 }
+        ]
+    },
+    {
+        id: 2,
+        code: "VCM002",
+        symbol: "HN02",
+        name: "Tây Hồ - MEDVN",
+        startPoint: "MED TÂY HỒ",
+        endPoint: "PKĐK MEDVN",
+        distance: 6.4,
+        mainFee: 64000,
+        reverseFee: 0,
+        fee: 64000,
+        startTime: "10:00",
+        endTime: "10:30",
+        earlyCheckin: 10,
+        lateCheckin: 10,
+        hasReverse: 0,
+        reverseStartPoint: "",
+        reverseStartTime: "",
+        reverseEarlyCheckin: 0,
+        reverseLateCheckin: 0,
+        status: "Hoạt động",
+        transfers: [],
+        reverseDropoffs: []
+    },
+    {
+        id: 3,
+        code: "VCM003",
+        symbol: "HN03",
+        name: "Thanh Xuân - MEDVN (Ca Muộn)",
+        startPoint: "MED THANH XUÂN",
+        endPoint: "PKĐK MEDVN",
+        distance: 6.4,
+        mainFee: 64000,
+        reverseFee: 0,
+        fee: 94000,
+        startTime: "19:30",
+        endTime: "20:00",
+        earlyCheckin: 5,
+        lateCheckin: 5,
+        hasReverse: 0,
+        reverseStartPoint: "",
+        reverseStartTime: "",
+        reverseEarlyCheckin: 0,
+        reverseLateCheckin: 0,
+        status: "Ngừng hoạt động",
+        transfers: [],
+        reverseDropoffs: []
+    }
+];
+
+let currentMode = 'add';
+let currentRouteId = null;
+let hasReverseOption = 0;
+
+// DOM Elements
+const routeCode = document.getElementById("routeCode");
+const routeSymbol = document.getElementById("routeSymbol");
+const routeName = document.getElementById("routeName");
+const routeStatus = document.getElementById("routeStatus");
+const routeStartPoint = document.getElementById("routeStartPoint");
+const routeEndPoint = document.getElementById("routeEndPoint");
+const routeDistance = document.getElementById("routeDistance");
+const routeStartTime = document.getElementById("routeStartTime");
+const routeEndTime = document.getElementById("routeEndTime");
+const routeEarlyCheckin = document.getElementById("routeEarlyCheckin");
+const routeLateCheckin = document.getElementById("routeLateCheckin");
+const routeMainFee = document.getElementById("routeMainFee");
+const routeReverseStart = document.getElementById("routeReverseStart");
+const routeReverseStartTime = document.getElementById("routeReverseStartTime");
+const routeReverseEarlyCheckin = document.getElementById("routeReverseEarlyCheckin");
+const routeReverseLateCheckin = document.getElementById("routeReverseLateCheckin");
+const routeReverseFee = document.getElementById("routeReverseFee");
+const reverseFieldsContainer = document.getElementById("reverseFieldsContainer");
+const reverseFeeFormGroup = document.getElementById("reverseFeeFormGroup");
+const transferBody = document.getElementById("transferBody");
+const reverseDropoffBody = document.getElementById("reverseDropoffBody");
+
+function buildLocationOptions(selectedVal = "") {
+    let html = `<option value="">-- Chọn địa điểm --</option>`;
+    locationsList.forEach(loc => {
+        const selectedAttr = (loc.value === selectedVal) ? "selected" : "";
+        html += `<option value="${loc.value}" ${selectedAttr}>${loc.label}</option>`;
+    });
+    return html;
+}
+
+function initSelects() {
+    const opts = buildLocationOptions();
+    routeStartPoint.innerHTML = opts;
+    routeEndPoint.innerHTML = opts;
+    routeReverseStart.innerHTML = opts;
+}
+
+function setReverseOption(val) {
+    if (currentMode === 'view') return;
+    hasReverseOption = val;
+    
+    document.querySelectorAll("#reverseToggle .switch-btn").forEach(btn => {
+        btn.classList.toggle("active", parseInt(btn.getAttribute("data-value")) === val);
+    });
+
+    const isEnabled = val === 1;
+    if (isEnabled) {
+        reverseFieldsContainer.classList.remove("dimmed-section");
+        reverseFeeFormGroup.classList.remove("dimmed-section");
+        
+        if (!routeReverseStart.value) {
+            routeReverseStart.value = routeEndPoint.value;
+        }
+        if (!routeReverseFee.value.trim()) {
+            const mainVal = parseFloat(routeMainFee.value) || 0;
+            routeReverseFee.value = Math.round(mainVal * 0.7);
+        }
+        if (reverseDropoffBody.rows.length === 0) {
+            addReverseDropoffRow(routeStartPoint.value, "12:00", 10, 10);
+        }
+    } else {
+        reverseFieldsContainer.classList.add("dimmed-section");
+        reverseFeeFormGroup.classList.add("dimmed-section");
+    }
+
+    updateSummary();
+}
+
+function addTransferRow(name = "", time = "07:45", early = 10, late = 10) {
+    const idx = transferBody.rows.length + 1;
+    const row = transferBody.insertRow();
+    row.innerHTML = `
+        <td style="text-align:center; color:#64748b; font-weight:600;" class="stt-transfer">${idx}</td>
+        <td>
+            <select class="transfer-name" ${currentMode === 'view' ? 'disabled' : ''}>
+                ${buildLocationOptions(name)}
+            </select>
+        </td>
+        <td>
+            <input type="time" class="transfer-time" value="${time}" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td>
+            <input type="number" class="transfer-early" value="${early}" min="0" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td>
+            <input type="number" class="transfer-late" value="${late}" min="0" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td style="text-align:center;">
+            <button class="action-icon delete" type="button" onclick="deleteTransferRow(this)" ${currentMode === 'view' ? 'style="display:none;"' : ''}>
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+        </td>
+    `;
+    row.querySelector(".transfer-name").addEventListener("change", updateSummary);
+    updateSummary();
+}
+
+function deleteTransferRow(btn) {
+    btn.closest("tr").remove();
+    document.querySelectorAll("#transferBody tr").forEach((r, i) => {
+        r.querySelector(".stt-transfer").innerText = i + 1;
+    });
+    updateSummary();
+}
+
+function addReverseDropoffRow(name = "", time = "11:30", early = 10, late = 10) {
+    const idx = reverseDropoffBody.rows.length + 1;
+    const row = reverseDropoffBody.insertRow();
+    row.innerHTML = `
+        <td style="text-align:center; color:#64748b; font-weight:600;" class="stt-rev">${idx}</td>
+        <td>
+            <select class="rev-name" ${currentMode === 'view' ? 'disabled' : ''}>
+                ${buildLocationOptions(name)}
+            </select>
+        </td>
+        <td>
+            <input type="time" class="rev-time" value="${time}" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td>
+            <input type="number" class="rev-early" value="${early}" min="0" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td>
+            <input type="number" class="rev-late" value="${late}" min="0" ${currentMode === 'view' ? 'disabled' : ''}>
+        </td>
+        <td style="text-align:center;">
+            <button class="action-icon delete" type="button" onclick="deleteReverseDropoffRow(this)" ${currentMode === 'view' ? 'style="display:none;"' : ''}>
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+        </td>
+    `;
+    row.querySelector(".rev-name").addEventListener("change", updateSummary);
+    updateSummary();
+}
+
+function deleteReverseDropoffRow(btn) {
+    btn.closest("tr").remove();
+    document.querySelectorAll("#reverseDropoffBody tr").forEach((r, i) => {
+        r.querySelector(".stt-rev").innerText = i + 1;
+    });
+    updateSummary();
+}
+
+function updateSummary() {
+    // 1. Kiểm tra giờ ca muộn (>= 19h)
+    const timeVal = routeStartTime.value;
+    let isLate = false;
+    if (timeVal) {
+        const hour = parseInt(timeVal.split(":")[0]) || 0;
+        if (hour >= 19) isLate = true;
+    }
+    const lateNotice = document.getElementById("lateAllowanceNotice");
+    if (lateNotice) lateNotice.style.display = isLate ? "block" : "none";
+
+    // 2. Tính cước
+    const mainFee = parseFloat(routeMainFee.value) || 0;
+    const revFee = (hasReverseOption === 1) ? (parseFloat(routeReverseFee.value) || 0) : 0;
+    const allowanceVal = isLate ? 30000 : 0;
+    const total = mainFee + revFee + allowanceVal;
+
+    // 3. Tóm tắt text
+    const code = routeCode.value.trim() || "(Chưa nhập)";
+    const name = routeName.value.trim() || "(Chưa nhập)";
+    document.getElementById("sumRouteName").innerText = `${code} - ${name}`;
+
+    const start = routeStartPoint.value || "(Điểm đi)";
+    const end = routeEndPoint.value || "(Điểm đến)";
+    const km = routeDistance.value.trim() ? `${routeDistance.value} km` : "-- km";
+    document.getElementById("sumOutbound").innerText = `${start} → ${end} (${km})`;
+
+    const tStart = routeStartTime.value || "--:--";
+    const tEnd = routeEndTime.value || "--:--";
+    document.getElementById("sumOutboundTime").innerText = `Khung giờ: ${tStart} - ${tEnd}`;
+
+    const transferCount = transferBody.rows.length;
+    document.getElementById("sumOutboundTransfers").innerText = `${transferCount} trạm dừng dọc đường`;
+
+    if (hasReverseOption === 1) {
+        const revStart = routeReverseStart.value || "(Điểm nhận đồ)";
+        const dropoffCount = reverseDropoffBody.rows.length;
+        document.getElementById("sumInbound").innerText = `Có (Nhận: ${revStart})`;
+        document.getElementById("sumInboundTime").innerText = `Khởi hành về: ${routeReverseStartTime.value || '--:--'}`;
+        document.getElementById("sumInboundDropoffs").innerText = `${dropoffCount} điểm trả đồ`;
+    } else {
+        document.getElementById("sumInbound").innerText = "Không hoạt động";
+        document.getElementById("sumInboundTime").innerText = "Không cấu hình";
+        document.getElementById("sumInboundDropoffs").innerText = "0 điểm giao";
+    }
+
+    // 4. Chi tiết cước phí
+    document.getElementById("sumMainFeeVal").innerText = `${mainFee.toLocaleString('vi-VN')} VNĐ`;
+    document.getElementById("sumReverseFeeRow").style.display = (hasReverseOption === 1) ? "flex" : "none";
+    document.getElementById("sumReverseFeeVal").innerText = `${revFee.toLocaleString('vi-VN')} VNĐ`;
+    document.getElementById("sumLateAllowanceRow").style.display = isLate ? "flex" : "none";
+    document.getElementById("sumFee").innerText = `${total.toLocaleString('vi-VN')} VNĐ`;
+
+    const status = routeStatus.value;
+    const isAct = status === 'Hoạt động';
+    document.getElementById("sumStatus").innerHTML = `
+        <span class="badge ${isAct ? 'b-ok' : 'b-no-in'}">${status}</span>
+    `;
+}
+
+function loadRouteData(item) {
+    if (!item) return;
+    routeCode.value = item.code || "";
+    routeSymbol.value = item.symbol || "";
+    routeName.value = item.name || "";
+    routeStatus.value = item.status || "Hoạt động";
+    routeStartPoint.value = item.startPoint || "";
+    routeEndPoint.value = item.endPoint || "";
+    routeDistance.value = item.distance || "";
+    routeStartTime.value = item.startTime || "";
+    routeEndTime.value = item.endTime || "";
+    routeEarlyCheckin.value = item.earlyCheckin || 15;
+    routeLateCheckin.value = item.lateCheckin || 15;
+    routeMainFee.value = item.mainFee || "";
+
+    // Chiều về
+    routeReverseStart.value = item.reverseStartPoint || "";
+    routeReverseStartTime.value = item.reverseStartTime || "";
+    routeReverseEarlyCheckin.value = item.reverseEarlyCheckin || 10;
+    routeReverseLateCheckin.value = item.reverseLateCheckin || 10;
+    routeReverseFee.value = item.reverseFee || "";
+
+    // Toggle reverse
+    setReverseOption(item.hasReverse || 0);
+
+    // Dynamic tables
+    transferBody.innerHTML = "";
+    if (item.transfers && item.transfers.length > 0) {
+        item.transfers.forEach(t => addTransferRow(t.name, t.time, t.early, t.late));
+    }
+
+    reverseDropoffBody.innerHTML = "";
+    if (item.reverseDropoffs && item.reverseDropoffs.length > 0) {
+        item.reverseDropoffs.forEach(d => addReverseDropoffRow(d.name, d.time, d.early, d.late));
+    }
+
+    updateSummary();
+}
+
+function setFormViewOnly(isReadOnly) {
+    const inputs = document.querySelectorAll(".workspace-forms input, .workspace-forms select");
+    inputs.forEach(el => el.disabled = isReadOnly);
+
+    const btnAddT = document.getElementById("btnAddTransfer");
+    const btnAddR = document.getElementById("btnAddReverseDropoff");
+    if (btnAddT) btnAddT.style.display = isReadOnly ? "none" : "inline-flex";
+    if (btnAddR) btnAddR.style.display = isReadOnly ? "none" : "inline-flex";
+
+    document.querySelectorAll(".workspace-forms .action-icon.delete").forEach(btn => {
+        btn.style.display = isReadOnly ? "none" : "inline-flex";
+    });
+
+    const toggle = document.getElementById("reverseToggle");
+    if (toggle) toggle.style.pointerEvents = isReadOnly ? "none" : "auto";
+
+    // Save buttons
+    document.getElementById("btnTopSave").style.display = isReadOnly ? "none" : "inline-flex";
+    document.getElementById("btnSideSave").style.display = isReadOnly ? "none" : "block";
+    document.getElementById("btnBottomSave").style.display = isReadOnly ? "none" : "inline-flex";
+    document.getElementById("btnTopEditMode").style.display = isReadOnly ? "inline-flex" : "none";
+}
+
+function switchToEditMode() {
+    currentMode = 'edit';
+    document.getElementById("pageBreadcrumbAction").innerText = "Chỉnh sửa tuyến vận chuyển";
+    document.getElementById("pageTitleText").innerText = `Chỉnh sửa cấu hình tuyến vận chuyển: ${routeCode.value}`;
+    setFormViewOnly(false);
+}
+
+function saveRouteConfig() {
+    const code = routeCode.value.trim();
+    const name = routeName.value.trim();
+    const start = routeStartPoint.value;
+    const end = routeEndPoint.value;
+    const startTime = routeStartTime.value;
+
+    if (!code || !name) {
+        alert("Vui lòng nhập đầy đủ Mã cung và Tên cung!");
+        return;
+    }
+    if (!start || !end) {
+        alert("Vui lòng chọn Điểm đầu và Điểm cuối chiều đi!");
+        return;
+    }
+    if (!startTime) {
+        alert("Vui lòng nhập Giờ xuất phát đi!");
+        return;
+    }
+
+    alert(`Đã lưu cấu hình tuyến vận chuyển [${code}] thành công!`);
+    window.location.href = "cauhinhtuyenvanchuyen.html";
+}
+
+// Khởi tạo trang
+document.addEventListener("DOMContentLoaded", function() {
+    initSelects();
+
+    // Parse URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get('mode') || 'add';
+    const idParam = parseInt(urlParams.get('id'));
+    const codeParam = urlParams.get('code');
+
+    currentMode = mode;
+
+    let targetRoute = null;
+    if (idParam) {
+        targetRoute = mockRoutes.find(r => r.id === idParam);
+    } else if (codeParam) {
+        targetRoute = mockRoutes.find(r => r.code === codeParam);
+    }
+
+    if (mode === 'view' && targetRoute) {
+        currentRouteId = targetRoute.id;
+        document.getElementById("pageBreadcrumbAction").innerText = `Chi tiết tuyến ${targetRoute.code}`;
+        document.getElementById("pageTitleText").innerText = `Chi tiết cấu hình tuyến: ${targetRoute.code} - ${targetRoute.name}`;
+        loadRouteData(targetRoute);
+        setFormViewOnly(true);
+    } else if (mode === 'edit' && targetRoute) {
+        currentRouteId = targetRoute.id;
+        document.getElementById("pageBreadcrumbAction").innerText = `Chỉnh sửa tuyến ${targetRoute.code}`;
+        document.getElementById("pageTitleText").innerText = `Chỉnh sửa cấu hình tuyến: ${targetRoute.code} - ${targetRoute.name}`;
+        loadRouteData(targetRoute);
+        setFormViewOnly(false);
+    } else {
+        // Add new mode
+        currentMode = 'add';
+        document.getElementById("pageBreadcrumbAction").innerText = "Tạo mới tuyến vận chuyển";
+        document.getElementById("pageTitleText").innerText = "Tạo mới cấu hình tuyến vận chuyển";
+        routeCode.value = `VCM00${mockRoutes.length + 1}`;
+        routeSymbol.value = `HN0${mockRoutes.length + 1}`;
+        routeEarlyCheckin.value = 15;
+        routeLateCheckin.value = 15;
+        routeDistance.value = 8.5;
+        routeMainFee.value = 85000;
+        setReverseOption(0);
+        setFormViewOnly(false);
+        updateSummary();
+    }
+
+    // Live update listeners
+    const fields = [
+        routeCode, routeSymbol, routeName, routeStatus,
+        routeStartPoint, routeEndPoint, routeDistance,
+        routeStartTime, routeEndTime, routeMainFee,
+        routeReverseStart, routeReverseStartTime, routeReverseFee
+    ];
+    fields.forEach(f => {
+        if (f) {
+            f.addEventListener("input", updateSummary);
+            f.addEventListener("change", updateSummary);
+        }
+    });
+
+    // Auto calculate fee on distance change
+    routeDistance.addEventListener("input", function() {
+        const km = parseFloat(this.value);
+        if (!isNaN(km) && km > 0) {
+            routeMainFee.value = km * 10000;
+        }
+        updateSummary();
+    });
+});
+</script>
+
+<script>
+// ─── TAB SWITCHING ────────────────────────────────────────────────────────────
+function switchTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+    document.getElementById('tabBtn' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+    if (name === 'formula') recalcFormula();
+}
+
+// ─── FORMULA DATA ─────────────────────────────────────────────────────────────
+let kmBrackets = [
+    { from: 0,  to: 5,   fee: 20000 },
+    { from: 5,  to: 10,  fee: 35000 },
+    { from: 10, to: 20,  fee: 60000 },
+    { from: 20, to: 999, fee: 90000 }
+];
+
+function fmtVND(n) {
+    if (isNaN(n) || n === null) return '—';
+    return n.toLocaleString('vi-VN') + ' đ';
+}
+
+// ─── KM BRACKETS TABLE ────────────────────────────────────────────────────────
+function renderKmBrackets() {
+    const tbody = document.getElementById('kmBracketsBody');
+    if (!tbody) return;
+    tbody.innerHTML = kmBrackets.map((b, idx) => `
+        <tr>
+            <td class="stt-cell-formula">${idx + 1}</td>
+            <td>
+                <input class="km-input-formula" type="number" value="${b.from}"
+                    placeholder="Km từ"
+                    onchange="updateKmBracket(${idx}, 'from', this.value)"
+                    oninput="validateKmTable()"
+                    ${idx === 0 ? 'readonly style="background:#f8fafc;color:#94a3b8;"' : ''}>
+            </td>
+            <td>
+                <input class="km-input-formula" type="number"
+                    value="${b.to >= 999 ? '' : b.to}"
+                    placeholder="${b.to >= 999 ? '∞ (không giới hạn)' : 'Km đến'}"
+                    onchange="updateKmBracket(${idx}, 'to', this.value)"
+                    oninput="validateKmTable()"
+                    ${idx === kmBrackets.length - 1 ? 'readonly style="background:#f8fafc;color:#94a3b8;" placeholder="∞"' : ''}>
+            </td>
+            <td>
+                <input class="km-input-formula" type="number" value="${b.fee}"
+                    placeholder="Giá cước"
+                    onchange="updateKmBracket(${idx}, 'fee', this.value)"
+                    oninput="recalcFormula()">
+            </td>
+            <td style="text-align:center;">
+                <button class="km-del-btn" onclick="deleteKmBracket(${idx})"
+                    title="Xóa khoảng này"
+                    ${kmBrackets.length <= 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+    validateKmTable();
+    recalcFormula();
+}
+
+function updateKmBracket(idx, field, val) {
+    const num = parseFloat(val);
+    if (!isNaN(num)) kmBrackets[idx][field] = num;
+    validateKmTable();
+    recalcFormula();
+}
+
+function addKmBracket() {
+    const last = kmBrackets[kmBrackets.length - 1];
+    const prevTo = last.to >= 999 ? (kmBrackets.length > 1 ? kmBrackets[kmBrackets.length - 2].to + 5 : 25) : last.to;
+    kmBrackets[kmBrackets.length - 1].to = prevTo;
+    kmBrackets.push({ from: prevTo, to: 999, fee: 100000 });
+    renderKmBrackets();
+}
+
+function deleteKmBracket(idx) {
+    if (kmBrackets.length <= 1) return;
+    kmBrackets.splice(idx, 1);
+    // Ensure last bracket goes to infinity
+    kmBrackets[kmBrackets.length - 1].to = 999;
+    renderKmBrackets();
+}
+
+function validateKmTable() {
+    const msgBox = document.getElementById('kmValidationMsg');
+    const msgText = document.getElementById('kmValidationText');
+    if (!msgBox || !msgText) return;
+    const errors = [];
+    for (let i = 0; i < kmBrackets.length; i++) {
+        const b = kmBrackets[i];
+        if (b.to < 999 && b.to <= b.from) errors.push(`Khoảng ${i+1}: Km đến phải lớn hơn Km từ.`);
+        if (i > 0) {
+            const prev = kmBrackets[i - 1];
+            if (prev.to < 999 && b.from !== prev.to) errors.push(`Khoảng ${i+1} không kế tiếp khoảng ${i} (${prev.to}km ≠ ${b.from}km).`);
+        }
+    }
+    if (errors.length > 0) { msgText.textContent = errors[0]; msgBox.style.display = 'block'; }
+    else msgBox.style.display = 'none';
+}
+
+function getKmFee(km) {
+    for (const b of kmBrackets) { if (km >= b.from && km < b.to) return b.fee; }
+    if (kmBrackets.length > 0) return kmBrackets[kmBrackets.length - 1].fee;
+    return 0;
+}
+
+// ─── PREVIEW CALC ─────────────────────────────────────────────────────────────
+function recalcFormula() {
+    const travelTime   = parseFloat(document.getElementById('cfgTravelTime')?.value) || 0;
+    const minuteRate   = parseFloat(document.getElementById('cfgMinuteRate')?.value) || 0;
+    const transferRate = parseFloat(document.getElementById('cfgTransferRate')?.value) || 0;
+    const taxRate      = parseFloat(document.getElementById('cfgTaxRate')?.value) || 0;
+    const demoKm       = parseFloat(document.getElementById('demoKm')?.value) || 0;
+    const demoTransfer = parseFloat(document.getElementById('demoTransfer')?.value) || 0;
+    const demoAllow    = parseFloat(document.getElementById('demoAllowance')?.value) || 0;
+
+    const kmFee      = getKmFee(demoKm);
+    const moveFee    = demoKm * travelTime * minuteRate;
+    const tfFee      = demoTransfer * transferRate;
+    const subtotal   = kmFee + moveFee + tfFee + demoAllow;
+    const tax        = subtotal * (taxRate / 100);
+    const total      = subtotal - tax;
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('prevKmFee',       fmtVND(kmFee));
+    set('prevMoveFee',     fmtVND(moveFee));
+    set('prevTransferFee', fmtVND(tfFee));
+    set('prevAllowanceFml',fmtVND(demoAllow));
+    set('prevTaxFml',      '− ' + fmtVND(tax));
+    set('prevTotalFml',    fmtVND(total));
+}
+
+function saveFormulaConfig() {
+    alert('Đã lưu cấu hình công thức tính công!');
+}
+
+function resetFormulaConfig() {
+    document.getElementById('cfgTravelTime').value  = 2.5;
+    document.getElementById('cfgMinuteRate').value  = 1500;
+    document.getElementById('cfgTransferRate').value = 15000;
+    document.getElementById('cfgTaxRate').value     = 10;
+    kmBrackets = [
+        { from: 0, to: 5, fee: 20000 }, { from: 5, to: 10, fee: 35000 },
+        { from: 10, to: 20, fee: 60000 }, { from: 20, to: 999, fee: 90000 }
+    ];
+    renderKmBrackets();
+    recalcFormula();
+}
+
+// Init formula tab on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    renderKmBrackets();
+    recalcFormula();
+});
+</script>
+
+</body>
+</html>

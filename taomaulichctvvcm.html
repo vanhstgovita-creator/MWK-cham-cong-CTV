@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo mẫu lịch CTV Vận Chuyển</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Lịch làm việc VCM <span>/</span> <strong>Tạo mẫu lịch</strong></div>
+                <div class="page-title">Tạo mẫu lịch làm việc VCM</div>
+            </div>
+            <div>
+                <a href="taomoimaulichctvvcm.html" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Tạo mẫu lịch mới
+                </a>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- SEARCH FORM -->
+            <div class="card">
+                <div class="card-header">
+                    <span><i class="fa-solid fa-filter" style="margin-right:6px;"></i>Điều kiện tìm kiếm</span>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid" style="grid-template-columns: 1fr 200px;">
+                        <div class="form-group">
+                            <label>Tìm kiếm theo Mã mẫu lịch hoặc Tên mẫu lịch</label>
+                            <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..." oninput="filterTemplates()">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select id="statusFilter" onchange="filterTemplates()">
+                                <option value="all">Tất cả</option>
+                                <option value="active">Hoạt động</option>
+                                <option value="inactive">Ngừng hoạt động</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+                        <button class="btn btn-primary" onclick="filterTemplates()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                        <button class="btn btn-secondary" onclick="resetFilter()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATA TABLE CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <span><i class="fa-solid fa-list" style="margin-right:6px;"></i>Danh sách mẫu lịch làm việc</span>
+                    <a href="taomoimaulichctvvcm.html" class="btn btn-primary" style="height:32px; font-size:12.5px;">
+                        <i class="fa-solid fa-plus"></i> Thêm mới
+                    </a>
+                </div>
+                <div class="card-body" style="padding:0;">
+                    <div class="tbl-wrap" style="border:none;">
+                        <table class="med-table">
+                            <thead>
+                                <tr>
+                                    <th width="50" style="text-align:center;">STT</th>
+                                    <th width="120">Mã mẫu lịch</th>
+                                    <th>Tên mẫu lịch</th>
+                                    <th width="110" style="text-align:center;">Tổng tuyến</th>
+                                    <th width="110" style="text-align:center;">Tổng CTV</th>
+                                    <th width="130" style="text-align:right;">Tổng cước</th>
+                                    <th width="130" style="text-align:center;">Trạng thái</th>
+                                    <th width="140" style="text-align:center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="templateTableBody">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGINATION BAR -->
+                    <div class="pag-bar">
+                        <div>Hiển thị <span id="recordCount">3</span> bản ghi</div>
+                        <div class="pag-buttons">
+                            <button class="pag-btn">«</button>
+                            <button class="pag-btn">‹</button>
+                            <button class="pag-btn active">1</button>
+                            <button class="pag-btn">›</button>
+                            <button class="pag-btn">»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+const templateData = [
+    {
+        code: "ML001",
+        name: "Ca sáng nội thành Hà Nội",
+        routesCount: 4,
+        ctvCount: 4,
+        totalFee: 480000,
+        status: "active",
+        statusLabel: "Hoạt động",
+        note: "Mẫu lịch phân tuyến sáng cho khu vực nội thành"
+    },
+    {
+        code: "ML002",
+        name: "Ca chiều & tối nội thành Hà Nội",
+        routesCount: 3,
+        ctvCount: 3,
+        totalFee: 360000,
+        status: "active",
+        statusLabel: "Hoạt động",
+        note: "Mẫu lịch ca chiều tối"
+    },
+    {
+        code: "ML003",
+        name: "Tuyến ngoại thành và viện vệ tinh",
+        routesCount: 2,
+        ctvCount: 2,
+        totalFee: 300000,
+        status: "inactive",
+        statusLabel: "Ngừng hoạt động",
+        note: "Mẫu lịch định kỳ cuối tuần"
+    }
+];
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderTable(templateData);
+});
+
+function renderTable(data) {
+    const tbody = document.getElementById("templateTableBody");
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:#94a3b8;">Không tìm thấy mẫu lịch phù hợp</td></tr>`;
+        document.getElementById("recordCount").textContent = "0";
+        return;
+    }
+
+    data.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align:center; color:#64748b;">${idx + 1}</td>
+            <td>
+                <a href="taomoimaulichctvvcm.html?code=${item.code}" class="date-link">${item.code}</a>
+            </td>
+            <td>
+                <strong style="color:#0f172a;">${item.name}</strong>
+                ${item.note ? `<div style="font-size:11.5px; color:#64748b; margin-top:2px;">${item.note}</div>` : ''}
+            </td>
+            <td style="text-align:center;"><span class="badge badge-secondary">${item.routesCount} tuyến</span></td>
+            <td style="text-align:center;"><span class="badge badge-info">${item.ctvCount} CTV</span></td>
+            <td style="text-align:right; font-weight:600; color:#1e293b;">${item.totalFee.toLocaleString('vi-VN')}đ</td>
+            <td style="text-align:center;">
+                <span class="badge ${item.status === 'active' ? 'badge-success' : 'badge-danger'}">${item.statusLabel}</span>
+            </td>
+            <td style="text-align:center;">
+                <a href="taomoimaulichctvvcm.html?code=${item.code}" class="action-icon view" title="Xem chi tiết & Chỉnh sửa"><i class="fa-regular fa-eye"></i></a>
+                <a href="taomoimaulichctvvcm.html?code=${item.code}&edit=1" class="action-icon edit" title="Chỉnh sửa"><i class="fa-regular fa-pen-to-square"></i></a>
+                <button class="action-icon delete" title="Xóa mẫu lịch" onclick="deleteTemplate('${item.code}')"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("recordCount").textContent = data.length;
+}
+
+function filterTemplates() {
+    const keyword = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+    const status = document.getElementById("statusFilter").value;
+
+    const filtered = templateData.filter(item => {
+        const matchKey = item.code.toLowerCase().includes(keyword) || item.name.toLowerCase().includes(keyword);
+        const matchStatus = (status === 'all' || item.status === status);
+        return matchKey && matchStatus;
+    });
+
+    renderTable(filtered);
+}
+
+function resetFilter() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("statusFilter").value = "all";
+    renderTable(templateData);
+}
+
+function deleteTemplate(code) {
+    if (confirm(`Bạn có chắc chắn muốn xóa mẫu lịch ${code}?`)) {
+        const idx = templateData.findIndex(item => item.code === code);
+        if (idx > -1) {
+            templateData.splice(idx, 1);
+            filterTemplates();
+            alert(`Đã xóa mẫu lịch ${code} thành công!`);
+        }
+    }
+}
+</script>
+</body>
+</html>

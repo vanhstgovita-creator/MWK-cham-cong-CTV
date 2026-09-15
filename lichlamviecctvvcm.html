@@ -1,0 +1,5884 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lịch làm việc CTV Vận Chuyển
+
+</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<!-- Flatpickr Range Calendar CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+  /* Premium Flatpickr overrides to match Inter font and modern styling */
+  .flatpickr-calendar {
+    font-family: 'Inter', sans-serif !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+  .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange,
+  .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange,
+  .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus,
+  .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover {
+    background: #2A3F54 !important;
+    border-color: #2A3F54 !important;
+  }
+  .flatpickr-day.inRange {
+    background: #eff6ff !important;
+    box-shadow: -5px 0 0 #eff6ff, 5px 0 0 #eff6ff !important;
+  }
+  .flatpickr-months .flatpickr-month {
+    color: #0f172a !important;
+  }
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-weight: 600 !important;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+/* SIDEBAR */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.menu{padding:10px 0;}
+.level-1{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:500;font-size:14px;}
+.level-1:hover{background:#f5f8fc;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 12px 50px;color:#475569;font-size:13px;}
+.level-3 a{display:block;padding:10px 20px 10px 80px;color:#64748b;text-decoration:none;font-size:13px;}
+.level-3 a:hover{background:#f0f4f8;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* =========================
+CONTENT
+========================= */
+
+.content{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.page-header{
+
+    background:#fff;
+
+    padding:16px 24px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.breadcrumb{
+
+    font-size:13px;
+
+    color:#64748b;
+
+}
+
+.page-title{
+
+    margin-top:6px;
+
+    font-size:24px;
+
+    font-weight:600;
+
+}
+
+.container{
+
+    padding:20px;
+
+}
+
+/* =========================
+CARD
+========================= */
+
+.card{
+
+    background:#fff;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:6px;
+
+    margin-bottom:20px;
+
+}
+
+.card-header{
+
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 16px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    font-weight:600;
+
+}
+
+.card-body{
+
+    padding:16px;
+
+}
+
+/* =========================
+FORM
+========================= */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:16px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:13px;
+
+    font-weight:500;
+
+}
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+
+    height:36px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:4px;
+
+    padding:0 10px;
+
+}
+
+textarea{
+
+    width:100%;
+
+    min-height:100px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:4px;
+
+    padding:10px;
+
+    resize:none;
+
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.btn{
+
+    height:36px;
+
+    padding:0 16px;
+
+    border:none;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+}
+
+.btn-primary{
+
+    background:#2A3F54;
+
+    color:#fff;
+
+}
+
+.btn-secondary{
+
+    background:#f3f4f6;
+
+    border:1px solid #d1d5db;
+
+}
+
+/* =========================
+TABLE
+========================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+.data-table{
+
+    width:max-content;
+
+    min-width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.data-table th{
+
+    background:#2A3F54;
+
+    color:#fff;
+
+    padding:12px;
+
+    text-align:left;
+
+    white-space:nowrap;
+
+}
+
+.data-table td{
+
+    padding:10px;
+
+    border:1px solid #e5e7eb;
+
+    white-space:nowrap;
+
+}
+
+/* =========================
+MODAL
+========================= */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.4);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+    padding:20px;
+
+}
+
+.modal.show{
+
+    display:flex;
+
+}
+
+.modal-content{
+
+    width:95vw;
+
+    max-width:1800px;
+
+    background:#fff;
+
+    border-radius:8px;
+
+    max-height:92vh;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.modal-header{
+
+    height:56px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 20px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    font-weight:600;
+
+}
+
+.modal-body{
+
+    padding:20px;
+
+    overflow-y:auto;
+
+    flex:1;
+
+}
+
+.modal-footer{
+
+    padding:16px 20px;
+
+    border-top:1px solid #e5e7eb;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:10px;
+
+}
+
+/* =========================
+ROUTE
+========================= */
+
+.route-card{
+
+    border:1px solid #dbe2ea;
+
+    border-radius:6px;
+
+    margin-bottom:16px;
+
+    overflow:hidden;
+
+}
+
+.route-header{
+
+    height:52px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 16px;
+
+    background:#f8fafc;
+
+}
+
+.route-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:600;
+
+}
+
+.route-body{
+
+    padding:16px;
+
+}
+
+.section-title{
+
+    margin:20px 0 12px;
+
+    font-weight:600;
+
+}
+
+.icon-btn{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+}
+
+.delete{
+
+    color:#dc2626;
+
+}
+
+.day-card{
+
+    margin-bottom:24px;
+
+}
+
+.day-header{
+
+    background:#2A3F54;
+
+    color:#fff;
+
+    padding:12px 16px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-radius:6px 6px 0 0;
+
+}
+
+.day-content{
+
+    border:1px solid #dbe2ea;
+
+    border-top:none;
+
+    padding:16px;
+
+}
+
+.summary-box{
+
+    background:#f8fafc;
+
+    border:1px solid #e5e7eb;
+
+    padding:12px;
+
+    border-radius:6px;
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   WIREFRAME STYLES (SYNCHRONIZED & UNIFIED SIZING)
+   ========================================================================== */
+
+/* GLOBAL & BODY */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.menu-item {
+    width: 100% !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: default !important;
+}
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 20px 12px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: default !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a i {
+    margin-right: 6px !important;
+    color: #94a3b8 !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+.btn-secondary, .btn-add, .btn-info, .btn-search {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-secondary:hover, .btn-add:hover, .btn-info:hover, .btn-search:hover {
+    background: #f1f5f9 !important;
+}
+.btn-reset {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover {
+    background: #f1f5f9 !important;
+}
+.btn-danger {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-danger:hover {
+    background: #f1f5f9 !important;
+}
+.btn-success {
+    background: #475569 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+.btn-success:hover {
+    background: #334155 !important;
+}
+.btn-warning {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-warning:hover {
+    background: #f1f5f9 !important;
+}
+
+/* FORM CONTROLS */
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea, 
+.filter-group input, .filter-group select, .date-range-picker input,
+.time-range-box input {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+    box-sizing: border-box !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+.filter-group input:focus, .filter-group select:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+.ro, input[readonly], .readonly-field {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* CARDS & HEADERS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.card-header, .day-header, .route-header, .compare-side-header {
+    height: 50px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.day-header {
+    border-radius: 6px 6px 0 0 !important;
+}
+.compare-side-header.requester {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.compare-side-header.target {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.card-body, .day-content, .route-body {
+    padding: 20px !important;
+}
+
+/* TABLES & SCROLLING */
+.table-container, .tbl-wrap {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    -webkit-overflow-scrolling: touch;
+}
+.table-container table, .tbl-wrap table {
+    min-width: 1100px !important; /* Force min-width ONLY inside a scroll container to enable scrollbar */
+}
+.data-table, .chotcong-summary, .sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th, .chotcong-summary thead th, .sub-tbl th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* DEMO BAR */
+.demo-bar {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.demo-bar label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.demo-bar select {
+    height: 32px !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 0 !important;
+}
+.main-tab-btn {
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    white-space: nowrap !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+.tab-bar {
+    display: flex !important;
+    gap: 4px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 16px !important;
+}
+.tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    background: #ffffff !important;
+    width: 95vw !important;
+    max-width: 1800px !important;
+    max-height: 90vh !important;
+    overflow: hidden !important; /* Body handles scroll */
+    display: flex !important;
+    flex-direction: column !important;
+    border-radius: 6px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important; /* Detail modal opens on top of other modals */
+}
+#modalRouteDetail {
+    z-index: 1200 !important; /* Nested route detail modal sits above all */
+}
+
+/* INFO GRIDS (RESPONSIVE WIREFRAME DESIGN) */
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    background: #ffffff !important;
+    width: 1600px !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important; /* Prevent horizontal scroll in modal content */
+    border-radius: 6px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important; /* Detail modal opens on top of other modals */
+}
+#modalRouteDetail {
+    z-index: 1200 !important; /* Nested route detail modal sits above all */
+}
+.modal-body {
+    padding: 20px !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
+}
+.modal-footer {
+    padding: 16px 20px !important;
+    border-top: 1px solid #e5e7eb !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* INFO GRIDS (RESPONSIVE WIREFRAME DESIGN) */
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+.floating-action-bar-content span {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+/* BULK ALLOCATION PANEL STYLES */
+.quick-assign-panel {
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  padding: 16px !important;
+  margin-bottom: 20px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+}
+.bulk-checkbox-group {
+  display: flex !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  margin-top: 6px !important;
+}
+.bulk-checkbox-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  color: #334155 !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+.bulk-checkbox-label input[type="checkbox"] {
+  width: 15px !important;
+  height: 15px !important;
+  cursor: pointer !important;
+}
+.route-card {
+  transition: background-color 0.4s ease, border-color 0.4s ease !important;
+}
+.highlight-flash {
+  background-color: #f0fdf4 !important;
+  border-color: #86efac !important;
+}
+
+/* ==========================================================================
+   PREMIUM CALENDAR VIEW STYLES (NO COMPROMISE WIREFRAME LOOK)
+   ========================================================================== */
+.calendar-controls {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    background: #ffffff !important;
+    padding: 12px 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+}
+
+.calendar-controls .btn-secondary {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+    border-radius: 6px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', sans-serif !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.calendar-controls .btn-secondary:hover {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* Legend Styling */
+.calendar-legend-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    margin-bottom: 20px !important;
+    font-size: 12px !important;
+    color: #475569 !important;
+    background: #f8fafc !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.calendar-legend-list {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+}
+
+.legend-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.legend-color {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 3px !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.calendar-grid-wrapper {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #e2e8f0 !important; /* Grid line color */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+    width: 100% !important;
+}
+
+.calendar-weekdays-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    background: #f8fafc !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #475569 !important;
+    gap: 1px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.calendar-weekdays-grid > div {
+    padding: 12px 10px !important;
+}
+
+.calendar-days-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    grid-auto-rows: minmax(140px, auto) !important;
+    gap: 1px !important;
+    background: #e2e8f0 !important;
+}
+
+.calendar-day-cell {
+    padding: 12px !important;
+    background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    position: relative !important;
+    gap: 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+.calendar-day-cell:hover {
+    background: #f8fafc !important;
+    z-index: 2 !important;
+    box-shadow: inset 0 0 0 1px #cbd5e1 !important;
+}
+
+.calendar-day-cell.prev-month,
+.calendar-day-cell.next-month {
+    background: #f8fafc !important;
+    color: #cbd5e1 !important;
+}
+
+.calendar-day-cell.prev-month .day-num,
+.calendar-day-cell.next-month .day-num {
+    color: #cbd5e1 !important;
+    font-weight: 400 !important;
+}
+
+.calendar-day-cell.today-cell {
+    background: #eff6ff !important;
+}
+
+.calendar-day-cell.today-cell:hover {
+    background: #e0f2fe !important;
+}
+
+.calendar-day-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 4px !important;
+}
+
+.calendar-day-header .day-num {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.calendar-day-cell.today-cell .day-num {
+    background: #2A3F54 !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2) !important;
+}
+
+.calendar-day-header .status-tag {
+    font-size: 10px !important;
+    color: #059669 !important;
+    background: #ecfdf5 !important;
+    padding: 2px 6px !important;
+    border-radius: 100px !important;
+    font-weight: 600 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+
+.calendar-routes-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    flex: 1 !important;
+}
+
+/* Premium color-coded Route Cards on Calendar */
+.calendar-route-card {
+    font-size: 11px !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: 4px solid #94a3b8 !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+}
+
+.calendar-route-card:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.calendar-route-card.route-VCM001 {
+    border-left-color: #6366f1 !important;
+    border-color: #e0e7ff !important;
+    background: #f5f3ff !important;
+}
+
+.calendar-route-card.route-VCM002 {
+    border-left-color: #0ea5e9 !important;
+    border-color: #e0f2fe !important;
+    background: #f0f9ff !important;
+}
+
+.calendar-route-card.route-VCM003 {
+    border-left-color: #10b981 !important;
+    border-color: #d1fae5 !important;
+    background: #f0fdf4 !important;
+}
+
+.calendar-route-card.route-unassigned {
+    border-left-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    border-style: dashed !important;
+    border-color: #fca5a5 !important;
+}
+
+.calendar-route-card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.calendar-route-card-header strong {
+    color: #1e293b !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+
+.calendar-route-card-header .btn-delete-route {
+    color: #94a3b8 !important;
+    cursor: pointer !important;
+    font-size: 11px !important;
+    transition: color 0.15s ease !important;
+    padding: 2px !important;
+}
+
+.calendar-route-card-header .btn-delete-route:hover {
+    color: #ef4444 !important;
+}
+
+/* Custom Styled Select with Premium Chevron Arrow */
+.calendar-route-card select {
+    font-size: 11.5px !important;
+    height: 28px !important;
+    padding: 0 20px 0 8px !important;
+    width: 100% !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    font-family: 'Inter', sans-serif !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    transition: all 0.15s ease !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-position: right 4px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px 16px !important;
+}
+
+.calendar-route-card select:focus {
+    border-color: #2A3F54 !important;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.1) !important;
+}
+
+.calendar-route-card select.select-error {
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23ef4444' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+}
+
+/* Add Route Button on cell */
+.btn-add-route-cell {
+    background: #ffffff !important;
+    border: 1px dashed #cbd5e1 !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    padding: 6px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+    font-family: 'Inter', sans-serif !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-add-route-cell:hover {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* Unified tab styling in CSS */
+.schedule-view-tabs {
+    display: flex !important;
+    border-bottom: 2px solid #f1f5f9 !important;
+    gap: 8px !important;
+    margin-bottom: 20px !important;
+}
+
+.schedule-view-tabs .tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    font-family: 'Inter', sans-serif !important;
+    transition: all 0.2s ease !important;
+}
+
+.schedule-view-tabs .tab-btn:hover {
+    color: #0f172a !important;
+}
+
+.schedule-view-tabs .tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+
+.schedule-view-tabs .tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -2px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px !important;
+}
+
+/* Scroll To Day Row Link */
+.calendar-cell-footer {
+    text-align: right !important;
+    margin-top: auto !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding-top: 6px !important;
+}
+
+.calendar-cell-footer a {
+    font-size: 10.5px !important;
+    color: #2A3F54 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: color 0.15s ease !important;
+}
+
+.calendar-cell-footer a:hover {
+    color: #2A3F54 !important;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+
+/* =========================================================
+   WEEKLY HORIZONTAL CALENDAR VIEW
+   ========================================================= */
+
+/* Week navigation header */
+.cwv-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 16px !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    margin-bottom: 14px !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+.cwv-nav-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 7px 14px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    background: #f8fafc !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+    cursor: pointer !important;
+    font-family: 'Inter', sans-serif !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+}
+.cwv-nav-btn:hover:not(:disabled) {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+.cwv-nav-btn:disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+.cwv-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    flex: 1 !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+.cwv-month-select {
+    height: 36px !important;
+    padding: 0 28px 0 12px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 6px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #0f172a !important;
+    background-color: #fff !important;
+    cursor: pointer !important;
+    outline: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%232563eb' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-position: right 6px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px 16px !important;
+    transition: border-color 0.15s !important;
+}
+.cwv-month-select:focus {
+    border-color: #2A3F54 !important;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.12) !important;
+}
+.cwv-week-label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    white-space: nowrap !important;
+}
+.cwv-week-count-badge {
+    font-size: 11px !important;
+    color: #64748b !important;
+    background: #f1f5f9 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+}
+
+/* Scroll wrapper for the 7-day grid */
+.cwv-scroll-wrapper {
+    overflow-x: auto !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    background: #e2e8f0 !important;
+    flex: 1 !important;
+}
+
+/* 7-column grid */
+.cwv-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(200px, 1fr)) !important;
+    gap: 1px !important;
+    min-width: 1200px !important;
+}
+
+/* Day column header */
+.cwv-day-header {
+    padding: 10px 14px !important;
+    background: #f8fafc !important;
+    text-align: center !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+.cwv-day-header.cwv-today-header {
+    background: #eff6ff !important;
+    border-bottom-color: #2A3F54 !important;
+}
+.cwv-day-header.cwv-out-of-range-header {
+    background: #f9fafb !important;
+    opacity: 0.7 !important;
+}
+.cwv-day-name {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: #64748b !important;
+}
+.cwv-today-header .cwv-day-name {
+    color: #2A3F54 !important;
+}
+.cwv-day-num-block {
+    margin-top: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+}
+.cwv-day-num {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1 !important;
+}
+.cwv-today-header .cwv-day-num {
+    color: #2A3F54 !important;
+}
+.cwv-out-of-range-header .cwv-day-num {
+    color: #94a3b8 !important;
+}
+.cwv-day-month-label {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    font-weight: 500 !important;
+}
+.cwv-today-pip {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #2A3F54 !important;
+    display: inline-block !important;
+}
+
+/* Day content cell */
+.cwv-day-cell {
+    background: #ffffff !important;
+    padding: 12px !important;
+    min-height: 220px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    position: relative !important;
+}
+.cwv-day-cell.cwv-today-cell {
+    background: #fefeff !important;
+}
+.cwv-day-cell.cwv-out-of-range-cell {
+    background: #f9fafb !important;
+}
+.cwv-day-cell.cwv-weekend-cell {
+    background: #fdfeff !important;
+}
+
+/* Summary badge - clickable collapse/expand */
+.cwv-summary-badge {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+    background: linear-gradient(135deg, #eff6ff, #f0f9ff) !important;
+    border: 1px solid #bfdbfe !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    user-select: none !important;
+}
+.cwv-summary-badge:hover {
+    background: linear-gradient(135deg, #dbeafe, #e0f2fe) !important;
+    border-color: #93c5fd !important;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.1) !important;
+}
+.cwv-summary-badge.cwv-expanded {
+    background: linear-gradient(135deg, #dbeafe, #e0f2fe) !important;
+    border-color: #2A3F54 !important;
+}
+.cwv-badge-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.cwv-trip-count {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #2A3F54 !important;
+    line-height: 1 !important;
+}
+.cwv-trip-label {
+    font-size: 11px !important;
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    line-height: 1.3 !important;
+}
+.cwv-trip-label span {
+    font-weight: 400 !important;
+    color: #64748b !important;
+    font-size: 10px !important;
+}
+.cwv-chevron-icon {
+    color: #2A3F54 !important;
+    font-size: 12px !important;
+    transition: transform 0.2s ease !important;
+}
+.cwv-expanded .cwv-chevron-icon {
+    transform: rotate(180deg) !important;
+}
+
+/* Unassigned badge */
+.cwv-summary-badge.cwv-has-unassigned {
+    background: linear-gradient(135deg, #fef2f2, #fff7ed) !important;
+    border-color: #fca5a5 !important;
+}
+.cwv-summary-badge.cwv-has-unassigned:hover {
+    background: linear-gradient(135deg, #fee2e2, #ffedd5) !important;
+}
+.cwv-summary-badge.cwv-has-unassigned .cwv-trip-count {
+    color: #dc2626 !important;
+}
+.cwv-summary-badge.cwv-has-unassigned .cwv-trip-label {
+    color: #dc2626 !important;
+}
+.cwv-summary-badge.cwv-has-unassigned .cwv-chevron-icon {
+    color: #dc2626 !important;
+}
+
+/* Route dropdown list */
+.cwv-route-list {
+    display: none !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    animation: cwvFadeIn 0.2s ease !important;
+}
+.cwv-route-list.cwv-open {
+    display: flex !important;
+}
+@keyframes cwvFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Individual route item */
+.cwv-route-item {
+    border-radius: 6px !important;
+    border: 1px solid #e0e7ff !important;
+    border-left: 3px solid #6366f1 !important;
+    background: #f5f3ff !important;
+    overflow: hidden !important;
+    transition: box-shadow 0.15s !important;
+}
+.cwv-route-item:hover {
+    box-shadow: 0 2px 6px rgba(99,102,241,0.12) !important;
+}
+.cwv-route-item.cwv-item-vcm002 {
+    border-color: #e0f2fe !important;
+    border-left-color: #0ea5e9 !important;
+    background: #f0f9ff !important;
+}
+.cwv-route-item.cwv-item-vcm003 {
+    border-color: #d1fae5 !important;
+    border-left-color: #10b981 !important;
+    background: #f0fdf4 !important;
+}
+.cwv-route-item.cwv-item-unassigned {
+    border-color: #fca5a5 !important;
+    border-left-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    border-style: dashed !important;
+    border-left-style: solid !important;
+}
+.cwv-route-item-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 6px 10px 4px !important;
+}
+.cwv-route-code {
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+}
+.cwv-route-item.cwv-item-unassigned .cwv-route-code {
+    color: #ef4444 !important;
+}
+.cwv-route-trash {
+    color: #94a3b8 !important;
+    cursor: pointer !important;
+    font-size: 11px !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    transition: all 0.15s !important;
+}
+.cwv-route-trash:hover {
+    color: #ef4444 !important;
+    background: #fee2e2 !important;
+}
+.cwv-route-select {
+    width: 100% !important;
+    font-size: 11px !important;
+    height: 26px !important;
+    padding: 0 22px 0 8px !important;
+    border: none !important;
+    border-top: 1px solid rgba(0,0,0,0.06) !important;
+    background-color: transparent !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #334155 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-position: right 4px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 14px 14px !important;
+}
+.cwv-route-select.cwv-select-error {
+    color: #ef4444 !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23ef4444' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+}
+
+/* Add route button in week cell */
+.cwv-add-route-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 6px !important;
+    border: 1px dashed #cbd5e1 !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    font-family: 'Inter', sans-serif !important;
+    width: 100% !important;
+    transition: all 0.15s !important;
+}
+.cwv-add-route-btn:hover {
+    background: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* Scroll to row link */
+.cwv-scroll-link {
+    margin-top: auto !important;
+    font-size: 10.5px !important;
+    color: #2A3F54 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding-top: 6px !important;
+    align-self: flex-start !important;
+    cursor: pointer !important;
+    transition: color 0.15s !important;
+}
+.cwv-scroll-link:hover {
+    color: #2A3F54 !important;
+}
+
+/* Empty day placeholder */
+.cwv-empty-day {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 60px !important;
+    color: #cbd5e1 !important;
+    font-size: 12px !important;
+}
+
+/* --- HORIZONTAL WEEKS VIEW IMPROVEMENTS --- */
+.cwv-weeks-container {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 24px !important;
+    overflow-x: auto !important;
+    padding: 4px 4px 16px 4px !important;
+    width: 100% !important;
+}
+
+.cwv-week-block {
+    flex-shrink: 0 !important;
+    min-width: 1200px !important;
+    background: #e2e8f0 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.cwv-week-header-title {
+    background: #2A3F54 !important;
+    color: #ffffff !important;
+    padding: 10px 16px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    border-bottom: 1px solid #2A3F54 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.cwv-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(170px, 1fr)) !important;
+    gap: 1px !important;
+    min-width: unset !important;
+    width: 100% !important;
+}
+
+/* SHIFT BADGES */
+.route-badge {
+    padding: 1px 5px !important;
+    border-radius: 3px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+}
+.badge-sang {
+    background: #e0f2fe !important;
+    color: #0369a1 !important;
+}
+.badge-chieu {
+    background: #ffedd5 !important;
+    color: #c2410c !important;
+}
+.badge-toi {
+    background: #f3e8ff !important;
+    color: #6b21a8 !important;
+}
+
+/* ROUTE DETAIL POPUP STYLES */
+.route-detail-modal-body {
+    padding: 20px !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.route-detail-section {
+    margin-bottom: 20px !important;
+}
+.route-detail-section:last-child {
+    margin-bottom: 0 !important;
+}
+.route-detail-section-title {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    color: #475569 !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 6px !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.route-detail-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px 16px !important;
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+}
+.route-detail-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 12.5px !important;
+    border-bottom: 1px dashed #cbd5e1 !important;
+    padding-bottom: 6px !important;
+}
+.route-detail-item:last-child {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+.route-detail-label {
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+.route-detail-value {
+    color: #1e293b !important;
+    font-weight: 600 !important;
+}
+
+/* Timeline stepper design */
+.route-timeline {
+    position: relative !important;
+    padding-left: 20px !important;
+    margin-left: 8px !important;
+    border-left: 2px solid #cbd5e1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+.route-timeline-item {
+    position: relative !important;
+}
+.route-timeline-node {
+    position: absolute !important;
+    left: -27px !important;
+    top: 3px !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 3px solid #64748b !important;
+    z-index: 2 !important;
+}
+.route-timeline-node.node-start {
+    border-color: #22c55e !important;
+    background: #22c55e !important;
+}
+.route-timeline-node.node-end {
+    border-color: #2A3F54 !important;
+    background: #2A3F54 !important;
+}
+.route-timeline-node.node-transfer {
+    border-color: #f59e0b !important;
+    background: #ffffff !important;
+}
+.route-timeline-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 13px !important;
+}
+.route-timeline-location {
+    font-weight: 600 !important;
+    color: #1e293b !important;
+}
+.route-timeline-time {
+    font-size: 11.5px !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    background: #f1f5f9 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.reverse-route-box {
+    background: #fffbeb !important;
+    border: 1px solid #fde68a !important;
+    border-left: 4px solid #d97706 !important;
+    border-radius: 6px !important;
+    padding: 12px 14px !important;
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="page-header">
+
+            <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Lịch làm việc VCM <span>/</span> <strong>Lịch làm việc</strong></div>
+
+            <div class="page-title">Lịch làm việc CTV VCM</div>
+
+        </div>
+
+        <div class="container">
+
+            <!-- =========================
+            SEARCH
+            ========================= -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    Điều kiện tìm kiếm
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Mã lịch làm việc
+
+                            </label>
+
+                            <input type="text">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Tên lịch làm việc
+
+                            </label>
+
+                            <input type="text">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Mẫu lịch
+
+                            </label>
+
+                            <select>
+
+                                <option>
+
+                                    Tất cả
+
+                                </option>
+
+                                <option>
+
+                                    ML001 - Ca sáng nội thành
+
+                                </option>
+
+                                <option>
+
+                                    ML002 - Ca chiều ngoại thành
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>
+
+                                Trạng thái
+
+                            </label>
+
+                            <select>
+
+                                <option>
+
+                                    Tất cả
+
+                                </option>
+
+                                <option>
+
+                                    Nháp
+
+                                </option>
+
+                                <option>
+
+                                    Đã áp dụng
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <br>
+
+                    <button class="btn btn-primary">
+
+                        Tìm kiếm
+
+                    </button>
+
+                    <button class="btn btn-secondary">
+
+                        Đặt lại
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- =========================
+            GRID
+            ========================= -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <span>
+
+                        Danh sách lịch làm việc
+
+                    </span>
+
+                    <a href="taolichlamviecctvvcm.html" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> Tạo lịch làm việc
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-wrapper">
+
+                        <div class="table-container">
+<table class="data-table">
+
+                            <thead>
+
+                            <tr>
+
+                                <th>STT</th>
+
+                                <th>Mã lịch</th>
+
+                                <th>Tên lịch</th>
+
+                                <th>Dạng lịch</th>
+
+                                <th>Từ ngày</th>
+
+                                <th>Đến ngày</th>
+
+                                <th>Số ngày</th>
+
+                                <th>Tổng tuyến</th>
+
+                                <th>Tổng CTV</th>
+
+                                <th>Tổng cước</th>
+
+                                <th>Trạng thái</th>
+
+                                <th>Thao tác</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            <tr>
+
+                                <td>1</td>
+
+                                <td>LLV001</td>
+
+                                <td>Lịch tháng 07/2026</td>
+
+                                <td>ML001</td>
+
+                                <td>01/07/2026</td>
+
+                                <td>31/07/2026</td>
+
+                                <td>31</td>
+
+                                <td>124</td>
+
+                                <td>5</td>
+
+                                <td>16.240.000</td>
+
+                                <td>Đã áp dụng</td>
+
+                                <td>
+
+                                    <button class="icon-btn" onclick="viewWorkScheduleDetail('LLV001')">
+
+                                        <i class="fa-regular fa-eye"></i>
+
+                                    </button>
+
+                                    <button class="icon-btn"
+                                            onclick="editWorkSchedule('LLV001')">
+
+                                        <i class="fa-regular fa-pen-to-square"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================
+            INIT SCHEDULE DIALOG (STEP 1 POPUP)
+            ===================================== -->
+            <div class="modal" id="initScheduleModal" style="z-index: 1060;">
+                <div class="modal-content" style="width: 450px; max-width: 90vw; border-radius: 6px;">
+                    <div class="modal-header">
+                        <span>Khởi tạo lịch làm việc</span>
+                        <i class="fa-solid fa-xmark" onclick="closeInitScheduleModal()" style="cursor:pointer"></i>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label style="font-weight:600; font-size:13px; display:block; margin-bottom:6px;">Thời gian áp dụng *</label>
+                            <div style="position: relative;">
+                                <input id="initDateRange" type="text" placeholder="Chọn khoảng thời gian" style="width:100%; height:36px; padding:0 34px 0 10px; border:1px solid #d1d5db; border-radius:4px; font-family:'Inter'; background:#ffffff; cursor:pointer;" readonly>
+                                <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 11px; color: #64748b; font-size: 14px; pointer-events: none;"></i>
+                            </div>
+                            <input id="initFromDate" type="hidden">
+                            <input id="initToDate" type="hidden">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="font-weight:600; font-size:13px; display:block; margin-bottom:6px;">Mẫu lịch áp dụng *</label>
+                            <select id="initScheduleTemplate" style="width:100%; height:36px; padding:0 10px; border:1px solid #d1d5db; border-radius:4px; font-family:'Inter'; background:#ffffff;">
+                                <!-- Dynamic -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 16px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:10px;">
+                        <button class="btn btn-secondary" onclick="closeInitScheduleModal()">Hủy</button>
+                        <button class="btn btn-primary" onclick="submitInitSchedule()" style="background:#2A3F54; border-color:#2A3F54; color:#ffffff; font-weight:500;">Tạo lịch</button>
+                    </div>
+                </div>
+            </div>
+
+<!-- =========================================
+     SUB-MODAL: CHI TIẾT TUYẾN
+========================================= -->
+<div class="modal" id="modalRouteDetail" style="z-index: 1200;">
+  <div class="modal-content" style="width: 600px; max-width: 90vw; border-radius: 6px; display:flex; flex-direction:column;">
+    <div class="modal-header">
+      <span id="routeDetailTitle">Chi tiết tuyến vận chuyển</span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalRouteDetail')" style="cursor:pointer;"></i>
+    </div>
+    <div class="modal-body" id="routeDetailBody" style="padding: 0; overflow-y:auto;">
+      <!-- Dynamic content -->
+    </div>
+    <div class="modal-footer" style="padding: 16px 20px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end;">
+      <button class="btn btn-secondary" onclick="closeModal('modalRouteDetail')">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal"
+     id="scheduleModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <span>
+
+                Tạo lịch làm việc
+
+            </span>
+
+            <i class="fa-solid fa-xmark"
+               onclick="closeScheduleModal()"
+               style="cursor:pointer"></i>
+
+        </div>
+
+        <div class="modal-body">
+
+            <!-- =====================================
+            THÔNG TIN CHUNG
+            ===================================== -->
+
+            <div class="section-title">
+
+                Thông tin lịch làm việc
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Mã lịch làm việc *
+
+                    </label>
+
+                    <input
+                           value="LLV001">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tên lịch làm việc *
+
+                    </label>
+
+                    <input>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Mẫu lịch áp dụng *</label>
+                    <select id="scheduleTemplate" onchange="onScheduleTemplateOrDatesChange()">
+                        <option value="">Chọn mẫu lịch</option>
+                        <option value="DEFAULT">Lịch chạy mặc định hàng ngày</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Trạng thái
+
+                    </label>
+
+                    <select>
+
+                        <option>
+
+                            Nháp
+
+                        </option>
+
+                        <option>
+
+                            Đã áp dụng
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Thời gian áp dụng *</label>
+                    <div style="position: relative;">
+                        <input id="scheduleDateRange" type="text" placeholder="Chọn khoảng thời gian" style="width:100%; height:38px; padding:0 34px 0 10px; border:1px solid #cbd5e1; border-radius:4px; font-family:'Inter'; background:#ffffff; cursor:pointer;" readonly>
+                        <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 12px; color: #64748b; font-size: 14px; pointer-events: none;"></i>
+                    </div>
+                    <input id="fromDate" type="hidden">
+                    <input id="toDate" type="hidden">
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="form-group">
+
+                <label>
+
+                    Ghi chú
+
+                </label>
+
+                <textarea></textarea>
+
+            </div>
+
+            <!-- =====================================
+            TỔNG HỢP
+            ===================================== -->
+
+            <div class="section-title">
+
+                Thông tin tổng hợp
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng ngày
+
+                    </label>
+
+                    <input
+                           id="totalDay"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng tuyến
+
+                    </label>
+
+                    <input
+                           id="totalRoute"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng CTV
+
+                    </label>
+
+                    <input
+                           id="totalCTV"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng cước
+
+                    </label>
+
+                    <input
+                           id="totalFee"
+                           readonly>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- =====================================
+            VIEW SWITCHER TABS
+            ===================================== -->
+            <div class="schedule-view-tabs" id="scheduleViewTabs" style="display:none;">
+                <button class="tab-btn active" onclick="switchScheduleView('list')" id="tabBtnList">
+                    <i class="fa-solid fa-list" style="margin-right:6px;"></i> Dạng danh sách ngày
+                </button>
+                <button class="tab-btn" onclick="switchScheduleView('calendar')" id="tabBtnCalendar">
+                    <i class="fa-regular fa-calendar-days" style="margin-right:6px;"></i> Dạng lịch tháng
+                </button>
+            </div>
+
+            <!-- =====================================
+            PHÂN NHANH CTV HÀNG LOẠT
+            ===================================== -->
+            <div class="quick-assign-panel" id="bulkAssignPanel" style="display:none; margin-bottom: 20px;">
+                <div class="section-title" style="margin-top:0; margin-bottom:12px;">
+                    <i class="fa-solid fa-users-gear" style="margin-right:6px;"></i> Phân nhanh CTV hàng loạt
+                </div>
+                <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    <div class="form-group">
+                        <label>Chọn CTV phụ trách *</label>
+                        <select id="bulkCTVSelect">
+                            <option value="">Chọn CTV</option>
+                            <option>Nguyễn Văn A</option>
+                            <option>Trần Văn B</option>
+                            <option>Lê Văn C</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tuyến chạy áp dụng</label>
+                        <select id="bulkRouteSelect">
+                            <option value="ALL">Áp dụng cho tất cả các tuyến</option>
+                            <option value="VCM001">VCM001 - Thu Cúc → LABO</option>
+                            <option value="VCM002">VCM002 - Hồng Ngọc → LABO</option>
+                            <option value="VCM003">VCM003 - Medlatec → LABO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Phạm vi thời gian *</label>
+                        <select id="bulkScopeType" onchange="onBulkScopeTypeChange()">
+                            <option value="ALL">Tất cả thời gian</option>
+                            <option value="RANGE">Khoảng thời gian tự chọn</option>
+                            <option value="WEEKDAY">Theo thứ trong tuần</option>
+                            <option value="WEEK">Theo tuần chạy</option>
+                            <option value="MONTH">Theo tháng chạy</option>
+                            <option value="QUARTER">Theo quý chạy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Conditional inputs based on Scope Type -->
+                <div id="bulkScopeConditional" style="margin-top: 12px; border-top: 1px dashed #e2e8f0; padding-top: 12px;">
+                    <!-- Custom Range -->
+                    <div id="bulkScopeRange" style="display:none;">
+                        <div class="form-group" style="max-width:320px; position:relative;">
+                            <label>Chọn khoảng thời gian *</label>
+                            <div style="position: relative;">
+                                <input id="bulkDateRange" type="text" placeholder="Chọn khoảng thời gian" style="width:100%; height:38px; padding:0 34px 0 10px; border:1px solid #cbd5e1; border-radius:4px; font-family:'Inter'; background:#ffffff; cursor:pointer;" readonly>
+                                <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 12px; color: #64748b; font-size: 14px; pointer-events: none;"></i>
+                            </div>
+                            <input type="hidden" id="bulkFromDate">
+                            <input type="hidden" id="bulkToDate">
+                        </div>
+                    </div>
+
+                    <!-- Weekdays -->
+                    <div id="bulkScopeWeekday" style="display:none;">
+                        <label style="display:block; font-size:13px; font-weight:500; margin-bottom:6px;">Chọn các thứ trong tuần</label>
+                        <div class="bulk-checkbox-group">
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="1"> T2</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="2"> T3</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="3"> T4</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="4"> T5</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="5"> T6</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="6"> T7</label>
+                            <label class="bulk-checkbox-label"><input type="checkbox" class="bulk-day-cb" value="0"> CN</label>
+                        </div>
+                    </div>
+
+                    <!-- Week running -->
+                    <div id="bulkScopeWeek" style="display:none;">
+                        <div class="form-group" style="max-width:300px;">
+                            <label>Chọn tuần chạy</label>
+                            <select id="bulkWeekSelect">
+                                <!-- Dynamic -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Month running -->
+                    <div id="bulkScopeMonth" style="display:none;">
+                        <div class="form-group" style="max-width:300px;">
+                            <label>Chọn tháng chạy</label>
+                            <select id="bulkMonthSelect">
+                                <!-- Dynamic -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quarter running -->
+                    <div id="bulkScopeQuarter" style="display:none;">
+                        <div class="form-group" style="max-width:300px;">
+                            <label>Chọn quý chạy</label>
+                            <select id="bulkQuarterSelect">
+                                <!-- Dynamic -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <button class="btn btn-primary" onclick="executeBulkAssignment()" style="background:#2A3F54; border-color:#2A3F54; color:#ffffff; font-weight:500;">
+                        <i class="fa-solid fa-check" style="margin-right:6px;"></i> Thực hiện phân công hàng loạt
+                    </button>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- =====================================
+            DANH SÁCH NGÀY
+            ===================================== -->
+
+            <div id="scheduleDayContainer">
+
+            </div>
+
+            <!-- =====================================
+            DANH SÁCH LỊCH THÁNG (CALENDAR)
+            ===================================== -->
+            <div id="scheduleCalendarContainer" style="display:none; margin-top:20px;">
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                    class="btn btn-secondary"
+                    onclick="closeScheduleModal()">
+
+                Hủy
+
+            </button>
+
+            <button
+                    class="btn btn-primary"
+                    onclick="saveWorkSchedule()">
+                Lưu
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================
+DAY TEMPLATE
+===================================== -->
+
+<div id="dayTemplate"
+     style="display:none;">
+
+    <div class="day-card">
+
+        <!-- HEADER NGÀY -->
+
+        <div class="day-header">
+
+            <div>
+
+                <i class="fa-solid fa-calendar-day"></i>
+
+                <span class="day-title">
+
+                    01/07/2026
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <button
+                        class="btn btn-primary"
+                        onclick="addRouteToDay(event,this)">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Thêm tuyến
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- BODY NGÀY -->
+
+        <div class="day-content">
+
+            <!-- TỔNG HỢP NGÀY -->
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng tuyến
+
+                    </label>
+
+                    <input
+                           class="dayTotalRoute"
+                           readonly
+                           value="0">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng CTV
+
+                    </label>
+
+                    <input
+                           class="dayTotalCTV"
+                           readonly
+                           value="0">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng cước
+
+                    </label>
+
+                    <input
+                           class="dayTotalFee"
+                           readonly
+                           value="0">
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- DANH SÁCH TUYẾN -->
+
+            <div class="route-list">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================
+ROUTE TEMPLATE
+===================================== -->
+
+<div id="routeTemplate"
+     style="display:none;">
+
+    <div class="route-card">
+
+        <div class="route-header">
+
+            <div class="route-title">
+
+                <i class="fa-solid fa-route"></i>
+
+                Tuyến vận chuyển mới
+
+            </div>
+
+            <button
+                    class="icon-btn delete"
+                    onclick="removeRoute(event,this)">
+
+                <i class="fa-solid fa-trash"></i>
+
+            </button>
+
+        </div>
+
+        <div class="route-body">
+
+            <!-- =========================
+            THÔNG TIN TUYẾN
+            ========================= -->
+
+            <div class="section-title">
+
+                Thông tin tuyến vận chuyển
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tuyến vận chuyển *
+
+                    </label>
+
+                    <select
+                            class="routeSelect"
+                            onchange="loadRoute(this)">
+
+                        <option value="">
+
+                            Chọn tuyến
+
+                        </option>
+
+                        <option value="VCM001">
+
+                            VCM001 - Thu Cúc → LABO
+
+                        </option>
+
+                        <option value="VCM002">
+
+                            VCM002 - Hồng Ngọc → LABO
+
+                        </option>
+
+                        <option value="VCM003">
+
+                            VCM003 - Medlatec → LABO
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        CTV phụ trách *
+
+                    </label>
+
+                    <select
+                            class="routeCTV"
+                            onchange="calculateScheduleSummary()">
+
+                        <option value="">
+
+                            Chọn CTV
+
+                        </option>
+
+                        <option>
+
+                            Nguyễn Văn A
+
+                        </option>
+
+                        <option>
+
+                            Trần Văn B
+
+                        </option>
+
+                        <option>
+
+                            Lê Văn C
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+
+                        Tổng cước
+
+                    </label>
+
+                    <input
+                           class="fee">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Điểm đầu
+
+                    </label>
+
+                    <input
+                           class="startPoint"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Điểm cuối
+
+                    </label>
+
+                    <input
+                           class="endPoint"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Quãng đường (KM)
+
+                    </label>
+
+                    <input
+                           class="distance"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Giờ bắt đầu
+
+                    </label>
+
+                    <input
+                           class="startTime"
+                           readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Giờ kết thúc
+
+                    </label>
+
+                    <input
+                           class="endTime"
+                           readonly>
+
+                </div>
+
+            </div>
+
+            <!-- =========================
+            ĐIỂM TRUNG CHUYỂN
+            ========================= -->
+
+            <div class="transfer-section">
+
+            </div>
+
+            <!-- =========================
+            TUYẾN NGƯỢC
+            ========================= -->
+
+            <div class="reverse-section">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================
+MODAL
+========================================= */
+
+function openScheduleModal(){
+    // Clear dates
+    document.getElementById("fromDate").value = "";
+    document.getElementById("toDate").value = "";
+    
+    // Clear Flatpickr range picker
+    const rangeInput = document.getElementById("scheduleDateRange");
+    if (rangeInput && rangeInput._flatpickr) {
+        rangeInput._flatpickr.clear();
+        rangeInput.parentElement.style.pointerEvents = "auto";
+        rangeInput.parentElement.style.background = "#ffffff";
+        rangeInput.style.background = "#ffffff";
+    }
+    
+    // Clear Bulk flatpickr range picker
+    const bulkRangeInput = document.getElementById("bulkDateRange");
+    if (bulkRangeInput && bulkRangeInput._flatpickr) {
+        bulkRangeInput._flatpickr.clear();
+    }
+    const bulkFrom = document.getElementById("bulkFromDate");
+    if (bulkFrom) bulkFrom.value = "";
+    const bulkTo = document.getElementById("bulkToDate");
+    if (bulkTo) bulkTo.value = "";
+    
+    document.getElementById("scheduleDayContainer").innerHTML = "";
+    
+    // Clear summary fields
+    document.getElementById("totalDay").value = "";
+    document.getElementById("totalRoute").value = "";
+    document.getElementById("totalCTV").value = "";
+    document.getElementById("totalFee").value = "";
+    
+    // Restore Modal to edit mode
+    const modalHeader = document.querySelector("#scheduleModal .modal-header span");
+    if (modalHeader) {
+        modalHeader.textContent = "Tạo lịch làm việc";
+    }
+    
+    document.getElementById("fromDate").disabled = false;
+    document.getElementById("toDate").disabled = false;
+    
+    const templateSelect = document.getElementById("scheduleTemplate");
+    if (templateSelect) {
+        templateSelect.disabled = false;
+        templateSelect.value = "";
+        populateScheduleTemplateSelect();
+    }
+    
+    const footer = document.querySelector("#scheduleModal .modal-footer");
+    if (footer) {
+        footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeScheduleModal()">Hủy</button>
+            <button class="btn btn-primary" onclick="saveWorkSchedule()">Lưu</button>
+        `;
+    }
+    
+    // Hide bulk assign panel & view switcher & calendar container
+    const bulkPanel = document.getElementById("bulkAssignPanel");
+    if (bulkPanel) {
+        bulkPanel.style.display = "none";
+    }
+    
+    const viewTabs = document.getElementById("scheduleViewTabs");
+    if (viewTabs) {
+        viewTabs.style.display = "none";
+    }
+    
+    const calendarContainer = document.getElementById("scheduleCalendarContainer");
+    if (calendarContainer) {
+        calendarContainer.style.display = "none";
+    }
+    
+    // Reset viewed month
+    calendarCurrentMonth = null;
+    
+    document
+    .getElementById(
+        "scheduleModal"
+    )
+    .classList
+    .add("show");
+}
+
+function closeScheduleModal(){
+    document.getElementById("fromDate").disabled = false;
+    document.getElementById("toDate").disabled = false;
+    
+    const rangeInput = document.getElementById("scheduleDateRange");
+    if (rangeInput) {
+        rangeInput.parentElement.style.pointerEvents = "auto";
+        rangeInput.parentElement.style.background = "#ffffff";
+        rangeInput.style.background = "#ffffff";
+    }
+    
+    const templateSelect = document.getElementById("scheduleTemplate");
+    if (templateSelect) {
+        templateSelect.disabled = false;
+    }
+    
+    document
+    .getElementById(
+        "scheduleModal"
+    )
+    .classList
+    .remove("show");
+}
+
+/* =========================================
+FORMAT DATE
+========================================= */
+
+function formatDate(date){
+    const day =
+    String(
+        date.getDate()
+    ).padStart(2,'0');
+
+    const month =
+    String(
+        date.getMonth()+1
+    ).padStart(2,'0');
+
+    const year =
+    date.getFullYear();
+
+    // Get Day of Week Name in Vietnamese
+    const vnDays = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+    const vnDayName = vnDays[date.getDay()];
+
+    return `${vnDayName} - ${day}/${month}/${year}`;
+}
+
+/* =========================================
+SINH LỊCH TỪ CẤU HÌNH MẶC ĐỊNH
+========================================= */
+
+function generateScheduleFromTemplate(){
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    if(!fromDate || !toDate){
+        alert("Vui lòng chọn khoảng thời gian áp dụng");
+        return;
+    }
+
+    if(new Date(fromDate) > new Date(toDate)){
+        alert("Từ ngày phải nhỏ hơn hoặc bằng Đến ngày!");
+        return;
+    }
+
+    const container = document.getElementById("scheduleDayContainer");
+    container.innerHTML = "";
+
+    let current = new Date(fromDate);
+    const end = new Date(toDate);
+
+    while(current <= end){
+        createDay(current);
+        current.setDate(current.getDate()+1);
+    }
+
+    autoFillDefaultRoutes();
+    calculateScheduleSummary();
+    
+    // Show bulk assign panel and update dynamic options
+    const bulkPanel = document.getElementById("bulkAssignPanel");
+    if (bulkPanel) {
+        bulkPanel.style.display = "block";
+        updateBulkScopeOptions(fromDate, toDate);
+        // Reset scope select to ALL
+        document.getElementById("bulkScopeType").value = "ALL";
+        onBulkScopeTypeChange();
+    }
+    
+    // Show tabs and reset to calendar view
+    const viewTabs = document.getElementById("scheduleViewTabs");
+    if (viewTabs) {
+        viewTabs.style.display = "flex";
+        switchScheduleView("calendar");
+    }
+}
+
+/* =========================================
+TẠO NGÀY
+========================================= */
+
+function createDay(dateObj){
+    const template = document.querySelector("#dayTemplate .day-card");
+    const clone = template.cloneNode(true);
+
+    clone.querySelector(".day-title").innerHTML = formatDate(dateObj);
+
+    document
+    .getElementById("scheduleDayContainer")
+    .appendChild(clone);
+}
+
+/* =========================================
+THÊM TUYẾN
+========================================= */
+
+function addRouteToDay(event, button){
+    event.stopPropagation();
+
+    const routeTemplate = document.querySelector("#routeTemplate .route-card");
+    const clone = routeTemplate.cloneNode(true);
+
+    button
+    .closest(".day-card")
+    .querySelector(".route-list")
+    .appendChild(clone);
+
+    calculateScheduleSummary();
+}
+
+/* =========================================
+XÓA TUYẾN
+========================================= */
+
+function removeRoute(event, button){
+    event.stopPropagation();
+    button.closest(".route-card").remove();
+    calculateScheduleSummary();
+}
+
+/* =========================================
+WORK SCHEDULE DATABASE & PERSISTENCE
+========================================= */
+
+let workScheduleMaster = [];
+try {
+    const saved = localStorage.getItem('workSchedules');
+    if (saved) {
+        workScheduleMaster = JSON.parse(saved);
+    }
+} catch (e) {
+    console.error("Error loading workSchedules from localStorage", e);
+}
+if (!workScheduleMaster || workScheduleMaster.length === 0 || (workScheduleMaster[0] && workScheduleMaster[0].code === 'LLV001' && (!workScheduleMaster[0].daysData || workScheduleMaster[0].daysData.length === 0))) {
+    workScheduleMaster = [
+        {
+            code: "LLV001",
+            name: "Lịch tuần 08/06 - 14/06/2026",
+            fromDate: "2026-06-08",
+            toDate: "2026-06-14",
+            totalDays: 7,
+            totalRoute: 42,
+            totalCTV: 4,
+            totalFee: 3640000,
+            status: "Đã áp dụng",
+            daysData: [
+                {
+                    date: "08/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "09/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "10/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "11/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "12/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "13/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                },
+                {
+                    date: "14/06/2026",
+                    routes: [
+                        { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM002", ctv: "Trần Văn B" },
+                        { routeCode: "VCM003", ctv: "Lê Văn C" },
+                        { routeCode: "VCM004", ctv: "Hoàng Văn D" },
+                        { routeCode: "VCM005", ctv: "Nguyễn Văn A" },
+                        { routeCode: "VCM006", ctv: "Trần Văn B" }
+                    ]
+                }
+            ]
+        }
+    ];
+    localStorage.setItem('workSchedules', JSON.stringify(workScheduleMaster));
+}
+
+function renderScheduleTable() {
+    const tbody = document.querySelector('.data-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    workScheduleMaster.forEach((s, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td><strong>${s.code}</strong></td>
+            <td>${s.name}</td>
+            <td>${s.templateCode || 'DEFAULT'}</td>
+            <td>${formatDateToVN(s.fromDate)}</td>
+            <td>${formatDateToVN(s.toDate)}</td>
+            <td>${s.totalDays} ngày</td>
+            <td>${s.totalRoute}</td>
+            <td>${s.totalCTV}</td>
+            <td>${formatMoney(s.totalFee)}đ</td>
+            <td><span class="badge badge-approved" style="border-color:#cbd5e1; background:#ffffff; color:#475569; font-weight:600;">${s.status}</span></td>
+            <td>
+                <button class="icon-btn" onclick="viewWorkScheduleDetail('${s.code}')" title="Xem chi tiết">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button class="icon-btn" onclick="editWorkSchedule('${s.code}')" title="Chỉnh sửa">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button class="icon-btn delete" onclick="deleteWorkSchedule('${s.code}')" title="Xóa">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function formatDateToVN(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+    return dateStr;
+}
+
+function deleteWorkSchedule(code) {
+    if (confirm(`Bạn có chắc chắn muốn xóa lịch làm việc ${code}?`)) {
+        workScheduleMaster = workScheduleMaster.filter(s => s.code !== code);
+        localStorage.setItem('workSchedules', JSON.stringify(workScheduleMaster));
+        renderScheduleTable();
+    }
+}
+
+function saveWorkSchedule() {
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+    
+    if (!fromDate || !toDate) {
+        alert("Vui lòng chọn khoảng thời gian để lưu!");
+        return;
+    }
+    
+    const dayCards = document.querySelectorAll(".day-card");
+    if (dayCards.length === 0) {
+        alert("Vui lòng sinh lịch làm việc trước khi lưu!");
+        return;
+    }
+    
+    const newCode = "LLV" + String(workScheduleMaster.length + 1).padStart(3, '0');
+    const name = `Lịch chạy từ ${formatDateToVN(fromDate)} đến ${formatDateToVN(toDate)}`;
+    
+    let totalRoute = 0;
+    let totalFee = 0;
+    const ctvSet = new Set();
+    const daysData = [];
+    
+    dayCards.forEach(day => {
+        const dateStr = day.querySelector(".day-title").innerText.split(' - ')[1];
+        const routes = [];
+        
+        day.querySelectorAll(".route-card").forEach(rc => {
+            const routeSelect = rc.querySelector(".routeSelect");
+            const routeCode = routeSelect ? routeSelect.value : "";
+            const ctvSelect = rc.querySelector(".routeCTV");
+            const ctv = ctvSelect ? ctvSelect.value : "";
+            
+            if (routeCode && routeMaster[routeCode]) {
+                totalRoute++;
+                totalFee += routeMaster[routeCode].fee;
+                if (ctv) ctvSet.add(ctv);
+                routes.push({ routeCode, ctv });
+            }
+        });
+        
+        daysData.push({ date: dateStr, routes });
+    });
+    
+    const diffTime = Math.abs(new Date(toDate) - new Date(fromDate));
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    
+    const templateCode = document.getElementById("scheduleTemplate").value;
+    workScheduleMaster.push({
+        code: newCode,
+        name: name,
+        fromDate: fromDate,
+        toDate: toDate,
+        templateCode: templateCode,
+        totalDays: diffDays,
+        totalRoute: totalRoute,
+        totalCTV: ctvSet.size,
+        totalFee: totalFee,
+        status: "Đã áp dụng",
+        daysData: daysData
+    });
+    
+    alert("Đã lưu lịch làm việc thành công!");
+    closeScheduleModal();
+    renderScheduleTable();
+}
+
+function editWorkSchedule(code) {
+    window.location.href = `taolichlamviecctvvcm.html?code=${code}`;
+}
+
+function formatDateString(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${day}/${month}`;
+}
+
+// Render schedule table on page load
+window.addEventListener('DOMContentLoaded', () => {
+    renderScheduleTable();
+    populateScheduleTemplateSelect();
+    
+    // Initialize Flatpickr for Wizard Step 1 popup
+    flatpickr("#initDateRange", {
+        mode: "range",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        dateFormat: "d/m/Y",
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                document.getElementById("initFromDate").value = formatLocalDateToISO(selectedDates[0]);
+                document.getElementById("initToDate").value = formatLocalDateToISO(selectedDates[1]);
+            } else {
+                document.getElementById("initFromDate").value = "";
+                document.getElementById("initToDate").value = "";
+            }
+        }
+    });
+
+    // Initialize Flatpickr for Main Modal
+    flatpickr("#scheduleDateRange", {
+        mode: "range",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        dateFormat: "d/m/Y",
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                document.getElementById("fromDate").value = formatLocalDateToISO(selectedDates[0]);
+                document.getElementById("toDate").value = formatLocalDateToISO(selectedDates[1]);
+                onScheduleTemplateOrDatesChange();
+            } else {
+                document.getElementById("fromDate").value = "";
+                document.getElementById("toDate").value = "";
+            }
+        }
+    });
+
+    // Initialize Flatpickr for Bulk Assign Range
+    flatpickr("#bulkDateRange", {
+        mode: "range",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        dateFormat: "d/m/Y",
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                document.getElementById("bulkFromDate").value = formatLocalDateToISO(selectedDates[0]);
+                document.getElementById("bulkToDate").value = formatLocalDateToISO(selectedDates[1]);
+            } else {
+                document.getElementById("bulkFromDate").value = "";
+                document.getElementById("bulkToDate").value = "";
+            }
+        }
+    });
+});
+
+</script>
+
+<script>
+
+/* =========================================
+ROUTE MASTER
+========================================= */
+
+const routeMaster = {
+
+    VCM001:{
+
+        code:"VCM001",
+
+        name:"Thu Cúc → LABO",
+
+        startPoint:"BV Thu Cúc",
+
+        endPoint:"LABO",
+
+        distance:"15",
+
+        startTime:"08:00",
+
+        endTime:"10:00",
+
+        fee:85000,
+
+        transferPoints:[
+
+            {
+                point:"BV Hồng Ngọc",
+                pickup:"08:20",
+            },
+
+            {
+                point:"BV Medlatec",
+                pickup:"08:50",
+            }
+
+        ],
+
+        reverseRoute:{
+
+            pickupPoint:"LABO",
+
+            deliveryPoint:"BV Thu Cúc",
+
+            pickupTime:"10:15",
+
+            deliveryTime:"11:00",
+
+            distance:"14",
+
+            fee:"80.000"
+
+        }
+
+    },
+
+    VCM002:{
+
+        code:"VCM002",
+
+        name:"Hồng Ngọc → LABO",
+
+        startPoint:"BV Hồng Ngọc",
+
+        endPoint:"LABO",
+
+        distance:"22",
+
+        startTime:"10:30",
+
+        endTime:"12:00",
+
+        fee:120000,
+
+        transferPoints:[
+
+            {
+                point:"BV Thu Cúc",
+                pickup:"11:00",
+            }
+
+        ],
+
+        reverseRoute:{
+
+            pickupPoint:"LABO",
+
+            deliveryPoint:"BV Hồng Ngọc",
+
+            pickupTime:"12:15",
+
+            deliveryTime:"13:00",
+
+            distance:"20",
+
+            fee:"110.000"
+
+        }
+
+    },
+
+    VCM003:{
+
+        code:"VCM003",
+
+        name:"Medlatec → LABO",
+
+        startPoint:"BV Medlatec",
+
+        endPoint:"LABO",
+
+        distance:"18",
+
+        startTime:"13:00",
+
+        endTime:"14:30",
+
+        fee:95000,
+
+        transferPoints:[
+
+            {
+                point:"BV Thu Cúc",
+                pickup:"13:20",
+            }
+
+        ],
+
+        reverseRoute:{
+
+            pickupPoint:"LABO",
+
+            deliveryPoint:"BV Medlatec",
+
+            pickupTime:"14:45",
+
+            deliveryTime:"15:30",
+
+            distance:"18",
+
+            fee:"90.000"
+
+        }
+
+    },
+
+    VCM004:{
+        code:"VCM004",
+        name:"Mỹ Đình → LABO",
+        startPoint:"Mỹ Đình",
+        endPoint:"LABO",
+        distance:"12",
+        startTime:"07:30",
+        endTime:"09:00",
+        fee:75000,
+        transferPoints:[
+            {
+                point:"BV Hồng Ngọc",
+                pickup:"08:00",
+            }
+        ],
+        reverseRoute:{
+            pickupPoint:"LABO",
+            deliveryPoint:"Mỹ Đình",
+            pickupTime:"09:15",
+            deliveryTime:"10:00",
+            distance:"12",
+            fee:"70.000"
+        }
+    },
+
+    VCM005:{
+        code:"VCM005",
+        name:"Cầu Giấy → LABO",
+        startPoint:"BV Cầu Giấy",
+        endPoint:"LABO",
+        distance:"10",
+        startTime:"14:00",
+        endTime:"15:15",
+        fee:65000,
+        transferPoints:[
+            {
+                point:"BV Thu Cúc",
+                pickup:"14:25",
+            }
+        ],
+        reverseRoute:{
+            pickupPoint:"LABO",
+            deliveryPoint:"BV Cầu Giấy",
+            pickupTime:"15:30",
+            deliveryTime:"16:15",
+            distance:"10",
+            fee:"60.000"
+        }
+    },
+
+    VCM006:{
+        code:"VCM006",
+        name:"Đống Đa → LABO",
+        startPoint:"BV Đống Đa",
+        endPoint:"LABO",
+        distance:"14",
+        startTime:"16:30",
+        endTime:"17:45",
+        fee:80000,
+        transferPoints:[
+            {
+                point:"BV Hồng Ngọc",
+                pickup:"17:00",
+            }
+        ],
+        reverseRoute:{
+            pickupPoint:"LABO",
+            deliveryPoint:"BV Đống Đa",
+            pickupTime:"18:00",
+            deliveryTime:"18:45",
+            distance:"14",
+            fee:"75.000"
+        }
+    }
+
+};
+
+/* =========================================
+AUTO FILL DEFAULT ROUTE
+========================================= */
+
+function autoFillDefaultRoutes(){
+    const dayCards = document.querySelectorAll(".day-card");
+    
+    // Load default schedule slots from localStorage
+    const saved = localStorage.getItem('defaultDailySchedule');
+    let defaultScheduleSlots = [];
+    
+    if (saved) {
+        defaultScheduleSlots = JSON.parse(saved);
+    } else {
+        // Fallback default mock slots if local storage is not initialized yet
+        defaultScheduleSlots = [
+            {
+                id: 'slot_default_sang',
+                startTime: '06:00',
+                endTime: '12:00',
+                routes: [
+                    { routeCode: 'VCM001', ctv: 'Nguyễn Văn A' },
+                    { routeCode: 'VCM002', ctv: 'Trần Văn B' }
+                ]
+            },
+            {
+                id: 'slot_default_chieu',
+                startTime: '12:00',
+                endTime: '18:00',
+                routes: [
+                    { routeCode: 'VCM003', ctv: 'Lê Văn C' },
+                    { routeCode: 'VCM004', ctv: 'Hoàng Văn D' }
+                ]
+            },
+            {
+                id: 'slot_default_toi',
+                startTime: '18:00',
+                endTime: '23:59',
+                routes: [
+                    { routeCode: 'VCM005', ctv: 'Nguyễn Văn A' },
+                    { routeCode: 'VCM006', ctv: 'Trần Văn B' }
+                ]
+            }
+        ];
+    }
+    
+    dayCards.forEach(day => {
+        const routeListContainer = day.querySelector(".route-list");
+        routeListContainer.innerHTML = "";
+        
+        defaultScheduleSlots.forEach(slot => {
+            slot.routes.forEach(routeItem => {
+                if (!routeItem.routeCode) return;
+                
+                const template = document.querySelector("#routeTemplate .route-card");
+                const clone = template.cloneNode(true);
+                routeListContainer.appendChild(clone);
+                
+                const routeSelect = clone.querySelector(".routeSelect");
+                if (routeSelect) {
+                    routeSelect.value = routeItem.routeCode;
+                    loadRoute(routeSelect);
+                }
+                
+                const ctvSelect = clone.querySelector(".routeCTV");
+                if (ctvSelect) {
+                    ctvSelect.value = routeItem.ctv;
+                }
+            });
+        });
+    });
+}
+
+/* =========================================
+LOAD ROUTE
+========================================= */
+
+function loadRoute(select){
+
+    const routeCode =
+    select.value;
+
+    if(!routeCode){
+        return;
+    }
+
+    const route =
+    routeMaster[
+        routeCode
+    ];
+
+    if(!route){
+        return;
+    }
+
+    const card =
+    select.closest(
+        ".route-card"
+    );
+
+    card.querySelector(
+        ".route-title"
+    ).innerHTML =
+
+    `<i class="fa-solid fa-route"></i>
+     ${route.code} - ${route.name}`;
+
+    card.querySelector(
+        ".startPoint"
+    ).value =
+    route.startPoint;
+
+    card.querySelector(
+        ".endPoint"
+    ).value =
+    route.endPoint;
+
+    card.querySelector(
+        ".distance"
+    ).value =
+    route.distance;
+
+    card.querySelector(
+        ".startTime"
+    ).value =
+    route.startTime;
+
+    card.querySelector(
+        ".endTime"
+    ).value =
+    route.endTime;
+
+    card.querySelector(
+        ".fee"
+    ).value =
+    formatMoney(
+        route.fee
+    );
+
+    renderTransferPoint(
+        card,
+        route
+    );
+
+    renderReverseRoute(
+        card,
+        route
+    );
+
+    calculateScheduleSummary();
+
+}
+
+/* =========================================
+TRANSFER POINT
+========================================= */
+
+function renderTransferPoint(card,route){
+
+    let html = `
+
+    <div class="section-title">
+
+        Điểm trung chuyển
+
+    </div>
+
+    <div class="table-wrapper">
+
+        <div class="table-container">
+<table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>STT</th>
+
+                    <th>Điểm trung chuyển</th>
+
+                    <th>Giờ đến điểm trung chuyển</th>
+
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+    route.transferPoints.forEach((x,index)=>{
+
+        html += `
+
+        <tr>
+
+            <td>${index+1}</td>
+
+            <td>${x.point}</td>
+
+            <td>${x.pickup}</td>
+        </tr>
+
+        `;
+
+    });
+
+    html += `
+
+            </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    `;
+
+    card.querySelector(
+        ".transfer-section"
+    ).innerHTML = html;
+
+}
+
+/* =========================================
+REVERSE ROUTE
+========================================= */
+
+function renderReverseRoute(card,route){
+
+    card.querySelector(
+        ".reverse-section"
+    ).innerHTML = `
+
+    <div class="section-title">
+
+        Tuyến ngược
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>Điểm nhận đồ</label>
+
+            <input readonly
+                   value="${route.reverseRoute.pickupPoint}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Điểm giao đồ</label>
+
+            <input readonly
+                   value="${route.reverseRoute.deliveryPoint}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Giờ nhận đồ</label>
+
+            <input readonly
+                   value="${route.reverseRoute.pickupTime}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Giờ giao đồ</label>
+
+            <input readonly
+                   value="${route.reverseRoute.deliveryTime}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Quãng đường</label>
+
+            <input readonly
+                   value="${route.reverseRoute.distance}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Tổng cước</label>
+
+            <input readonly
+                   value="${route.reverseRoute.fee}">
+
+        </div>
+
+    </div>
+
+    `;
+
+}
+
+
+/* =========================================
+TỔNG HỢP
+========================================= */
+
+function calculateScheduleSummary(){
+
+    const dayCards =
+    document.querySelectorAll(
+        ".day-card"
+    );
+
+    let totalDay =
+    dayCards.length;
+
+    let totalRoute = 0;
+
+    let totalFee = 0;
+
+    const ctvSet =
+    new Set();
+
+    dayCards.forEach(day=>{
+
+        const routes =
+        day.querySelectorAll(
+            ".route-card"
+        );
+
+        let dayRoute = 0;
+
+        let dayFee = 0;
+
+        const dayCTV =
+        new Set();
+
+        routes.forEach(route=>{
+
+            const routeSelect =
+            route.querySelector(
+                ".routeSelect"
+            );
+
+            if(
+                routeSelect &&
+                routeSelect.value &&
+                routeMaster[routeSelect.value]
+            ){
+
+                dayRoute++;
+
+                totalRoute++;
+
+                dayFee +=
+                routeMaster[
+                    routeSelect.value
+                ].fee;
+
+                totalFee +=
+                routeMaster[
+                    routeSelect.value
+                ].fee;
+
+            }
+
+            const ctv =
+            route.querySelector(
+                ".routeCTV"
+            );
+
+            if(
+                ctv &&
+                ctv.value
+            ){
+
+                dayCTV.add(
+                    ctv.value
+                );
+
+                ctvSet.add(
+                    ctv.value
+                );
+
+            }
+
+        });
+
+        const routeField =
+        day.querySelector(
+            ".dayTotalRoute"
+        );
+
+        if(routeField){
+
+            routeField.value =
+            dayRoute;
+
+        }
+
+        const ctvField =
+        day.querySelector(
+            ".dayTotalCTV"
+        );
+
+        if(ctvField){
+
+            ctvField.value =
+            dayCTV.size;
+
+        }
+
+        const workField =
+        day.querySelector(
+            ".dayTotalWork"
+        );
+
+        if(workField){
+
+            workField.value =
+            dayRoute;
+
+        }
+
+        const feeField =
+        day.querySelector(
+            ".dayTotalFee"
+        );
+
+        if(feeField){
+
+            feeField.value =
+            formatMoney(
+                dayFee
+            );
+
+        }
+
+    });
+
+    const totalDayEl = document.getElementById("totalDay");
+    if (totalDayEl) totalDayEl.value = totalDay;
+
+    const totalRouteEl = document.getElementById("totalRoute");
+    if (totalRouteEl) totalRouteEl.value = totalRoute;
+
+    const totalCTVEl = document.getElementById("totalCTV");
+    if (totalCTVEl) totalCTVEl.value = ctvSet.size;
+
+    const totalWorkEl = document.getElementById("totalWork");
+    if (totalWorkEl) totalWorkEl.value = totalRoute;
+
+    const totalFeeEl = document.getElementById("totalFee");
+    if (totalFeeEl) totalFeeEl.value = formatMoney(totalFee);
+
+}
+
+/* =========================================
+FORMAT MONEY
+========================================= */
+
+function formatMoney(number){
+
+    return Number(
+        number || 0
+    ).toLocaleString(
+        "vi-VN"
+    );
+
+}
+
+/* =========================================
+PHÂN NHANH CTV HÀNG LOẠT LOGIC
+========================================= */
+
+function formatLocalDateToISO(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+function onBulkScopeTypeChange() {
+    const scopeType = document.getElementById("bulkScopeType").value;
+    
+    // Hide all conditional scope elements
+    document.getElementById("bulkScopeRange").style.display = "none";
+    document.getElementById("bulkScopeWeekday").style.display = "none";
+    document.getElementById("bulkScopeWeek").style.display = "none";
+    document.getElementById("bulkScopeMonth").style.display = "none";
+    document.getElementById("bulkScopeQuarter").style.display = "none";
+    
+    // Show the selected one
+    if (scopeType === "RANGE") {
+        document.getElementById("bulkScopeRange").style.display = "block";
+    } else if (scopeType === "WEEKDAY") {
+        document.getElementById("bulkScopeWeekday").style.display = "block";
+    } else if (scopeType === "WEEK") {
+        document.getElementById("bulkScopeWeek").style.display = "block";
+    } else if (scopeType === "MONTH") {
+        document.getElementById("bulkScopeMonth").style.display = "block";
+    } else if (scopeType === "QUARTER") {
+        document.getElementById("bulkScopeQuarter").style.display = "block";
+    }
+}
+
+function updateBulkScopeOptions(fromDateStr, toDateStr) {
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+    
+    const weekSelect = document.getElementById("bulkWeekSelect");
+    const monthSelect = document.getElementById("bulkMonthSelect");
+    const quarterSelect = document.getElementById("bulkQuarterSelect");
+    
+    if (!weekSelect || !monthSelect || !quarterSelect) return;
+    
+    weekSelect.innerHTML = "";
+    monthSelect.innerHTML = "";
+    quarterSelect.innerHTML = "";
+    
+    if (isNaN(fromDate) || isNaN(toDate) || fromDate > toDate) return;
+    
+    // 1. Calculate weeks (7-day intervals starting from fromDate)
+    let weekIndex = 1;
+    let tempStart = new Date(fromDate);
+    
+    function formatDateShort(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    
+    while (tempStart <= toDate) {
+        let tempEnd = new Date(tempStart);
+        tempEnd.setDate(tempEnd.getDate() + 6);
+        if (tempEnd > toDate) {
+            tempEnd = new Date(toDate);
+        }
+        
+        const startFormatted = formatDateShort(tempStart);
+        const endFormatted = formatDateShort(tempEnd);
+        const startISO = formatLocalDateToISO(tempStart);
+        const endISO = formatLocalDateToISO(tempEnd);
+        
+        const opt = document.createElement("option");
+        opt.value = `${startISO}|${endISO}`;
+        opt.textContent = `Tuần ${weekIndex} (${startFormatted} - ${endFormatted})`;
+        weekSelect.appendChild(opt);
+        
+        weekIndex++;
+        tempStart.setDate(tempStart.getDate() + 7);
+    }
+    
+    // 2. Calculate months (all months between fromDate and toDate)
+    let tempMonth = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+    const endMonthLimit = new Date(toDate.getFullYear(), toDate.getMonth(), 1);
+    while (tempMonth <= endMonthLimit) {
+        const monthNum = tempMonth.getMonth() + 1;
+        const yearNum = tempMonth.getFullYear();
+        const value = `${yearNum}-${String(monthNum).padStart(2, '0')}`;
+        
+        const opt = document.createElement("option");
+        opt.value = value;
+        opt.textContent = `Tháng ${monthNum}/${yearNum}`;
+        monthSelect.appendChild(opt);
+        
+        tempMonth.setMonth(tempMonth.getMonth() + 1);
+    }
+    
+    // 3. Calculate quarters
+    const seenQuarters = new Set();
+    let tempQ = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+    while (tempQ <= toDate) {
+        const quarterNum = Math.floor(tempQ.getMonth() / 3) + 1;
+        const yearNum = tempQ.getFullYear();
+        const key = `${yearNum}-Q${quarterNum}`;
+        
+        if (!seenQuarters.has(key)) {
+            seenQuarters.add(key);
+            const opt = document.createElement("option");
+            opt.value = key;
+            opt.textContent = `Quý ${quarterNum}/${yearNum}`;
+            quarterSelect.appendChild(opt);
+        }
+        
+        tempQ.setMonth(tempQ.getMonth() + 1);
+    }
+}
+
+function executeBulkAssignment() {
+    const ctv = document.getElementById("bulkCTVSelect").value;
+    if (!ctv) {
+        alert("Vui lòng chọn CTV phụ trách.");
+        return;
+    }
+    
+    const routeFilter = document.getElementById("bulkRouteSelect").value;
+    const scopeType = document.getElementById("bulkScopeType").value;
+    
+    // Validate scope conditional inputs
+    let fromVal = "";
+    let toVal = "";
+    if (scopeType === "RANGE") {
+        fromVal = document.getElementById("bulkFromDate").value;
+        toVal = document.getElementById("bulkToDate").value;
+        if (!fromVal || !toVal) {
+            alert("Vui lòng chọn dải ngày áp dụng (Từ ngày -> Đến ngày).");
+            return;
+        }
+        if (new Date(fromVal) > new Date(toVal)) {
+            alert("Từ ngày không được lớn hơn Đến ngày!");
+            return;
+        }
+    }
+    
+    let checkedDays = [];
+    if (scopeType === "WEEKDAY") {
+        checkedDays = Array.from(document.querySelectorAll(".bulk-day-cb:checked")).map(cb => cb.value);
+        if (checkedDays.length === 0) {
+            alert("Vui lòng chọn ít nhất một thứ trong tuần để áp dụng.");
+            return;
+        }
+    }
+    
+    let weekVal = "";
+    if (scopeType === "WEEK") {
+        weekVal = document.getElementById("bulkWeekSelect").value;
+        if (!weekVal) {
+            alert("Không tìm thấy tuần chạy phù hợp.");
+            return;
+        }
+    }
+    
+    let monthVal = "";
+    if (scopeType === "MONTH") {
+        monthVal = document.getElementById("bulkMonthSelect").value;
+        if (!monthVal) {
+            alert("Không tìm thấy tháng chạy phù hợp.");
+            return;
+        }
+    }
+    
+    let quarterVal = "";
+    if (scopeType === "QUARTER") {
+        quarterVal = document.getElementById("bulkQuarterSelect").value;
+        if (!quarterVal) {
+            alert("Không tìm thấy quý chạy phù hợp.");
+            return;
+        }
+    }
+    
+    const dayCards = document.querySelectorAll("#scheduleDayContainer .day-card");
+    if (dayCards.length === 0) {
+        alert("Không có danh sách ngày chạy để áp dụng phân công.");
+        return;
+    }
+    
+    let updatedCount = 0;
+    
+    dayCards.forEach(dayCard => {
+        const dayTitleElement = dayCard.querySelector(".day-title");
+        if (!dayTitleElement) return;
+        
+        const dayTitleText = dayTitleElement.innerText.trim();
+        const parts = dayTitleText.split(' - ');
+        if (parts.length < 2) return;
+        
+        const dateStr = parts[1].trim();
+        const dateParts = dateStr.split('/');
+        if (dateParts.length < 3) return;
+        
+        const d = parseInt(dateParts[0], 10);
+        const m = parseInt(dateParts[1], 10);
+        const y = parseInt(dateParts[2], 10);
+        
+        const cardDate = new Date(y, m - 1, d);
+        const cardDateStr = formatLocalDateToISO(cardDate);
+        
+        // Scope matching check
+        if (scopeType === "RANGE") {
+            if (cardDateStr < fromVal || cardDateStr > toVal) return;
+        } else if (scopeType === "WEEKDAY") {
+            const dayOfWeek = cardDate.getDay().toString();
+            if (!checkedDays.includes(dayOfWeek)) return;
+        } else if (scopeType === "WEEK") {
+            const [wStart, wEnd] = weekVal.split('|');
+            if (cardDateStr < wStart || cardDateStr > wEnd) return;
+        } else if (scopeType === "MONTH") {
+            if (!cardDateStr.startsWith(monthVal)) return;
+        } else if (scopeType === "QUARTER") {
+            const q = Math.floor(cardDate.getMonth() / 3) + 1;
+            const cardQuarter = `${cardDate.getFullYear()}-Q${q}`;
+            if (cardQuarter !== quarterVal) return;
+        }
+        
+        // Match route cards within this day card
+        const routeCards = dayCard.querySelectorAll(".route-card");
+        routeCards.forEach(rc => {
+            const routeSelect = rc.querySelector(".routeSelect");
+            const currentRouteCode = routeSelect ? routeSelect.value : "";
+            
+            if (routeFilter === "ALL" || currentRouteCode === routeFilter) {
+                const ctvSelect = rc.querySelector(".routeCTV");
+                if (ctvSelect) {
+                    if (ctvSelect.value !== ctv) {
+                        ctvSelect.value = ctv;
+                        updatedCount++;
+                        
+                        // Apply flash animation
+                        rc.classList.add("highlight-flash");
+                        setTimeout(() => {
+                            rc.classList.remove("highlight-flash");
+                        }, 1500);
+                    }
+                }
+            }
+        });
+    });
+    
+    if (updatedCount > 0) {
+        calculateScheduleSummary();
+        alert(`Đã phân nhanh thành công CTV ${ctv} cho ${updatedCount} lượt tuyến!`);
+    } else {
+        alert("Không tìm thấy lượt tuyến nào khớp điều kiện để áp dụng phân công.");
+    }
+}
+
+/* =========================================
+TAB SWITCHER & CALENDAR LOGIC
+========================================= */
+
+let calendarCurrentMonth = null; // { year: YYYY, month: MM }
+
+function switchScheduleView(viewType) {
+    const listBtn = document.getElementById("tabBtnList");
+    const calendarBtn = document.getElementById("tabBtnCalendar");
+    
+    const listContainer = document.getElementById("scheduleDayContainer");
+    const bulkPanel = document.getElementById("bulkAssignPanel");
+    const calendarContainer = document.getElementById("scheduleCalendarContainer");
+    
+    if (!listBtn || !calendarBtn || !listContainer || !calendarContainer) return;
+    
+    if (viewType === 'list') {
+        listBtn.classList.add("active");
+        calendarBtn.classList.remove("active");
+        
+        // Toggle containers
+        listContainer.style.display = 'block';
+        if (document.querySelectorAll("#scheduleDayContainer .day-card").length > 0) {
+            if (bulkPanel) bulkPanel.style.display = 'block';
+        }
+        calendarContainer.style.display = 'none';
+    } else {
+        calendarBtn.classList.add("active");
+        listBtn.classList.remove("active");
+        
+        // Toggle containers
+        listContainer.style.display = 'none';
+        if (bulkPanel) bulkPanel.style.display = 'none';
+        calendarContainer.style.display = 'block';
+        
+        // Render monthly calendar view
+        renderScheduleCalendar();
+    }
+}
+
+function renderScheduleCalendar() {
+    const fromDateStr = document.getElementById("fromDate").value;
+    const toDateStr   = document.getElementById("toDate").value;
+    const container   = document.getElementById("scheduleCalendarContainer");
+    if (!container) return;
+
+    if (!fromDateStr || !toDateStr) {
+        container.innerHTML = "";
+        return;
+    }
+
+    const fromDate = new Date(fromDateStr);
+    const toDate   = new Date(toDateStr);
+
+    // Initialize calendarCurrentMonth if not set
+    if (!calendarCurrentMonth) {
+        calendarCurrentMonth = {
+            year: fromDate.getFullYear(),
+            month: fromDate.getMonth()
+        };
+    }
+
+    const curYear = calendarCurrentMonth.year;
+    const curMonth = calendarCurrentMonth.month;
+
+    // Parse schedule day cards into map
+    const scheduleDaysMap = {};
+    document.querySelectorAll("#scheduleDayContainer .day-card").forEach(card => {
+        const titleEl = card.querySelector(".day-title");
+        if (!titleEl) return;
+        const text = titleEl.innerText.trim();
+        const parts = text.split(' - ');
+        if (parts.length < 2) return;
+        const dateParts = parts[1].trim().split('/');
+        if (dateParts.length < 3) return;
+        const isoKey = `${dateParts[2]}-${dateParts[1].padStart(2,'0')}-${dateParts[0].padStart(2,'0')}`;
+        const routes = [];
+        card.querySelectorAll(".route-card").forEach(rc => {
+            const sel = rc.querySelector(".routeSelect");
+            const ctv = rc.querySelector(".routeCTV");
+            routes.push({ routeCode: sel ? sel.value : "", ctvName: ctv ? ctv.value : "" });
+        });
+        scheduleDaysMap[isoKey] = { routes, cardElement: card };
+    });
+
+    // Collect all months in schedule range for dropdown
+    const months = [];
+    let mCur = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+    const mEnd = new Date(toDate.getFullYear(), toDate.getMonth(), 1);
+    while (mCur <= mEnd) {
+        months.push({ year: mCur.getFullYear(), month: mCur.getMonth() });
+        mCur.setMonth(mCur.getMonth() + 1);
+    }
+
+    const monthOptionsHTML = months.map(m => {
+        const sel = (m.year === curYear && m.month === curMonth) ? 'selected' : '';
+        return `<option value="${m.year}-${m.month}" ${sel}>Tháng ${m.month + 1}/${m.year}</option>`;
+    }).join('');
+
+    // Prev / Next month buttons availability
+    const monthIdx = months.findIndex(m => m.year === curYear && m.month === curMonth);
+    const prevDisabled = monthIdx <= 0 ? 'disabled' : '';
+    const nextDisabled = (monthIdx === -1 || monthIdx >= months.length - 1) ? 'disabled' : '';
+
+    // Calculate all weeks for the selected month that overlap with the schedule range
+    const weeks = [];
+    const firstOfMonth = new Date(curYear, curMonth, 1);
+    const lastOfMonth = new Date(curYear, curMonth + 1, 0);
+    
+    let currentWeekStart = getMonday(firstOfMonth);
+    
+    while (currentWeekStart <= lastOfMonth) {
+        const weekEnd = new Date(currentWeekStart);
+        weekEnd.setDate(currentWeekStart.getDate() + 6);
+        
+        // Overlap check
+        if (currentWeekStart <= toDate && weekEnd >= fromDate) {
+            weeks.push(new Date(currentWeekStart));
+        }
+        currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    }
+
+    const dayNames = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','CN'];
+    const today    = new Date();
+    const todayISO = formatLocalDateToISO(today);
+
+    const isReadOnly = (() => {
+        const hdr = document.querySelector("#scheduleModal .modal-header span");
+        return !!(hdr && (hdr.textContent.includes("Chi tiết") || hdr.textContent.includes("Detail")));
+    })();
+
+    // Helper for shift formatting
+    function getRouteShift(route) {
+        if (!route) return '';
+        if (route.shift) return route.shift;
+        const hour = parseInt(route.startTime.split(':')[0], 10);
+        if (hour < 12) return 'sang';
+        if (hour < 18) return 'chieu';
+        return 'toi';
+    }
+
+    // Dynamic route options for route dropdown
+    const routeOptionsHTML = Object.values(routeMaster).map(rm => 
+        `<option value="${rm.code}">${rm.code} - ${rm.name}</option>`
+    ).join('');
+
+    // --- Build Header HTML ---
+    let html = `
+    <div class="cwv-header">
+        <button class="cwv-nav-btn" onclick="prevCalendarMonth()" ${prevDisabled}>
+            <i class="fa-solid fa-chevron-left"></i> Tháng trước
+        </button>
+        <div class="cwv-center">
+            <select class="cwv-month-select" id="calMonthSelect" onchange="jumpToCalendarMonth(this.value)">
+                ${monthOptionsHTML}
+            </select>
+        </div>
+        <button class="cwv-nav-btn" onclick="nextCalendarMonth()" ${nextDisabled}>
+            Tháng sau <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <div class="cwv-weeks-container">`;
+
+    if (weeks.length === 0) {
+        html += `<div style="padding:40px;text-align:center;color:#94a3b8;font-style:italic;width:100%;">Không có dữ liệu lịch trong tháng này.</div>`;
+    } else {
+        // --- Loop through each week block ---
+        weeks.forEach(weekMonday => {
+            const weekSunday = new Date(weekMonday);
+            weekSunday.setDate(weekMonday.getDate() + 6);
+            
+            const fmt = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+            const weekNum = Math.floor((weekMonday - getMonday(fromDate)) / (7 * 86400000)) + 1;
+            const weekLabel = `Tuần ${weekNum} (${fmt(weekMonday)} – ${fmt(weekSunday)})`;
+
+            html += `
+            <div class="cwv-week-block">
+                <div class="cwv-week-header-title">${weekLabel}</div>
+                <div class="cwv-grid">`;
+
+            // Compute the 7 days of this week
+            const weekDays = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(weekMonday);
+                d.setDate(weekMonday.getDate() + i);
+                weekDays.push(d);
+            }
+
+            // --- Day headers row ---
+            weekDays.forEach((d, i) => {
+                const isoKey    = formatLocalDateToISO(d);
+                const isToday   = isoKey === todayISO;
+                const inRange   = isoKey >= fromDateStr && isoKey <= toDateStr;
+                const isWeekend = i >= 5;
+                let cls = 'cwv-day-header';
+                if (isToday)         cls += ' cwv-today-header';
+                else if (!inRange)   cls += ' cwv-out-of-range-header';
+                else if (isWeekend)  cls += ' cwv-weekend-header';
+                
+                html += `
+                    <div class="${cls}">
+                        <div class="cwv-day-name">${dayNames[i]}</div>
+                        <div class="cwv-day-num-block">
+                            <span class="cwv-day-num">${d.getDate()}</span>
+                            <span class="cwv-day-month-label">T${d.getMonth()+1}</span>
+                            ${isToday ? '<span class="cwv-today-pip"></span>' : ''}
+                        </div>
+                    </div>`;
+            });
+
+            // --- Day content cells row ---
+            weekDays.forEach((d, i) => {
+                const isoKey    = formatLocalDateToISO(d);
+                const inRange   = isoKey >= fromDateStr && isoKey <= toDateStr;
+                const isToday   = isoKey === todayISO;
+                const isWeekend = i >= 5;
+                const dayData   = scheduleDaysMap[isoKey];
+
+                let cellCls = 'cwv-day-cell';
+                if (isToday)       cellCls += ' cwv-today-cell';
+                if (!inRange)      cellCls += ' cwv-out-of-range-cell';
+                if (isWeekend && inRange) cellCls += ' cwv-weekend-cell';
+
+                html += `<div class="${cellCls}">`;
+
+                if (inRange && dayData && dayData.routes.length > 0) {
+                    const totalRoutes     = dayData.routes.length;
+                    const assignedRoutes  = dayData.routes.filter(r => r.routeCode).length;
+                    const hasUnassigned   = assignedRoutes < totalRoutes;
+                    const badgeCls        = hasUnassigned ? 'cwv-summary-badge cwv-has-unassigned' : 'cwv-summary-badge';
+                    const unassignedNote  = hasUnassigned ? `${totalRoutes - assignedRoutes} chưa chọn tuyến` : `${assignedRoutes} đã phân công`;
+
+                    // Build individual route items
+                    let routeItems = '';
+                    dayData.routes.forEach((r, rIdx) => {
+                        const itemCls   = r.routeCode ? `cwv-route-item cwv-item-${r.routeCode.toLowerCase()}` : 'cwv-route-item cwv-item-unassigned';
+                        const trashBtn  = isReadOnly ? '' : `<i class="fa-regular fa-trash-can cwv-route-trash" onclick="removeRouteFromCalendar(event,'${isoKey}',${rIdx})" title="Xóa tuyến"></i>`;
+                        const ctvOpts   = `<option value="">Chọn CTV</option>
+                            <option ${r.ctvName==='Nguyễn Văn A'?'selected':''}>Nguyễn Văn A</option>
+                            <option ${r.ctvName==='Trần Văn B'?'selected':''}>Trần Văn B</option>
+                            <option ${r.ctvName==='Lê Văn C'?'selected':''}>Lê Văn C</option>`;
+
+                        if (r.routeCode) {
+                            const routeDetail = routeMaster[r.routeCode];
+                            const shiftVal = getRouteShift(routeDetail);
+                            
+                            let shiftBadgeHTML = '';
+                            if (shiftVal === 'sang') shiftBadgeHTML = '<span class="route-badge badge-sang">Sáng</span>';
+                            else if (shiftVal === 'chieu') shiftBadgeHTML = '<span class="route-badge badge-chieu">Chiều</span>';
+                            else if (shiftVal === 'toi') shiftBadgeHTML = '<span class="route-badge badge-toi">Tối</span>';
+
+                            routeItems += `
+                            <div class="${itemCls}" style="padding: 8px !important; display: flex !important; flex-direction: column !important; gap: 6px !important;">
+                                <div style="display: flex !important; justify-content: space-between !important; align-items: center !important;">
+                                    <div style="display: flex !important; align-items: center !important; gap: 6px !important; flex-wrap: wrap !important;">
+                                        <strong style="font-size: 12px !important; color: #1e293b !important;">${r.routeCode}</strong>
+                                        <span style="font-size: 11px !important; color: #64748b !important; font-weight: 500 !important; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${routeDetail ? routeDetail.name : ''}">- ${routeDetail ? routeDetail.name : ''}</span>
+                                        <i class="fa-regular fa-eye" onclick="viewRouteDetailDirect('${r.routeCode}')" style="color: #2A3F54 !important; cursor: pointer !important; font-size: 11px !important;" title="Xem chi tiết"></i>
+                                    </div>
+                                    ${trashBtn}
+                                </div>
+                                <div style="display: flex !important; align-items: center !important; gap: 4px !important; flex-wrap: wrap !important;">
+                                    ${shiftBadgeHTML}
+                                    <span style="font-size: 10.5px !important; color: #475569 !important; font-weight: 500 !important;">${routeDetail ? routeDetail.startTime : ''}–${routeDetail ? routeDetail.endTime : ''}</span>
+                                    <span style="color: #cbd5e1 !important; font-size: 10.5px !important;">|</span>
+                                    <span style="font-size: 10.5px !important; color: #475569 !important;">${routeDetail ? routeDetail.distance : ''}km</span>
+                                    <span style="color: #cbd5e1 !important; font-size: 10.5px !important;">|</span>
+                                    <span style="font-size: 11px !important; font-weight: 700 !important; color: #0f172a !important;">${routeDetail ? formatMoney(routeDetail.fee) : ''}đ</span>
+                                </div>
+                                <select class="cwv-route-select" style="margin-top: 4px !important; height: 28px !important; border: 1px solid #d1d5db !important; border-radius: 4px !important; background-color: #fff !important;" onchange="updateCTVFromCalendar(this,'${isoKey}',${rIdx})" ${isReadOnly?'disabled':''}>
+                                    ${ctvOpts}
+                                </select>
+                            </div>`;
+                        } else {
+                            routeItems += `
+                            <div class="${itemCls}" style="padding: 8px !important; display: flex !important; flex-direction: column !important; gap: 6px !important;">
+                                <div style="display: flex !important; justify-content: space-between !important; align-items: center !important;">
+                                    <strong style="font-size: 12px !important; color: #dc2626 !important;">Chưa chọn tuyến</strong>
+                                    ${trashBtn}
+                                </div>
+                                <select class="cwv-route-select cwv-select-error" style="height: 28px !important; border: 1px solid #fca5a5 !important; border-radius: 4px !important; background-color: #fff !important;" onchange="updateRouteFromCalendar(this,'${isoKey}',${rIdx})" ${isReadOnly?'disabled':''}>
+                                    <option value="">Chọn tuyến</option>
+                                    ${routeOptionsHTML}
+                                </select>
+                            </div>`;
+                        }
+                    });
+
+                    const addBtn = isReadOnly ? '' : `<button class="cwv-add-route-btn" onclick="addRouteFromCalendar('${isoKey}')"><i class="fa-solid fa-plus"></i> Thêm tuyến</button>`;
+
+                    html += `
+                        <div class="${badgeCls}" id="cwv-badge-${isoKey}" onclick="toggleCalendarDay('${isoKey}')">
+                            <div class="cwv-badge-left" style="display:flex; flex-direction:column; align-items:flex-start; gap:2px;">
+                                <span style="font-weight:700; font-size:13.5px; color:${hasUnassigned ? '#dc2626' : '#2A3F54'};">Tổng: ${totalRoutes} chuyến</span>
+                                <span style="font-size:11px; color:#64748b;">${unassignedNote}</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down cwv-chevron-icon"></i>
+                        </div>
+                        <div class="cwv-route-list" id="cwv-list-${isoKey}">
+                            ${routeItems}
+                            ${addBtn}
+                        </div>
+                        <a class="cwv-scroll-link" onclick="scrollToDayCard('${isoKey}')">
+                            <i class="fa-regular fa-pen-to-square"></i> Chi tiết dòng
+                        </a>`;
+                } else if (inRange && dayData && dayData.routes.length === 0) {
+                    const addBtn = isReadOnly ? '' : `<button class="cwv-add-route-btn" onclick="addRouteFromCalendar('${isoKey}')"><i class="fa-solid fa-plus"></i> Thêm tuyến</button>`;
+                    html += `<div class="cwv-empty-day">Chưa có tuyến</div>${addBtn}`;
+                } else if (!inRange) {
+                    html += `<div class="cwv-empty-day">—</div>`;
+                } else {
+                    html += `<div class="cwv-empty-day">Chưa có dữ liệu</div>`;
+                }
+
+                html += `</div>`; // end cwv-day-cell
+            });
+
+            html += `
+                </div>
+            </div>`; // end cwv-grid, cwv-week-block
+        });
+    }
+
+    html += `</div>`; // end cwv-weeks-container
+
+    container.innerHTML = html;
+}
+
+// Toggle expand/collapse a day's route list
+function toggleCalendarDay(isoKey) {
+    const list  = document.getElementById('cwv-list-' + isoKey);
+    const badge = document.getElementById('cwv-badge-' + isoKey);
+    if (!list || !badge) return;
+    const isOpen = list.classList.contains('cwv-open');
+    list.classList.toggle('cwv-open', !isOpen);
+    badge.classList.toggle('cwv-expanded', !isOpen);
+}
+
+// Get Monday of the week containing date d
+function getMonday(d) {
+    const date = new Date(d);
+    const day  = date.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    date.setDate(date.getDate() + diff);
+    date.setHours(0, 0, 0, 0);
+    return date;
+}
+
+function prevCalendarMonth() {
+    const fromDateStr = document.getElementById("fromDate").value;
+    const toDateStr   = document.getElementById("toDate").value;
+    if (!fromDateStr || !toDateStr || !calendarCurrentMonth) return;
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+
+    const months = [];
+    let mCur = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+    const mEnd = new Date(toDate.getFullYear(), toDate.getMonth(), 1);
+    while (mCur <= mEnd) {
+        months.push({ year: mCur.getFullYear(), month: mCur.getMonth() });
+        mCur.setMonth(mCur.getMonth() + 1);
+    }
+
+    const idx = months.findIndex(m => m.year === calendarCurrentMonth.year && m.month === calendarCurrentMonth.month);
+    if (idx > 0) {
+        calendarCurrentMonth = months[idx - 1];
+        renderScheduleCalendar();
+    }
+}
+
+function nextCalendarMonth() {
+    const fromDateStr = document.getElementById("fromDate").value;
+    const toDateStr   = document.getElementById("toDate").value;
+    if (!fromDateStr || !toDateStr || !calendarCurrentMonth) return;
+    const fromDate = new Date(fromDateStr);
+    const toDate = new Date(toDateStr);
+
+    const months = [];
+    let mCur = new Date(fromDate.getFullYear(), fromDate.getMonth(), 1);
+    const mEnd = new Date(toDate.getFullYear(), toDate.getMonth(), 1);
+    while (mCur <= mEnd) {
+        months.push({ year: mCur.getFullYear(), month: mCur.getMonth() });
+        mCur.setMonth(mCur.getMonth() + 1);
+    }
+
+    const idx = months.findIndex(m => m.year === calendarCurrentMonth.year && m.month === calendarCurrentMonth.month);
+    if (idx !== -1 && idx < months.length - 1) {
+        calendarCurrentMonth = months[idx + 1];
+        renderScheduleCalendar();
+    }
+}
+
+function jumpToCalendarMonth(value) {
+    if (!value) return;
+    const parts = value.split('-');
+    const year  = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    calendarCurrentMonth = { year, month };
+    renderScheduleCalendar();
+}
+
+// End of Calendar Navigation Logic
+function scrollToDayCard(dateISO) {
+    // 1. Switch back to list view
+    switchScheduleView('list');
+    
+    // 2. Find day card and scroll to it
+    const dayCards = document.querySelectorAll("#scheduleDayContainer .day-card");
+    for (const card of dayCards) {
+        const titleEl = card.querySelector(".day-title");
+        if (titleEl) {
+            const text = titleEl.innerText.trim();
+            const parts = text.split(' - ');
+            if (parts.length >= 2) {
+                const dateStr = parts[1].trim();
+                const dateParts = dateStr.split('/');
+                const d = parseInt(dateParts[0], 10);
+                const m = parseInt(dateParts[1], 10);
+                const y = parseInt(dateParts[2], 10);
+                const isoKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                
+                if (isoKey === dateISO) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Visual highlight animation
+                    card.style.borderColor = '#2A3F54';
+                    card.style.boxShadow = '0 0 12px rgba(37, 99, 235, 0.25)';
+                    card.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        card.style.borderColor = '#cbd5e1';
+                        card.style.boxShadow = 'none';
+                    }, 2000);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+function closeModal(id) {
+    const m = document.getElementById(id);
+    if (m) m.classList.remove('show');
+}
+
+function viewRouteDetailDirect(routeCode) {
+    const route = routeMaster[routeCode];
+    if (!route) return;
+    
+    document.getElementById('routeDetailTitle').innerHTML = `<i class="fa-solid fa-route" style="margin-right:8px;color:#334155;"></i>Chi tiết tuyến ${route.code} - ${route.name}`;
+    
+    // Build timeline nodes
+    const timelineNodes = [];
+    // 1. Start point
+    timelineNodes.push({
+        point: route.startPoint,
+        time: route.startTime,
+        type: 'start'
+    });
+    
+    // 2. Transfer points
+    if (route.transferPoints && route.transferPoints.length > 0) {
+        route.transferPoints.forEach(tp => {
+            timelineNodes.push({
+                point: tp.point,
+                time: tp.pickup,
+                type: 'transfer'
+            });
+        });
+    }
+    
+    // 3. End point
+    timelineNodes.push({
+        point: route.endPoint,
+        time: route.endTime,
+        type: 'end'
+    });
+    
+    // Render timeline HTML
+    let timelineHtml = '<div class="route-timeline">';
+    timelineNodes.forEach(node => {
+        let nodeClass = 'node-transfer';
+        let labelSuffix = ' (Trung chuyển)';
+        if (node.type === 'start') {
+            nodeClass = 'node-start';
+            labelSuffix = ' (Điểm đi)';
+        } else if (node.type === 'end') {
+            nodeClass = 'node-end';
+            labelSuffix = ' (Điểm đến)';
+        }
+        
+        timelineHtml += `
+            <div class="route-timeline-item">
+                <div class="route-timeline-node ${nodeClass}"></div>
+                <div class="route-timeline-content">
+                    <span class="route-timeline-location">${node.point}<span style="font-weight:normal; font-size:12px; color:#64748b; margin-left:4px;">${labelSuffix}</span></span>
+                    <span class="route-timeline-time">${node.time}</span>
+                </div>
+            </div>
+        `;
+    });
+    timelineHtml += '</div>';
+    
+    // Reverse route HTML
+    let reverseRouteHtml = '<p style="color:#64748b; font-style:italic; font-size:12.5px; padding: 12px 14px;">Không cấu hình tuyến ngược</p>';
+    if (route.reverseRoute) {
+        reverseRouteHtml = `
+            <div class="reverse-route-box" style="margin: 10px 14px;">
+                <div class="route-detail-grid" style="background:transparent; border:none; padding:0; gap:10px 16px;">
+                    <div class="route-detail-item"><span class="route-detail-label">Nhận tại:</span><span class="route-detail-value">${route.reverseRoute.pickupPoint}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Giao tại:</span><span class="route-detail-value">${route.reverseRoute.deliveryPoint}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Giờ nhận:</span><span class="route-detail-value">${route.reverseRoute.pickupTime}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Giờ giao:</span><span class="route-detail-value">${route.reverseRoute.deliveryTime}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Quãng đường:</span><span class="route-detail-value">${route.reverseRoute.distance} km</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Cước tuyến ngược:</span><span class="route-detail-value">${route.reverseRoute.fee}đ</span></div>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Assemble modal body content
+    document.getElementById('routeDetailBody').innerHTML = `
+        <div class="route-detail-modal-body">
+            <!-- THÔNG TIN CƠ BẢN -->
+            <div class="route-detail-section">
+                <div class="route-detail-section-title">
+                    <i class="fa-solid fa-circle-info" style="color:#64748b;"></i> Thông tin cơ bản
+                </div>
+                <div class="route-detail-grid">
+                    <div class="route-detail-item"><span class="route-detail-label">Điểm bắt đầu:</span><span class="route-detail-value">${route.startPoint}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Điểm kết thúc:</span><span class="route-detail-value">${route.endPoint}</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Quãng đường:</span><span class="route-detail-value">${route.distance} km</span></div>
+                    <div class="route-detail-item"><span class="route-detail-label">Cước vận chuyển:</span><span class="route-detail-value" style="color:#0f172a; font-weight:700;">${formatMoney(route.fee)}đ</span></div>
+                </div>
+            </div>
+            
+            <!-- LỘ TRÌNH DẠNG TIMELINE -->
+            <div class="route-detail-section">
+                <div class="route-detail-section-title">
+                    <i class="fa-solid fa-timeline" style="color:#64748b;"></i> Lộ trình & Giờ chạy chi tiết
+                </div>
+                ${timelineHtml}
+            </div>
+            
+            <!-- TUYẾN NGƯỢC (NẾU CÓ) -->
+            <div class="route-detail-section">
+                <div class="route-detail-section-title">
+                    <i class="fa-solid fa-arrow-right-arrow-left" style="color:#64748b;"></i> Tuyến ngược (Khứ hồi)
+                </div>
+                ${reverseRouteHtml}
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('modalRouteDetail').classList.add('show');
+}
+
+function viewWorkScheduleDetail(code) {
+    window.location.href = `chitietlichlamviecctvvcm.html?code=${code}`;
+}
+
+/* =========================================
+DYNAMIC TEMPLATES LOADING & ONCHANGE LOGIC
+========================================= */
+
+const defaultTemplateMaster = {
+  ML001: {
+    code: "ML001",
+    name: "Ca sáng nội thành",
+    routes: [
+      { routeCode: "VCM001", ctv: "Nguyễn Văn A" },
+      { routeCode: "VCM002", ctv: "Trần Văn B" },
+      { routeCode: "VCM003", ctv: "Lê Văn C" },
+      { routeCode: "VCM004", ctv: "Hoàng Văn D" }
+    ]
+  },
+  ML002: {
+    code: "ML002",
+    name: "Ca chiều ngoại thành",
+    routes: [
+      { routeCode: "VCM003", ctv: "Nguyễn Văn A" },
+      { routeCode: "VCM004", ctv: "Lê Văn C" },
+      { routeCode: "VCM005", ctv: "Phạm Văn E" },
+      { routeCode: "VCM006", ctv: "Trần Văn B" }
+    ]
+  }
+};
+
+function populateScheduleTemplateSelect() {
+    const select = document.getElementById("scheduleTemplate");
+    if (!select) return;
+    
+    // Clear and set default options
+    select.innerHTML = `
+        <option value="">Chọn mẫu lịch</option>
+        <option value="DEFAULT">Lịch chạy mặc định hàng ngày</option>
+    `;
+    
+    // Load templateMaster (fallback + localStorage)
+    let master = { ...defaultTemplateMaster };
+    const saved = localStorage.getItem('templateMaster');
+    if (saved) {
+        try {
+            master = { ...master, ...JSON.parse(saved) };
+        } catch(e) {}
+    }
+    
+    Object.keys(master).forEach(code => {
+        if (code === "DEFAULT") return;
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = `${code} - ${master[code].name}`;
+        select.appendChild(opt);
+    });
+}
+
+function onScheduleTemplateOrDatesChange() {
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+    const templateCode = document.getElementById("scheduleTemplate").value;
+    
+    if (fromDate && toDate && templateCode) {
+        generateScheduleAutomatically(fromDate, toDate, templateCode);
+    }
+}
+
+function generateScheduleAutomatically(fromDate, toDate, templateCode) {
+    if (new Date(fromDate) > new Date(toDate)) {
+        alert("Từ ngày phải nhỏ hơn hoặc bằng Đến ngày!");
+        return;
+    }
+
+    const container = document.getElementById("scheduleDayContainer");
+    container.innerHTML = "";
+
+    let current = new Date(fromDate);
+    const end = new Date(toDate);
+
+    while (current <= end) {
+        createDay(current);
+        current.setDate(current.getDate() + 1);
+    }
+
+    // Fill routes based on template code
+    fillRoutesFromSelectedTemplate(templateCode);
+    calculateScheduleSummary();
+    
+    // Show bulk assign panel and update dynamic options
+    const bulkPanel = document.getElementById("bulkAssignPanel");
+    if (bulkPanel) {
+        bulkPanel.style.display = "block";
+        updateBulkScopeOptions(fromDate, toDate);
+        // Reset scope select to ALL
+        document.getElementById("bulkScopeType").value = "ALL";
+        onBulkScopeTypeChange();
+    }
+    
+    // Show tabs and switch to calendar view by default
+    const viewTabs = document.getElementById("scheduleViewTabs");
+    if (viewTabs) {
+        viewTabs.style.display = "flex";
+        switchScheduleView("calendar");
+    }
+}
+
+function fillRoutesFromSelectedTemplate(templateCode) {
+    const dayCards = document.querySelectorAll(".day-card");
+    
+    let routesToFill = [];
+    
+    if (templateCode === "DEFAULT") {
+        const saved = localStorage.getItem('defaultDailySchedule');
+        if (saved) {
+            const slots = JSON.parse(saved);
+            slots.forEach(slot => {
+                slot.routes.forEach(r => {
+                    if (r.routeCode) {
+                        routesToFill.push({ routeCode: r.routeCode, ctv: r.ctv });
+                    }
+                });
+            });
+        } else {
+            routesToFill = [
+                { routeCode: 'VCM001', ctv: 'Nguyễn Văn A' },
+                { routeCode: 'VCM002', ctv: 'Trần Văn B' }
+            ];
+        }
+    } else {
+        let master = { ...defaultTemplateMaster };
+        const saved = localStorage.getItem('templateMaster');
+        if (saved) {
+            try {
+                master = { ...master, ...JSON.parse(saved) };
+            } catch(e) {}
+        }
+        
+        const template = master[templateCode];
+        if (template && template.routes) {
+            routesToFill = template.routes;
+        }
+    }
+    
+    dayCards.forEach(day => {
+        const routeListContainer = day.querySelector(".route-list");
+        routeListContainer.innerHTML = "";
+        
+        routesToFill.forEach(routeItem => {
+            const template = document.querySelector("#routeTemplate .route-card");
+            const clone = template.cloneNode(true);
+            routeListContainer.appendChild(clone);
+            
+            const routeSelect = clone.querySelector(".routeSelect");
+            if (routeSelect) {
+                routeSelect.value = routeItem.routeCode;
+                loadRoute(routeSelect);
+            }
+            
+            const ctvSelect = clone.querySelector(".routeCTV");
+            if (ctvSelect) {
+                ctvSelect.value = routeItem.ctv;
+            }
+        });
+    });
+}
+
+/* =========================================
+INTERACTIVE CALENDAR EDIT ACTIONS
+========================================= */
+
+function findDayCardByISO(dateISO) {
+    const dayCards = document.querySelectorAll("#scheduleDayContainer .day-card");
+    for (const card of dayCards) {
+        const titleEl = card.querySelector(".day-title");
+        if (titleEl) {
+            const text = titleEl.innerText.trim();
+            const parts = text.split(' - ');
+            if (parts.length >= 2) {
+                const dateStr = parts[1].trim();
+                const dateParts = dateStr.split('/');
+                if (dateParts.length >= 3) {
+                    const d = parseInt(dateParts[0], 10);
+                    const m = parseInt(dateParts[1], 10);
+                    const y = parseInt(dateParts[2], 10);
+                    const isoKey = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                    if (isoKey === dateISO) {
+                        return card;
+                    }
+                }
+            }
+        }
+    }
+    return null;
+}
+
+function updateCTVFromCalendar(select, dateISO, routeIndex) {
+    const card = findDayCardByISO(dateISO);
+    if (card) {
+        const routeCards = card.querySelectorAll(".route-card");
+        if (routeCards[routeIndex]) {
+            const ctvSelect = routeCards[routeIndex].querySelector(".routeCTV");
+            if (ctvSelect) {
+                ctvSelect.value = select.value;
+                calculateScheduleSummary();
+            }
+        }
+    }
+}
+
+function removeRouteFromCalendar(event, dateISO, routeIndex) {
+    if (event) event.stopPropagation();
+    const card = findDayCardByISO(dateISO);
+    if (card) {
+        const routeCards = card.querySelectorAll(".route-card");
+        if (routeCards[routeIndex]) {
+            routeCards[routeIndex].remove();
+            calculateScheduleSummary();
+            renderScheduleCalendar();
+        }
+    }
+}
+
+function addRouteFromCalendar(dateISO) {
+    const card = findDayCardByISO(dateISO);
+    if (card) {
+        const routeTemplate = document.querySelector("#routeTemplate .route-card");
+        const clone = routeTemplate.cloneNode(true);
+        card.querySelector(".route-list").appendChild(clone);
+        
+        calculateScheduleSummary();
+        renderScheduleCalendar();
+    }
+}
+
+function updateRouteFromCalendar(select, dateISO, routeIndex) {
+    const card = findDayCardByISO(dateISO);
+    if (card) {
+        const routeCards = card.querySelectorAll(".route-card");
+        if (routeCards[routeIndex]) {
+            const routeSelect = routeCards[routeIndex].querySelector(".routeSelect");
+            if (routeSelect) {
+                routeSelect.value = select.value;
+                loadRoute(routeSelect);
+                renderScheduleCalendar();
+            }
+        }
+    }
+}
+
+/* ==========================================================================
+   WIZARD FLOW & STEP 1 POPUP CONTROLLERS
+   ========================================================================== */
+
+function populateInitScheduleTemplateSelect() {
+    const select = document.getElementById("initScheduleTemplate");
+    if (!select) return;
+    
+    // Clear and set default options
+    select.innerHTML = `
+        <option value="">Chọn mẫu lịch</option>
+        <option value="DEFAULT">Lịch chạy mặc định hàng ngày</option>
+    `;
+    
+    // Load templateMaster (fallback + localStorage)
+    let master = { ...defaultTemplateMaster };
+    const saved = localStorage.getItem('templateMaster');
+    if (saved) {
+        try {
+            master = { ...master, ...JSON.parse(saved) };
+        } catch(e) {}
+    }
+    
+    Object.keys(master).forEach(code => {
+        if (code === "DEFAULT") return;
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = `${code} - ${master[code].name}`;
+        select.appendChild(opt);
+    });
+}
+
+function openInitScheduleModal() {
+    // Clear old values in popup
+    document.getElementById("initFromDate").value = "";
+    document.getElementById("initToDate").value = "";
+    
+    // Clear Flatpickr range picker
+    const rangeInput = document.getElementById("initDateRange");
+    if (rangeInput && rangeInput._flatpickr) {
+        rangeInput._flatpickr.clear();
+    }
+    
+    // Populate dropdown dynamically from templateMaster
+    populateInitScheduleTemplateSelect();
+    
+    // Show step 1 popup modal
+    document.getElementById("initScheduleModal").classList.add("show");
+}
+
+function closeInitScheduleModal() {
+    document.getElementById("initScheduleModal").classList.remove("show");
+}
+
+function submitInitSchedule() {
+    const fromDate = document.getElementById("initFromDate").value;
+    const toDate = document.getElementById("initToDate").value;
+    const templateCode = document.getElementById("initScheduleTemplate").value;
+    
+    if (!fromDate || !toDate) {
+        alert("Vui lòng chọn khoảng thời gian áp dụng!");
+        return;
+    }
+    
+    if (!templateCode) {
+        alert("Vui lòng chọn mẫu lịch áp dụng!");
+        return;
+    }
+    
+    if (new Date(fromDate) > new Date(toDate)) {
+        alert("Từ ngày phải nhỏ hơn hoặc bằng Đến ngày!");
+        return;
+    }
+    
+    closeInitScheduleModal();
+    
+    // Redirect to creator page with parameters
+    window.location.href = `taolichlamviecctvvcm.html?fromDate=${fromDate}&toDate=${toDate}&templateCode=${templateCode}`;
+}
+
+</script>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script>
+// Utility to handle table cell text overflow and show full text on hover
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .auto-ellipsis {
+      max-width: 220px;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      cursor: default;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function applyEllipsis() {
+    const cells = document.querySelectorAll('.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td, .table-container td');
+    cells.forEach(cell => {
+      // Ignore interactive cells, status badges, dropdowns, and button containers
+      if (cell.querySelector('input, select, button, a, .img-cell, .badge, .icon-btn, .action-btn, .status-active, .status-inactive, .route-tag')) {
+        return;
+      }
+      
+      const text = cell.innerText.trim();
+      if (text.length > 25) {
+        if (!cell.classList.contains('auto-ellipsis')) {
+          cell.classList.add('auto-ellipsis');
+        }
+        if (!cell.getAttribute('title')) {
+          cell.setAttribute('title', text);
+        }
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEllipsis);
+  } else {
+    applyEllipsis();
+  }
+
+  // Observe dynamic rendering (e.g., search filtering, pagination, modal tables)
+  const observer = new MutationObserver((mutations) => {
+    applyEllipsis();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
+
+</html>

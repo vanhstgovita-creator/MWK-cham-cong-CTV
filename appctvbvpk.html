@@ -1,0 +1,949 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zalo Mini App – CTV BV/PK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f5f7fa; color:#1e293b;}
+.wrapper{display:flex;min-height:100vh;}
+
+/* =========================
+SIDEBAR (Dùng chung cho dashboard)
+========================= */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.sidebar-header{height:60px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:700;color:#2f4660;gap:10px;font-size:16px;}
+.sidebar-header i{font-size:20px;color:#2A3F54;}
+.menu{padding:10px 0;}
+.menu-item{margin-bottom:4px;}
+.level-1{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:600;font-size:14px;cursor:pointer;}
+.level-1:hover{background:#f8fafc;}
+.level-1 .icon-left{margin-right:10px;font-size:16px;color:#475569;}
+.level-1 .arrow{font-size:12px;transition:transform 0.2s;}
+.level-2{padding-left:0;display:block;}
+.level-2-group{margin-bottom:2px;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 10px 40px;color:#475569;font-size:13px;font-weight:600;cursor:pointer;background:#fafbfc;}
+.level-2-item:hover{background:#f1f5f9;}
+.level-3{display:block;}
+.level-3 a{display:flex;align-items:center;gap:10px;padding:9px 20px 9px 60px;color:#64748b;text-decoration:none;font-size:13px;transition:all 0.2s;}
+.level-3 a:hover{background:#eff6ff;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* =========================
+CONTENT AREA
+========================= */
+.content{flex:1;min-width:0;display:flex;flex-direction:column;}
+.page-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;}
+.breadcrumb{color:#64748b;font-size:13px;}
+.breadcrumb span{color:#94a3b8;margin:0 4px;}
+.page-title{margin-top:5px;font-size:22px;font-weight:700;color:#0f172a;}
+.container{padding:20px;flex:1;display:flex;justify-content:center;align-items:center;background:#eaeef3;}
+
+/* =========================
+MOBILE EMULATOR container
+========================= */
+.phone-frame{width:375px;height:780px;background:#000;border-radius:40px;padding:12px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative;display:flex;flex-direction:column;border:4px solid #334155;}
+/* Speaker and Notch */
+.phone-notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:110px;height:24px;background:#000;border-radius:12px;z-index:99;display:flex;align-items:center;justify-content:center;}
+.phone-camera{width:8px;height:8px;background:#1e293b;border-radius:50%;margin-left:50px;}
+
+.phone-screen{flex:1;background:#f4f6f8;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;position:relative;}
+
+/* Status Bar */
+.status-bar{height:28px;background:#005aff;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:11px;font-weight:600;z-index:98;}
+
+/* Zalo Mini App Header */
+.zalo-header{height:46px;background:#005aff;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:98;}
+.zalo-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.zalo-title span{font-size:9.5px;background:#0ea5e9;padding:1px 4px;border-radius:3px;font-weight:700;}
+.zalo-actions{display:flex;gap:12px;font-size:15px;cursor:pointer;}
+
+/* Bottom Navigation */
+.phone-nav{height:54px;background:#fff;border-top:1px solid #e2e8f0;display:grid;grid-template-columns:repeat(4,1fr);padding-top:4px;z-index:98;}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#64748b;font-size:10px;font-weight:600;cursor:pointer;gap:2px;}
+.nav-item i{font-size:18px;}
+.nav-item.active{color:#005aff;}
+
+/* Screen Content Area */
+.screen-body{flex:1;overflow-y:auto;display:none;position:relative;}
+.screen-body.active{display:block;}
+
+/* App Notification toast */
+.app-toast{position:absolute;top:54px;left:12px;right:12px;background:#0f172a;color:#fff;padding:8px 12px;border-radius:6px;font-size:11px;z-index:99;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:none;align-items:center;gap:6px;animation:slideDown 0.3s;}
+@keyframes slideDown{from{transform:translateY(-10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+/* =====================================================
+   TAB 1: LỊCH BIỂU (SCHEDULE WEEK VIEW)
+===================================================== */
+.weekly-slider{background:#fff;padding:8px 12px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;}
+.day-btn{display:flex;flex-direction:column;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer;width:42px;transition:all 0.2s;}
+.day-btn .day-name{font-size:10px;color:#64748b;}
+.day-btn .day-date{font-size:13px;font-weight:700;margin-top:2px;color:#1e293b;}
+.day-btn.active{background:#005aff;}
+.day-btn.active .day-name, .day-btn.active .day-date{color:#fff;}
+
+.weekly-title-card{padding:12px 14px;font-size:12.5px;font-weight:700;color:#334155;background:#eaeef3;display:flex;justify-content:space-between;}
+.shifts-list-container{padding:12px;}
+
+.app-shift-card{background:#fff;border-radius:10px;padding:12px;margin-bottom:12px;box-shadow:0 2px 4px rgba(0,0,0,0.03);border-left:4px solid #cbd5e1;position:relative;}
+.app-shift-card.confirmed{border-left-color:#16a34a;}
+.app-shift-card.pending{border-left-color:#f59e0b;}
+
+.app-shift-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;}
+.app-shift-time{font-size:14px;font-weight:700;color:#0f172a;}
+.app-shift-badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;}
+.app-badge-confirmed{background:#dcfce7;color:#166534;}
+.app-badge-pending{background:#fffbeb;color:#92400e;}
+
+.app-shift-detail{font-size:11.5px;color:#64748b;margin-bottom:6px;display:flex;flex-direction:column;gap:3px;}
+.app-shift-detail span i{color:#005aff;margin-right:4px;}
+.app-shift-action{display:flex;justify-content:flex-end;margin-top:10px;border-top:1px solid #f1f5f9;padding-top:8px;}
+
+/* =====================================================
+   TAB 2: ĐĂNG KÝ LỊCH RẢNH
+===================================================== */
+.reg-desc{padding:10px 14px;font-size:11.5px;color:#64748b;line-height:1.4;background:#fff;border-bottom:1px solid #e2e8f0;}
+.calendar-grid-app{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:12px;background:#fff;}
+.grid-day-th{text-align:center;font-size:10px;font-weight:700;color:#475569;padding:4px 0;}
+.grid-day-td{border:1px solid #e2e8f0;border-radius:6px;height:44px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;cursor:pointer;position:relative;}
+.grid-day-td.other-month{color:#cbd5e1;background:#f8fafc;}
+.grid-day-td.active{background:#005aff;color:#fff;border-color:#005aff;}
+.grid-day-td .dot-free{width:6px;height:6px;background:#16a34a;border-radius:50%;position:absolute;bottom:4px;left:50%;transform:translateX(-50%);}
+
+.slots-setup-card{background:#fff;border-radius:10px;padding:12px;margin:12px;border:1px solid #e2e8f0;}
+.slots-setup-title{font-size:12.5px;font-weight:700;color:#0f172a;margin-bottom:8px;border-bottom:1px solid #f1f5f9;padding-bottom:6px;}
+.slots-checkboxes{display:flex;gap:12px;}
+.slot-select-btn{flex:1;height:34px;border:1px solid #cbd5e1;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;cursor:pointer;}
+.slot-select-btn.active{background:#dcfce7;color:#166534;border-color:#bbf7d0;}
+
+/* =====================================================
+   TAB 3: CHẤM CÔNG GPS & FACE SCAN
+===================================================== */
+.gps-main-card{background:#fff;border-radius:12px;margin:12px;padding:12px;box-shadow:0 3px 6px rgba(0,0,0,0.02);border:1px solid #e2e8f0;}
+.live-clock{text-align:center;font-size:24px;font-weight:700;color:#0f172a;margin-bottom:8px;}
+.live-date{text-align:center;font-size:12px;color:#64748b;margin-bottom:14px;}
+
+.target-shift-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;font-size:12px;margin-bottom:12px;}
+.target-shift-box div{font-weight:700;color:#005aff;margin-bottom:3px;}
+
+.camera-preview{height:160px;background:#1e293b;border-radius:8px;margin-bottom:12px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.camera-overlay-circle{width:100px;height:100px;border:2px dashed #2A3F54;border-radius:50%;position:absolute;z-index:2;animation:spin 10s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.camera-status-text{position:absolute;bottom:8px;left:0;right:0;text-align:center;color:#fff;font-size:10px;z-index:3;background:rgba(0,0,0,0.4);padding:2px 0;}
+
+.gps-info-row{display:flex;align-items:center;gap:10px;font-size:11.5px;margin-bottom:8px;padding:6px;border-radius:4px;background:#f8fafc;}
+.gps-info-row.success{background:#f0fdf4;color:#166534;}
+
+.clock-btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+
+/* =====================================================
+   TAB 4: BẢNG CÔNG & GIẢI TRÌNH
+===================================================== */
+.timecard-list-app{padding:12px;}
+.app-tc-item{background:#fff;border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;}
+.app-tc-info{font-size:12px;}
+.app-tc-date{font-weight:700;color:#0f172a;margin-bottom:3px;}
+.app-tc-shift{font-size:11px;color:#64748b;}
+.app-tc-status{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+
+/* excuse overlay modal inside phone screen */
+.phone-modal{position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:99;display:none;justify-content:center;align-items:flex-end;}
+.phone-modal-content{width:100%;background:#fff;border-radius:16px 16px 0 0;padding:16px;box-shadow:0 -5px 15px rgba(0,0,0,0.15);animation:slideUpPhone 0.25s;}
+@keyframes slideUpPhone{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.phone-modal-header{display:flex;justify-content:space-between;font-weight:700;font-size:13px;border-bottom:1px solid #f1f5f9;padding-bottom:10px;margin-bottom:12px;}
+.phone-form-group{margin-bottom:10px;display:flex;flex-direction:column;}
+.phone-form-group label{font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;}
+.phone-form-group select, .phone-form-group textarea{height:32px;border:1px solid #cbd5e1;border-radius:4px;padding:0 8px;font-size:12px;color:#1e293b;}
+.phone-form-group textarea{height:54px;padding:6px;resize:none;}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Ứng dụng Zalo Mini CTV BV/PK <span>/</span> <strong>Mô phỏng App</strong></div>
+                <div class="page-title">Mô phỏng App Chấm công CTV</div>
+            </div>
+        </div>
+
+        <div class="container">
+            
+            <!-- PHONE FRAME EMULATOR -->
+            <div class="phone-frame">
+                <!-- Notch -->
+                <div class="phone-notch">
+                    <div class="phone-camera"></div>
+                </div>
+                
+                <div class="phone-screen">
+                    <!-- Status Bar -->
+                    <div class="status-bar">
+                        <span id="statusBarTime">09:12</span>
+                        <div style="display:flex; gap:4px; align-items:center;">
+                            <i class="fa-solid fa-signal"></i>
+                            <i class="fa-solid fa-wifi"></i>
+                            <i class="fa-solid fa-battery-full" style="font-size:13px;"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Zalo Header -->
+                    <div class="zalo-header">
+                        <div class="zalo-title">
+                            <i class="fa-solid fa-hospital-user"></i>
+                            Medlatec CTV <span>Mini App</span>
+                        </div>
+                        <div class="zalo-actions">
+                            <i class="fa-solid fa-ellipsis"></i>
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </div>
+                    </div>
+
+                    <!-- Inner Notification Toast -->
+                    <div class="app-toast" id="appToast">
+                        <i class="fa-solid fa-circle-info" style="color:#0ea5e9;"></i>
+                        <span id="appToastMsg">Thông báo</span>
+                    </div>
+
+                    <!-- Excuse Overlay Phone Modal -->
+                    <div class="phone-modal" id="excusePhoneModal">
+                        <div class="phone-modal-content">
+                            <div class="phone-modal-header">
+                                <span>Gửi đơn giải trình chấm công</span>
+                                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeExcusePhoneModal()"></i>
+                            </div>
+                            <div class="phone-form-group">
+                                <label>Lỗi chấm công</label>
+                                <input type="text" id="phoneModalErrName" readonly style="background:#f8fafc; border:1px solid #cbd5e1; height:32px; font-size:12px; padding:0 8px; border-radius:4px;">
+                            </div>
+                            <div class="phone-form-group">
+                                <label>Lý do giải trình <span style="color:red;">*</span></label>
+                                <select id="phoneModalReason">
+                                    <option value="Quên chấm công">Quên chấm công ra/vào</option>
+                                    <option value="Lỗi thiết bị">Lỗi kết nối mạng/Định vị lệch</option>
+                                    <option value="Kéo dài giờ trực">Ca trực kéo dài theo yêu cầu khoa</option>
+                                </select>
+                            </div>
+                            <div class="phone-form-group">
+                                <label>Mô tả chi tiết <span style="color:red;">*</span></label>
+                                <textarea id="phoneModalDesc" placeholder="Nhập lý do cụ thể..."></textarea>
+                            </div>
+                            <div class="phone-form-group">
+                                <label>Ảnh minh họa</label>
+                                <button class="btn btn-secondary" style="height:28px; font-size:11px; width:max-content;"><i class="fa-solid fa-camera"></i> Chụp đính kèm</button>
+                            </div>
+                            <div style="display:flex; gap:8px; margin-top:10px;">
+                                <button class="btn btn-secondary" style="flex:1; height:32px;" onclick="closeExcusePhoneModal()">Hủy</button>
+                                <button class="btn btn-primary" style="flex:2; height:32px; background:#005aff;" onclick="submitPhoneExcuse()">Gửi giải trình</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                         BODY TAB 1: LỊCH BIỂU (SCHEDULE)
+                    ===================================================== -->
+                    <div class="screen-body active" id="tabBody-schedule">
+                        <div class="weekly-slider">
+                            <div class="day-btn" onclick="selectDay(27, this)">
+                                <span class="day-name">T2</span>
+                                <span class="day-date">27</span>
+                            </div>
+                            <div class="day-btn active" onclick="selectDay(28, this)">
+                                <span class="day-name">T3</span>
+                                <span class="day-date">28</span>
+                            </div>
+                            <div class="day-btn" onclick="selectDay(29, this)">
+                                <span class="day-name">T4</span>
+                                <span class="day-date">29</span>
+                            </div>
+                            <div class="day-btn" onclick="selectDay(30, this)">
+                                <span class="day-name">T5</span>
+                                <span class="day-date">30</span>
+                            </div>
+                            <div class="day-btn" onclick="selectDay(31, this)">
+                                <span class="day-name">T6</span>
+                                <span class="day-date">31</span>
+                            </div>
+                            <div class="day-btn" onclick="selectDay(1, this)">
+                                <span class="day-name">T7</span>
+                                <span class="day-date">01</span>
+                            </div>
+                            <div class="day-btn" onclick="selectDay(2, this)">
+                                <span class="day-name">CN</span>
+                                <span class="day-date">02</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weekly-title-card">
+                            <span id="selected-day-title">Thứ Ba, 28/07/2026</span>
+                            <span style="font-weight:normal; font-size:11px; color:#64748b;">Ca phân bổ</span>
+                        </div>
+
+                        <div class="shifts-list-container" id="app-shifts-list">
+                            <!-- Shift cards will render dynamically here -->
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                         BODY TAB 2: LỊCH RẢNH (AVAILABILITY)
+                    ===================================================== -->
+                    <div class="screen-body" id="tabBody-free">
+                        <div class="reg-desc">
+                            <strong>Đăng ký lịch rảnh trong tuần:</strong> Chọn ngày trên lịch dưới đây, sau đó chọn các buổi bạn rảnh (Sáng/Chiều/Tối) để hệ thống tự phân ca trực.
+                        </div>
+                        
+                        <div class="calendar-grid-app">
+                            <div class="grid-day-th">T2</div>
+                            <div class="grid-day-th">T3</div>
+                            <div class="grid-day-th">T4</div>
+                            <div class="grid-day-th">T5</div>
+                            <div class="grid-day-th">T6</div>
+                            <div class="grid-day-th">T7</div>
+                            <div class="grid-day-th">CN</div>
+                            
+                            <!-- Week dates -->
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-07-27', this)">27 <div class="dot-free"></div></div>
+                            <div class="grid-day-td active" onclick="selectFreeDay('2026-07-28', this)">28</div>
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-07-29', this)">29 <div class="dot-free"></div></div>
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-07-30', this)">30 <div class="dot-free"></div></div>
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-07-31', this)">31</div>
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-08-01', this)">01</div>
+                            <div class="grid-day-td" onclick="selectFreeDay('2026-08-02', this)">02</div>
+                        </div>
+
+                        <div class="slots-setup-card">
+                            <div class="slots-setup-title" id="free-setup-title">Đăng ký ngày 28/07/2026</div>
+                            <div class="slots-checkboxes">
+                                <div class="slot-select-btn" id="slot-Sáng" onclick="toggleSlot('Sáng')">Sáng</div>
+                                <div class="slot-select-btn" id="slot-Chiều" onclick="toggleSlot('Chiều')">Chiều</div>
+                                <div class="slot-select-btn" id="slot-Tối" onclick="toggleSlot('Tối')">Tối / Trực</div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding:0 12px; margin-top:20px;">
+                            <button class="btn btn-primary" style="width:100%; height:44px; background:#005aff;" onclick="saveFreeSlots()"><i class="fa-solid fa-floppy-disk"></i> Lưu lịch rảnh tuần này</button>
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                         BODY TAB 3: CHẤM CÔNG GPS (CLOCK IN/OUT)
+                    ===================================================== -->
+                    <div class="screen-body" id="tabBody-clock">
+                        <div class="gps-main-card">
+                            <div class="live-clock" id="clock-time">09:24:15</div>
+                            <div class="live-date">Thứ Ba, ngày 28 tháng 07 năm 2026</div>
+                            
+                            <div class="target-shift-box">
+                                <div>CA HIỆN TẠI ĐANG DIỄN RA</div>
+                                <strong>Ca sáng thường: 07:30 - 11:30</strong><br>
+                                Khoa Nội soi tiêu hóa - BV Medlatec Ba Đình
+                            </div>
+
+                            <!-- Live scanner animation simulation -->
+                            <div class="camera-preview" id="scanner-view">
+                                <div class="camera-overlay-circle"></div>
+                                <i class="fa-solid fa-user-md" style="font-size:48px; color:#64748b; z-index:1;" id="scanner-icon"></i>
+                                <div class="camera-status-text" id="scanner-status">Chưa chụp ảnh xác thực</div>
+                            </div>
+
+                            <div style="text-align:center; margin-bottom:12px;">
+                                <button class="btn btn-secondary" style="height:30px; font-size:11px; padding:0 10px;" onclick="simulateSnapshot()"><i class="fa-solid fa-camera"></i> Chụp ảnh & Xác thực khuôn mặt</button>
+                            </div>
+
+                            <!-- GPS coordinates -->
+                            <div class="gps-info-row success" id="gps-status-box">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                                <div>
+                                    <strong>GPS: BV Medlatec Ba Đình (42 Nghĩa Dũng)</strong><br>
+                                    Khoảng cách: <strong>14m</strong>. Định vị hợp lệ (< 50m)
+                                </div>
+                            </div>
+                            
+                            <div class="clock-btn-row">
+                                <button class="btn btn-success" id="btnClockIn" style="height:44px; font-weight:700;" onclick="clockIn()"><i class="fa-solid fa-right-to-bracket"></i> Chấm công Vào</button>
+                                <button class="btn btn-danger" id="btnClockOut" style="height:44px; font-weight:700; background:#94a3b8; border-color:#94a3b8;" disabled onclick="clockOut()"><i class="fa-solid fa-right-from-bracket"></i> Chấm công Ra</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                         BODY TAB 4: CÁ NHÂN & BẢNG CÔNG (PERSONAL & EXPLANATION)
+                    ===================================================== -->
+                    <div class="screen-body" id="tabBody-personal">
+                        <div style="background:#005aff; color:#fff; padding:16px 12px; display:flex; align-items:center; gap:12px;">
+                            <div style="width:48px; height:48px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#005aff; font-size:20px; font-weight:700;">A</div>
+                            <div>
+                                <div style="font-weight:700; font-size:14px;">BS. Nguyễn Văn A</div>
+                                <div style="font-size:11.5px; opacity:0.8;">Mã CTV: CTV-0010 | Khoa Nội Soi</div>
+                            </div>
+                        </div>
+
+                        <div class="weekly-title-card" style="background:#fff; border-bottom:1px solid #e2e8f0; font-size:12px;">
+                            <span>Lịch sử công tháng 07/2026</span>
+                            <span style="color:#005aff; font-weight:700;">Tổng công: 22.0</span>
+                        </div>
+
+                        <div class="timecard-list-app" id="app-timecard-list">
+                            <!-- Timecard records list will render here -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Nav Grid -->
+                    <div class="phone-nav">
+                        <div class="nav-item active" id="nav-schedule" onclick="switchPhoneTab('schedule')">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            Lịch biểu
+                        </div>
+                        <div class="nav-item" id="nav-free" onclick="switchPhoneTab('free')">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Lịch rảnh
+                        </div>
+                        <div class="nav-item" id="nav-clock" onclick="switchPhoneTab('clock')">
+                            <i class="fa-solid fa-circle-play" style="color:#005aff; font-size:22px;"></i>
+                            Chấm công
+                        </div>
+                        <div class="nav-item" id="nav-personal" onclick="switchPhoneTab('personal')">
+                            <i class="fa-solid fa-circle-user"></i>
+                            Bảng công
+                        </div>
+                    </div>
+
+                    <!-- POPUP GIẢI TRÌNH TRÊN APP MOBILE -->
+                    <div id="excusePhoneModal" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center; padding:16px;">
+                        <div style="background:#fff; border-radius:12px; width:100%; max-width:320px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+                            <div style="padding:14px 16px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+                                <strong style="font-size:14px; color:#0f172a;"><i class="fa-solid fa-file-signature" style="color:#005aff; margin-right:6px;"></i>Giải trình chấm công</strong>
+                                <i class="fa-solid fa-xmark" style="cursor:pointer; color:#64748b;" onclick="closeExcusePhoneModal()"></i>
+                            </div>
+                            <div style="padding:16px; display:flex; flex-direction:column; gap:12px;">
+                                <div>
+                                    <label style="font-size:11px; font-weight:600; color:#64748b; display:block; margin-bottom:4px;">Loại lỗi cần giải trình</label>
+                                    <input type="text" id="phoneModalErrName" readonly style="width:100%; height:32px; border:1px solid #cbd5e1; border-radius:6px; padding:0 10px; font-size:12px; background:#f8fafc; font-weight:600; color:#dc2626;">
+                                </div>
+                                <div>
+                                    <label style="font-size:11px; font-weight:600; color:#64748b; display:block; margin-bottom:4px;">Mô tả lý do giải trình <span style="color:#dc2626;">*</span></label>
+                                    <textarea id="phoneModalDesc" placeholder="Nhập lý do (ví dụ: cấp cứu đột xuất, lỗi GPS...)" style="width:100%; height:60px; border:1px solid #cbd5e1; border-radius:6px; padding:8px 10px; font-size:12px; resize:none; outline:none; font-family:inherit;"></textarea>
+                                </div>
+                            </div>
+                            <div style="padding:12px 16px; background:#f8fafc; border-top:1px solid #f1f5f9; display:flex; justify-content:flex-end; gap:8px;">
+                                <button class="btn btn-secondary" style="height:32px; font-size:12px; padding:0 12px;" onclick="closeExcusePhoneModal()">Hủy</button>
+                                <button class="btn btn-primary" style="height:32px; font-size:12px; padding:0 12px; background:#005aff;" onclick="submitPhoneExcuse()"><i class="fa-solid fa-paper-plane"></i> Gửi đơn</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOAST ALERT ON MOBILE APP -->
+                    <div id="appToast" style="display:none; position:absolute; bottom:70px; left:50%; transform:translateX(-50%); background:#0f172a; color:#fff; padding:8px 14px; border-radius:20px; font-size:11.5px; z-index:1100; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.15); align-items:center; gap:6px;">
+                        <i class="fa-solid fa-circle-check" style="color:#22c55e;"></i> <span id="appToastMsg">Thông báo</span>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MOBILE INTERACTIVITY LOGIC
+===================================================== -->
+<script>
+// Sidebar sub-menu toggle
+function toggleSubMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    const arrow = document.getElementById('arrow-' + menuId.split('-')[1]);
+    if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        menu.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+
+// Global active states inside Mobile Zalo Mini App
+let selectedDay = 28; // T3 28/07 is selected initially
+let freeDaySlots = {
+    "2026-07-27": ["Sáng"],
+    "2026-07-28": [],
+    "2026-07-29": ["Sáng", "Chiều"],
+    "2026-07-30": ["Sáng"],
+    "2026-07-31": []
+};
+let selectedFreeDate = "2026-07-28";
+let isFaceVerified = false;
+let isClockedIn = false;
+
+// Monthly shifts for CTV-0010 (Lịch làm việc và Lịch trực)
+let myShifts = [
+    { date: "27/07/2026", dow: "Thứ Hai", from: "07:30", to: "11:30", dept: "Khoa Nội soi tiêu hóa", loc: "BV Medlatec Ba Đình", type: "normal", typeLabel: "LỊCH LÀM VIỆC", status: "confirmed", note: "Ca sáng thường quy" },
+    { date: "28/07/2026", dow: "Thứ Ba", from: "07:30", to: "11:30", dept: "Khoa Nội soi tiêu hóa", loc: "BV Medlatec Ba Đình", type: "normal", typeLabel: "LỊCH LÀM VIỆC", status: "confirmed", note: "Ca sáng khám chuyên khoa" },
+    { date: "28/07/2026", dow: "Thứ Ba", from: "18:00", to: "22:00", dept: "Khoa Gây mê hồi sức", loc: "BV Medlatec Ba Đình", type: "duty", typeLabel: "LỊCH TRỰC CHUYÊN MÔN", status: "pending", note: "Trực ca tối phụ mổ nội soi" },
+    { date: "29/07/2026", dow: "Thứ Tư", from: "13:30", to: "17:30", dept: "Khoa Nội soi tiêu hóa", loc: "PK Medlatec Thanh Xuân", type: "normal", typeLabel: "LỊCH LÀM VIỆC", status: "confirmed", note: "Ca chiều khám tư vấn" },
+    { date: "30/07/2026", dow: "Thứ Năm", from: "07:30", to: "11:30", dept: "Khoa Nội soi tiêu hóa", loc: "BV Medlatec Ba Đình", type: "normal", typeLabel: "LỊCH LÀM VIỆC", status: "confirmed", note: "Ca sáng thường quy" },
+    { date: "31/07/2026", dow: "Thứ Sáu", from: "17:30", to: "07:30", dept: "Khoa Cấp cứu & Nội soi", loc: "BV Medlatec Ba Đình", type: "duty", typeLabel: "LỊCH TRỰC ĐÊM 24H", status: "confirmed", note: "Trực đêm cấp cứu viện" },
+    { date: "01/08/2026", dow: "Thứ Bảy", from: "08:00", to: "17:00", dept: "Khoa Nội soi tiêu hóa", loc: "PK Medlatec Tây Hồ", type: "duty", typeLabel: "LỊCH TRỰC NGOẠI VIỆN", status: "confirmed", note: "Trực chuyên môn cuối tuần" }
+];
+
+// Timecard clock logs for user
+let userTimecardLogs = [
+    { id: 1, date: "27/07/2026", shift: "Ca sáng thường (07:30 - 11:30)", actIn: "07:22", actOut: "11:35", status: "OK", statusText: "Hợp lệ", excStatus: "none" },
+    { id: 2, date: "28/07/2026", shift: "Ca chiều thường (13:30 - 17:30)", actIn: "07:25", actOut: "--:--", status: "MISS", statusText: "Thiếu chấm công Ra", excStatus: "none" },
+    { id: 3, date: "29/07/2026", shift: "Ca sáng thường (07:30 - 11:30)", actIn: "07:42", actOut: "11:32", status: "LATE", statusText: "Đi muộn 12 phút", excStatus: "pending" }
+];
+
+// Time tick in status bar
+setInterval(() => {
+    const d = new Date();
+    const min = String(d.getMinutes()).padStart(2, '0');
+    const hr = String(d.getHours()).padStart(2, '0');
+    const sec = String(d.getSeconds()).padStart(2, '0');
+    document.getElementById("statusBarTime").textContent = `${hr}:${min}`;
+    document.getElementById("clock-time").textContent = `${hr}:${min}:${sec}`;
+}, 1000);
+
+// App Navigation tabs switching
+function switchPhoneTab(tabName) {
+    document.querySelectorAll(".screen-body").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+    
+    document.getElementById(`tabBody-${tabName}`).classList.add("active");
+    document.getElementById(`nav-${tabName}`).classList.add("active");
+}
+
+// =====================================================
+// TAB 1: LỊCH BIỂU (SCHEDULE) FUNCTIONS
+// =====================================================
+function selectDay(day, btn) {
+    selectedDay = day;
+    document.querySelectorAll(".day-btn").forEach(el => el.classList.remove("active"));
+    btn.classList.add("active");
+    
+    // Update label
+    const dayNames = {27: "Thứ Hai", 28: "Thứ Ba", 29: "Thứ Tư", 30: "Thứ Năm", 31: "Thứ Sáu", 1: "Thứ Bảy", 2: "Chủ Nhật"};
+    const fullDate = day === 1 || day === 2 ? `0${day}/08/2026` : `${day}/07/2026`;
+    document.getElementById("selected-day-title").textContent = `${dayNames[day]}, ${fullDate}`;
+    
+    renderAppShifts();
+}
+
+function renderAppShifts() {
+    const container = document.getElementById("app-shifts-list");
+    container.innerHTML = "";
+    
+    const formattedDate = selectedDay === 1 || selectedDay === 2 ? `0${selectedDay}/08/2026` : `${selectedDay}/07/2026`;
+    const dayShifts = myShifts.filter(s => s.date === formattedDate);
+    
+    if (dayShifts.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8; font-size:12.5px;"><i class="fa-solid fa-calendar-xmark" style="font-size:24px; margin-bottom:8px; display:block;"></i>Không có lịch làm việc hoặc ca trực trong ngày này.</div>`;
+        return;
+    }
+    
+    dayShifts.forEach(s => {
+        const card = document.createElement("div");
+        const isDuty = s.type === 'duty';
+        card.className = `app-shift-card ${s.status}`;
+        if (isDuty) {
+            card.style.borderLeftColor = "#7c3aed";
+        }
+        
+        const statusText = s.status === 'confirmed' ? "Đã xác nhận" : "Chờ xác nhận";
+        const badgeClass = s.status === 'confirmed' ? 'app-badge-confirmed' : 'app-badge-pending';
+        const typeBadge = isDuty 
+            ? `<span style="font-size:9.5px; background:#faf5ff; color:#7c3aed; padding:1px 5px; border-radius:3px; font-weight:700; border:1px solid #e9d5ff;"><i class="fa-solid fa-moon"></i> ${s.typeLabel}</span>`
+            : `<span style="font-size:9.5px; background:#eff6ff; color:#1d4ed8; padding:1px 5px; border-radius:3px; font-weight:700; border:1px solid #bfdbfe;"><i class="fa-solid fa-briefcase"></i> ${s.typeLabel}</span>`;
+        
+        let actionBtn = "";
+        if (s.status === 'pending') {
+            actionBtn = `
+                <div class="app-shift-action">
+                    <button class="btn btn-primary" style="height:28px; font-size:11px; background:#16a34a; border-radius:4px; padding:0 10px;" onclick="confirmAppShift('${s.date}')"><i class="fa-solid fa-check"></i> Xác nhận nhận ca trực</button>
+                </div>
+            `;
+        }
+        
+        card.innerHTML = `
+            <div class="app-shift-header">
+                <div>
+                    <div class="app-shift-time">${s.from} - ${s.to}</div>
+                    <div style="margin-top:2px;">${typeBadge}</div>
+                </div>
+                <div class="app-shift-badge ${badgeClass}">${statusText}</div>
+            </div>
+            <div class="app-shift-detail" style="margin-top:6px;">
+                <span><i class="fa-solid fa-hospital"></i> ${s.loc}</span>
+                <span><i class="fa-solid fa-circle-nodes"></i> ${s.dept}</span>
+                <span><i class="fa-solid fa-file-signature"></i> ${s.note}</span>
+            </div>
+            ${actionBtn}
+        `;
+        container.appendChild(card);
+    });
+}
+
+function confirmAppShift(dateISO) {
+    const shift = myShifts.find(s => s.date === dateISO);
+    if (shift) {
+        shift.status = "confirmed";
+        renderAppShifts();
+        showPhoneToast("Xác nhận ca trực thành công! Ca làm việc đã được chốt.");
+    }
+}
+
+// =====================================================
+// TAB 2: ĐĂNG KÝ LỊCH RẢNH FUNCTIONS
+// =====================================================
+function selectFreeDay(dateISO, btn) {
+    selectedFreeDate = dateISO;
+    document.querySelectorAll(".calendar-grid-app .grid-day-td").forEach(el => el.classList.remove("active"));
+    btn.classList.add("active");
+    
+    // Update slots selector title
+    const dStr = dateISO.split("-")[2] + "/" + dateISO.split("-")[1] + "/" + dateISO.split("-")[0];
+    document.getElementById("free-setup-title").textContent = `Đăng ký ngày ${dStr}`;
+    
+    // Update active slots UI
+    const slots = freeDaySlots[dateISO] || [];
+    document.querySelectorAll(".slots-checkboxes .slot-select-btn").forEach(el => el.classList.remove("active"));
+    slots.forEach(slot => {
+        document.getElementById(`slot-${slot}`).classList.add("active");
+    });
+}
+
+function toggleSlot(slotName) {
+    const slots = freeDaySlots[selectedFreeDate] || [];
+    const idx = slots.indexOf(slotName);
+    if (idx === -1) {
+        slots.push(slotName);
+        document.getElementById(`slot-${slotName}`).classList.add("active");
+    } else {
+        slots.splice(idx, 1);
+        document.getElementById(`slot-${slotName}`).classList.remove("active");
+    }
+    freeDaySlots[selectedFreeDate] = slots;
+}
+
+function saveFreeSlots() {
+    // Save to simulated registry
+    showPhoneToast("Lịch rảnh đã được lưu và cập nhật lên hệ thống thành công!");
+    
+    // Render little dots on grid days
+    const gridTds = document.querySelectorAll(".calendar-grid-app .grid-day-td");
+    gridTds.forEach(td => {
+        // remove old dots
+        const oldDot = td.querySelector(".dot-free");
+        if (oldDot) oldDot.remove();
+        
+        // Find date ISO associated with this td
+        // This is a simple mockup, just draw dots for days that have slots
+        const dayNum = td.innerText.trim();
+        const dateStr = dayNum === "01" || dayNum === "02" ? `2026-08-${dayNum}` : `2026-07-${dayNum}`;
+        const slots = freeDaySlots[dateStr] || [];
+        if (slots.length > 0) {
+            const dot = document.createElement("div");
+            dot.className = "dot-free";
+            td.appendChild(dot);
+        }
+    });
+}
+
+// =====================================================
+// TAB 3: CHẤM CÔNG GPS & FACE VERIFICATION
+// =====================================================
+function simulateSnapshot() {
+    const scannerStatus = document.getElementById("scanner-status");
+    const scannerIcon = document.getElementById("scanner-icon");
+    const scannerView = document.getElementById("scanner-view");
+    
+    scannerStatus.textContent = "Đang nhận dạng khuôn mặt...";
+    scannerIcon.className = "fa-solid fa-spinner fa-spin";
+    scannerIcon.style.color = "#005aff";
+    
+    setTimeout(() => {
+        isFaceVerified = true;
+        scannerStatus.textContent = "Xác thực thành công ✓";
+        scannerIcon.className = "fa-solid fa-user-check";
+        scannerIcon.style.color = "#16a34a";
+        scannerView.style.border = "2px solid #16a34a";
+        showPhoneToast("Khuôn mặt đã được xác minh thành công!");
+    }, 1500);
+}
+
+function clockIn() {
+    if (!isFaceVerified) {
+        alert("Vui lòng chụp ảnh xác thực khuôn mặt trước khi chấm công!");
+        return;
+    }
+    
+    isClockedIn = true;
+    showPhoneToast("Chấm công VÀO thành công lúc 07:22! Vị trí hợp lệ.");
+    
+    // Update button states
+    const btnIn = document.getElementById("btnClockIn");
+    const btnOut = document.getElementById("btnClockOut");
+    btnIn.setAttribute("disabled", "true");
+    btnIn.style.background = "#cbd5e1";
+    btnIn.style.borderColor = "#cbd5e1";
+    btnIn.textContent = "Đã chấm vào 07:22";
+    
+    btnOut.removeAttribute("disabled");
+    btnOut.style.background = "#dc2626";
+    btnOut.style.borderColor = "#dc2626";
+    
+    // Add record to timecard list tab
+    userTimecardLogs.unshift({
+        id: 99,
+        date: "28/07/2026",
+        shift: "Ca trực mổ tối (18:00 - 22:00)",
+        actIn: "17:52",
+        actOut: "--:--",
+        status: "OK",
+        statusText: "Hợp lệ (Đang làm)",
+        excStatus: "none"
+    });
+    renderAppTimecardList();
+}
+
+function clockOut() {
+    showPhoneToast("Chấm công RA thành công lúc 22:05! Ca trực hoàn thành.");
+    
+    const btnOut = document.getElementById("btnClockOut");
+    btnOut.setAttribute("disabled", "true");
+    btnOut.style.background = "#cbd5e1";
+    btnOut.style.borderColor = "#cbd5e1";
+    btnOut.textContent = "Đã chấm ra 22:05";
+    
+    // Update timecard record
+    const r = userTimecardLogs.find(l => l.id === 99);
+    if (r) {
+        r.actOut = "22:05";
+        r.statusText = "Hợp lệ";
+    }
+    renderAppTimecardList();
+}
+
+// =====================================================
+// TAB 4: BẢNG CÔNG & GIẢI TRÌNH FUNCTIONS
+// =====================================================
+function renderAppTimecardList() {
+    const container = document.getElementById("app-timecard-list");
+    container.innerHTML = "";
+    
+    userTimecardLogs.forEach(r => {
+        const item = document.createElement("div");
+        item.className = "app-tc-item";
+        
+        let statusColor = "#16a34a"; // green
+        if (r.status === 'MISS') statusColor = "#dc2626";
+        if (r.status === 'LATE') statusColor = "#ea580c";
+        
+        let actionBtn = "";
+        if (r.status !== 'OK' && r.excStatus === 'none') {
+            actionBtn = `<button class="btn btn-primary" style="height:26px; font-size:10px; background:#005aff; padding:0 8px;" onclick="openExcusePhoneModal(${r.id}, '${r.statusText}')">Giải trình</button>`;
+        } else if (r.excStatus === 'pending') {
+            actionBtn = `<span style="font-size:10.5px; color:#f59e0b; font-weight:600;"><i class="fa-regular fa-hourglass"></i> Chờ duyệt</span>`;
+        } else if (r.excStatus === 'approved') {
+            actionBtn = `<span style="font-size:10.5px; color:#16a34a; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã duyệt</span>`;
+        }
+        
+        item.innerHTML = `
+            <div class="app-tc-info">
+                <div class="app-tc-date">${r.date}</div>
+                <div class="app-tc-shift">${r.shift}</div>
+                <div style="font-size:11px; margin-top:4px;">Chấm Vào: <strong>${r.actIn}</strong> | Ra: <strong>${r.actOut}</strong></div>
+            </div>
+            <div class="app-tc-status">
+                <span style="font-size:11.5px; font-weight:700; color:${statusColor}">${r.statusText}</span>
+                ${actionBtn}
+            </div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+let selectedPhoneExcId = null;
+
+function openExcusePhoneModal(recordId, errorName) {
+    selectedPhoneExcId = recordId;
+    document.getElementById("phoneModalErrName").value = errorName;
+    document.getElementById("phoneModalDesc").value = "";
+    document.getElementById("excusePhoneModal").style.display = "flex";
+}
+
+function closeExcusePhoneModal() {
+    document.getElementById("excusePhoneModal").style.display = "none";
+}
+
+function submitPhoneExcuse() {
+    const desc = document.getElementById("phoneModalDesc").value.trim();
+    if (!desc) {
+        alert("Vui lòng điền mô tả lý do giải trình!");
+        return;
+    }
+    
+    const record = userTimecardLogs.find(l => l.id === selectedPhoneExcId);
+    if (record) {
+        record.excStatus = "pending";
+        closeExcusePhoneModal();
+        renderAppTimecardList();
+        showPhoneToast("Gửi đơn giải trình thành công! Trạng thái: Chờ Admin phê duyệt.");
+    }
+}
+
+// Phone Toast alert helper
+function showPhoneToast(msg) {
+    const toast = document.getElementById("appToast");
+    const toastMsg = document.getElementById("appToastMsg");
+    toastMsg.textContent = msg;
+    toast.style.display = "flex";
+    
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 3000);
+}
+
+// Initial renders on load
+renderAppShifts();
+renderAppTimecardList();
+</script>
+</body>
+</html>

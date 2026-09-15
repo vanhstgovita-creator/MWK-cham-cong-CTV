@@ -1,0 +1,1243 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yêu cầu đổi lịch</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Flatpickr Range Calendar CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f5f7fa;}
+.wrapper{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+/* SIDEBAR */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.menu{padding:10px 0;}
+.level-1{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:500;font-size:14px;}
+.level-1:hover{background:#f5f8fc;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 12px 50px;color:#475569;font-size:13px;}
+.level-3 a{display:block;padding:10px 20px 10px 80px;color:#64748b;text-decoration:none;font-size:13px;}
+.level-3 a:hover{background:#f0f4f8;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* CONTENT */
+.content{flex:1;min-width:0;}
+.page-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;}
+.breadcrumb{color:#64748b;font-size:13px;}
+.page-title{margin-top:5px;font-size:24px;font-weight:600;color:#1e293b;}
+.container{padding:20px;}
+
+/* CARD */
+.card{background:#fff;border:1px solid #e5e7eb;margin-bottom:20px;}
+.card-header{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;border-bottom:1px solid #e5e7eb;font-weight:600;}
+.card-body{padding:16px;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.form-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.form-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.form-group label{display:block;margin-bottom:6px;font-size:13px;color:#475569;}
+.form-group label .req{color:#dc2626;margin-left:2px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;height:36px;border:1px solid #d1d5db;border-radius:4px;padding:0 10px;font-size:14px;color:#1e293b;}
+.form-group textarea{height:72px;padding:8px 10px;resize:none;}
+
+/* BUTTON */
+.btn{height:36px;border:none;border-radius:4px;padding:0 14px;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:#4d647b;color:#fff;}
+.btn-primary:hover{background:#3b5068;}
+.btn-search{background:#4d647b;color:#fff;}
+.btn-reset{background:#f3f4f6;border:1px solid #d1d5db;color:#374151;}
+.btn-danger{background:#dc2626;color:#fff;}
+.btn-success{background:#16a34a;color:#fff;}
+.btn-warning{background:#f59e0b;color:#fff;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead th{background:#2f4660;color:#fff;padding:12px;text-align:left;font-size:13px;white-space:nowrap;}
+.data-table tbody td{border:1px solid #e5e7eb;padding:10px 12px;font-size:14px;vertical-align:middle;}
+.data-table tbody tr:hover{background:#f8faff;}
+.icon-btn{border:none;background:none;cursor:pointer;margin-right:4px;font-size:15px;padding:2px;}
+.view{color:#2A3F54;}.edit{color:#2A3F54;}.delete{color:#dc2626;}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;}
+.badge-waiting-ctv{background:#dbeafe;color:#1e2f3f;}
+.badge-waiting-mgr{background:#ede9fe;color:#5b21b6;}
+.badge-approved{background:#dcfce7;color:#166534;}
+.badge-rejected{background:#fee2e2;color:#991b1b;}
+.badge-cancelled{background:#f3f4f6;color:#6b7280;}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;z-index:1000;}
+.modal.show{display:flex;}
+.modal-content{background:#fff;max-height:90vh;overflow:auto;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.2);}
+.modal-sm{width:500px;}
+.modal-md{width:760px;}
+.modal-lg{width:1000px;}
+.modal-header{height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:16px;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-header .close-btn{cursor:pointer;color:#64748b;font-size:18px;}
+.modal-body{padding:20px;}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff;z-index:1;}
+.section-title{font-weight:600;color:#2f4660;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;font-size:14px;}
+.section-title:first-child{margin-top:0;}
+
+/* COMPARE */
+.compare-block{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start;}
+.compare-side{border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;}
+.compare-side-header{padding:8px 14px;font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px;color:#fff;}
+.compare-side-header.requester{background:#4d647b;}
+.compare-side-header.target{background:#1e6b3f;}
+.compare-side-body{padding:12px;}
+.compare-arrow{display:flex;align-items:center;justify-content:center;margin-top:40px;font-size:22px;color:#94a3b8;}
+.info-row{display:flex;gap:6px;margin-bottom:8px;font-size:13px;}
+.info-label{color:#64748b;min-width:120px;flex-shrink:0;}
+.info-value{color:#1e293b;font-weight:500;}
+
+/* TIMELINE */
+.timeline{display:flex;gap:0;margin-top:14px;}
+.tl-step{flex:1;text-align:center;position:relative;}
+.tl-step::after{content:"";position:absolute;top:14px;right:0;width:50%;height:2px;background:#d1d5db;}
+.tl-step::before{content:"";position:absolute;top:14px;left:0;width:50%;height:2px;background:#d1d5db;}
+.tl-step:first-child::before,.tl-step:last-child::after{display:none;}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:#d1d5db;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;position:relative;z-index:1;}
+.tl-dot.done{background:#16a34a;}
+.tl-dot.active{background:#2A3F54;}
+.tl-dot.rejected-dot{background:#dc2626;}
+.tl-label{font-size:11px;margin-top:4px;color:#475569;}
+.tl-date{font-size:10px;color:#94a3b8;}
+
+/* APPROVAL BOX */
+.approval-box{background:#f8faff;border:1px solid #dbeafe;border-radius:6px;padding:14px 16px;margin-top:12px;}
+.approval-box.reject-box{background:#fff5f5;border-color:#fecaca;}
+
+/* SUMMARY STATS */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.stat-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.stat-num{font-size:22px;font-weight:700;line-height:1;}
+.stat-label{font-size:12px;color:#64748b;margin-top:2px;}
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   WIREFRAME STYLES (SYNCHRONIZED & UNIFIED SIZING)
+   ========================================================================== */
+
+/* GLOBAL & BODY */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.menu-item {
+    width: 100% !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: default !important;
+}
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 20px 12px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: default !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a i {
+    margin-right: 6px !important;
+    color: #94a3b8 !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+.btn-secondary, .btn-add, .btn-info, .btn-search {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-secondary:hover, .btn-add:hover, .btn-info:hover, .btn-search:hover {
+    background: #f1f5f9 !important;
+}
+.btn-reset {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover {
+    background: #f1f5f9 !important;
+}
+.btn-danger {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-danger:hover {
+    background: #f1f5f9 !important;
+}
+.btn-success {
+    background: #475569 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+.btn-success:hover {
+    background: #334155 !important;
+}
+.btn-warning {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-warning:hover {
+    background: #f1f5f9 !important;
+}
+
+/* FORM CONTROLS */
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea, 
+.filter-group input, .filter-group select, .date-range-picker input,
+.time-range-box input {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+    box-sizing: border-box !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+.filter-group input:focus, .filter-group select:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+.ro, input[readonly], .readonly-field {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* CARDS & HEADERS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.card-header, .day-header, .route-header, .compare-side-header {
+    height: 50px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.day-header {
+    border-radius: 6px 6px 0 0 !important;
+}
+.compare-side-header.requester {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.compare-side-header.target {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.card-body, .day-content, .route-body {
+    padding: 20px !important;
+}
+
+/* TABLES & SCROLLING */
+.table-container, .tbl-wrap {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    -webkit-overflow-scrolling: touch;
+}
+.table-container table, .tbl-wrap table {
+    min-width: 1100px !important; /* Force min-width ONLY inside a scroll container to enable scrollbar */
+}
+.data-table, .chotcong-summary, .sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th, .chotcong-summary thead th, .sub-tbl th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* DEMO BAR */
+.demo-bar {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.demo-bar label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.demo-bar select {
+    height: 32px !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 0 !important;
+}
+.main-tab-btn {
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    white-space: nowrap !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+.tab-bar {
+    display: flex !important;
+    gap: 4px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 16px !important;
+}
+.tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    background: #ffffff !important;
+    max-height: 90vh !important;
+    max-width: 95vw !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important; /* Prevent horizontal scroll in modal content */
+    border-radius: 6px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important; /* Detail modal opens on top of other modals */
+}
+#modalRouteDetail {
+    z-index: 1200 !important; /* Nested route detail modal sits above all */
+}
+
+/* INFO GRIDS (RESPONSIVE WIREFRAME DESIGN) */
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+.floating-action-bar-content span {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="page-header">
+            <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Lịch làm việc VCM <span>/</span> <strong>Yêu cầu đổi lịch</strong></div>
+            <div class="page-title">Yêu cầu đổi lịch làm việc</div>
+        </div>
+
+        <div class="container">
+
+            <!-- THỐNG KÊ NHANH -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <div class="stat-num">3</div>
+                        <div class="stat-label">Chờ duyệt</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-user-clock"></i></div>
+                    <div>
+                        <div class="stat-num">2</div>
+                        <div class="stat-label">Chờ CTV xác nhận</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div>
+                        <div class="stat-num">12</div>
+                        <div class="stat-label">Đã duyệt</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <div>
+                        <div class="stat-num">4</div>
+                        <div class="stat-label">Đã từ chối</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-ban"></i></div>
+                    <div>
+                        <div class="stat-num">1</div>
+                        <div class="stat-label">Đã hủy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TÌM KIẾM -->
+            <div class="card">
+                <div class="card-header">Điều kiện tìm kiếm</div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group" style="position: relative;">
+                            <label>Thời gian nghỉ</label>
+                            <div style="position: relative;">
+                                <input id="filterDateRange" type="text" placeholder="Chọn khoảng thời gian" style="width:100%; height:36px; padding:0 34px 0 10px; border:1px solid #d1d5db; border-radius:4px; font-family:'Inter'; background:#ffffff; cursor:pointer;" readonly value="01/07/2025   →   31/07/2025">
+                                <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 11px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>CTV gửi yêu cầu</label>
+                            <input type="text" id="filterFromCTV" placeholder="Tên hoặc mã CTV...">
+                        </div>
+                        <div class="form-group">
+                            <label>CTV nhận đổi</label>
+                            <input type="text" id="filterToCTV" placeholder="Tên hoặc mã CTV...">
+                        </div>
+                        <div class="form-group">
+                            <label>Tuyến</label>
+                            <select id="filterRoute">
+                                <option value="">-- Tất cả tuyến --</option>
+                                <option value="VCM001">VCM001 – Thu Cúc → LABO</option>
+                                <option value="VCM002">VCM002 – Đống Đa → LABO</option>
+                                <option value="VCM003">VCM003 – Bệnh Viện E → LABO</option>
+                                <option value="VCM004">VCM004 – Cầu Giấy → LABO</option>
+                                <option value="VCM005">VCM005 – Phòng Khám X → LABO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select id="filterStatus">
+                                <option value="">-- Tất cả --</option>
+                                <option value="Chờ CTV xác nhận">Chờ CTV xác nhận</option>
+                                <option value="Chờ cán bộ duyệt">Chờ cán bộ duyệt</option>
+                                <option value="Đã duyệt">Đã duyệt</option>
+                                <option value="Từ chối">Từ chối</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" onclick="searchRequests()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                    <button class="btn btn-reset" onclick="resetRequestSearch()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+                </div>
+            </div>
+
+            <!-- DANH SÁCH -->
+            <div class="card">
+                <div class="card-header">
+                    <span>Danh sách yêu cầu đổi lịch</span>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span style="font-size:13px;font-weight:400;color:#64748b;" id="totalReqCount">Tổng: 6 yêu cầu</span>
+                    </div>
+                </div>
+                <div class="card-body" style="padding:0;">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th width="46" style="text-align:center;">STT</th>
+                                    <th>Mã YC</th>
+                                    <th>Ngày gửi YC</th>
+                                    <th>Ngày đổi</th>
+                                    <th>CTV gửi YC</th>
+                                    <th>Tuyến gửi YC</th>
+                                    <th>CTV nhận đổi</th>
+                                    <th>Tuyến nhận đổi</th>
+                                    <th>Lý do</th>
+                                    <th>CTV xác nhận</th>
+                                    <th>Trạng thái</th>
+                                    <th width="100" style="text-align:center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exchangeTableBody">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGINATION -->
+                    <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e5e7eb;">
+                        <div style="font-size:13px;color:#64748b;" id="pageRecordInfo">Hiển thị 1–6 / 6 bản ghi</div>
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">‹</button>
+                            <button class="btn btn-primary" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">1</button>
+                            <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MODAL: XEM & DUYỆT (3 trạng thái: pending / waiting / approved / rejected)
+===================================================== -->
+<div class="modal" id="modalMgr">
+    <div class="modal-content modal-lg">
+        <div class="modal-header" id="mgrHeader">
+            <span></span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalMgr')"></i>
+        </div>
+        <div class="modal-body" id="mgrBody"></div>
+        <div class="modal-footer" id="mgrFooter"></div>
+    </div>
+</div>
+
+<script>
+let exchangeRequestsData = [
+    { id: 1, code: 'YCĐL-0708-001', sent: '08/07/2025', date: '12/07/2025 (Thứ 7)', fromName: 'Nguyễn Văn A', fromCode: 'CTV-0001', fromRoute: 'VCM001 – Thu Cúc → LABO', fromTime: '06:00 – 08:30', toName: 'Trần Thị C', toCode: 'CTV-0055', toRoute: 'VCM005 – PK X → LABO', toTime: '07:00 – 09:30', reason: 'Bận việc gia đình', ctvStatus: 'Đã đồng ý', status: 'Chờ cán bộ duyệt', type: 'pending' },
+    { id: 2, code: 'YCĐL-0707-002', sent: '07/07/2025', date: '11/07/2025 (Thứ 6)', fromName: 'Lê Văn D', fromCode: 'CTV-0017', fromRoute: 'VCM002 – Đống Đa → LABO', fromTime: '06:00 – 08:00', toName: 'Hoàng Văn F', toCode: 'CTV-0033', toRoute: 'VCM004 – Cầu Giấy → LABO', toTime: '06:30 – 08:30', reason: 'Trùng lịch khám sức khỏe', ctvStatus: 'Đã đồng ý', status: 'Chờ cán bộ duyệt', type: 'pending' },
+    { id: 3, code: 'YCĐL-0706-003', sent: '06/07/2025', date: '10/07/2025 (Thứ 5)', fromName: 'Phạm Thị E', fromCode: 'CTV-0063', fromRoute: 'VCM006 – Hà Đông → LABO', fromTime: '07:00 – 09:00', toName: 'Vũ Thị G', toCode: 'CTV-0081', toRoute: 'VCM003 – BV E → LABO', toTime: '07:30 – 09:30', reason: 'Khám sức khỏe định kỳ', ctvStatus: 'Đã đồng ý', status: 'Chờ cán bộ duyệt', type: 'pending' },
+    { id: 4, code: 'YCĐL-0703-004', sent: '03/07/2025', date: '07/07/2025 (Thứ 2)', fromName: 'Đặng Văn H', fromCode: 'CTV-0077', fromRoute: 'VCM008 – Tây Hồ → LABO', fromTime: '07:00 – 09:30', toName: 'Nguyễn Văn B', toCode: 'CTV-0042', toRoute: 'VCM001 – Thu Cúc → LABO', toTime: '06:00 – 08:30', reason: 'Bận việc riêng', ctvStatus: 'Chờ xác nhận', status: 'Chờ CTV xác nhận', type: 'waiting' },
+    { id: 5, code: 'YCĐL-0701-005', sent: '29/06/2025', date: '03/07/2025 (Thứ 5)', fromName: 'Nguyễn Văn A', fromCode: 'CTV-0001', fromRoute: 'VCM001 – Thu Cúc → LABO', fromTime: '06:00 – 08:30', toName: 'Lê Văn D', toCode: 'CTV-0017', toRoute: 'VCM002 – Đống Đa → LABO', toTime: '06:00 – 08:00', reason: 'Họp nội bộ sáng sớm', ctvStatus: 'Đã đồng ý', status: 'Đã duyệt', type: 'approved' },
+    { id: 6, code: 'YCĐL-0625-006', sent: '23/06/2025', date: '27/06/2025 (Thứ 6)', fromName: 'Trần Thị C', fromCode: 'CTV-0055', fromRoute: 'VCM005 – PK X → LABO', fromTime: '07:00 – 09:30', toName: 'Phạm Thị E', toCode: 'CTV-0063', toRoute: 'VCM007 – BV F → LABO', toTime: '07:30 – 10:00', reason: 'Lịch cá nhân', ctvStatus: 'Đã đồng ý', status: 'Từ chối', type: 'rejected' }
+];
+
+let activeModalReqId = null;
+
+function renderExchangeTable(data) {
+    const tbody = document.getElementById("exchangeTableBody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:30px; color:#64748b;">Không có yêu cầu đổi lịch nào phù hợp.</td></tr>`;
+        document.getElementById("totalReqCount").textContent = `Tổng: 0 yêu cầu`;
+        document.getElementById("pageRecordInfo").textContent = `Hiển thị 0 / 0 bản ghi`;
+        return;
+    }
+
+    data.forEach((r, idx) => {
+        const tr = document.createElement("tr");
+        let badgeCls = 'badge-waiting-ctv';
+        if (r.status === 'Chờ cán bộ duyệt') badgeCls = 'badge-waiting-mgr';
+        if (r.status === 'Đã duyệt') badgeCls = 'badge-approved';
+        if (r.status === 'Từ chối') badgeCls = 'badge-rejected';
+        
+        let ctvConfirmHtml = r.ctvStatus === 'Đã đồng ý' 
+            ? `<span style="color:#16a34a;font-size:12.5px;font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã đồng ý</span>` 
+            : `<span style="color:#64748b;font-size:12.5px;"><i class="fa-solid fa-clock"></i> Chờ xác nhận</span>`;
+
+        let actionBtn = "";
+        if (r.status === 'Chờ cán bộ duyệt') {
+            actionBtn = `<button class="action-icon gavel" title="Duyệt yêu cầu đổi lịch" onclick="openMgrModalById(${r.id})"><i class="fa-solid fa-gavel"></i></button>`;
+        } else {
+            actionBtn = `<button class="action-icon view" title="Xem chi tiết" onclick="openMgrModalById(${r.id})"><i class="fa-regular fa-eye"></i></button>`;
+        }
+
+        tr.innerHTML = `
+            <td style="text-align:center; color:#64748b; font-weight:600;">${idx + 1}</td>
+            <td><strong>${r.code}</strong></td>
+            <td>${r.sent}</td>
+            <td>${r.date}</td>
+            <td>${r.fromName}</td>
+            <td><span style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11.5px;font-weight:600;">${r.fromRoute.split('–')[0].trim()}</span></td>
+            <td>${r.toName}</td>
+            <td><span style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11.5px;font-weight:600;">${r.toRoute.split('–')[0].trim()}</span></td>
+            <td>${r.reason || '—'}</td>
+            <td>${ctvConfirmHtml}</td>
+            <td><span class="badge ${badgeCls}">${r.status}</span></td>
+            <td style="text-align:center;">${actionBtn}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("totalReqCount").textContent = `Tổng: ${data.length} yêu cầu`;
+    document.getElementById("pageRecordInfo").textContent = `Hiển thị 1–${data.length} / ${data.length} bản ghi`;
+}
+
+function searchRequests() {
+    const fromCTV = (document.getElementById("filterFromCTV").value || "").toLowerCase().trim();
+    const toCTV = (document.getElementById("filterToCTV").value || "").toLowerCase().trim();
+    const route = document.getElementById("filterRoute").value;
+    const status = document.getElementById("filterStatus").value;
+
+    const filtered = exchangeRequestsData.filter(r => {
+        if (fromCTV && !r.fromName.toLowerCase().includes(fromCTV) && !r.fromCode.toLowerCase().includes(fromCTV)) return false;
+        if (toCTV && !r.toName.toLowerCase().includes(toCTV) && !r.toCode.toLowerCase().includes(toCTV)) return false;
+        if (route && !r.fromRoute.includes(route) && !r.toRoute.includes(route)) return false;
+        if (status && r.status !== status) return false;
+        return true;
+    });
+
+    renderExchangeTable(filtered);
+}
+
+function resetRequestSearch() {
+    document.getElementById("filterFromCTV").value = "";
+    document.getElementById("filterToCTV").value = "";
+    document.getElementById("filterRoute").value = "";
+    document.getElementById("filterStatus").value = "";
+    renderExchangeTable(exchangeRequestsData);
+}
+
+function closeModal(id){
+    document.getElementById(id).classList.remove('show');
+}
+
+function openMgrModalById(id) {
+    activeModalReqId = id;
+    const req = exchangeRequestsData.find(r => r.id === id);
+    if (!req) return;
+
+    const headerSpan = document.querySelector('#mgrHeader span');
+    if(req.status === 'Chờ cán bộ duyệt'){
+        headerSpan.innerHTML = '<i class="fa-solid fa-gavel" style="color:#5b21b6;margin-right:8px;"></i>Xem & Duyệt yêu cầu – ' + req.code;
+    } else {
+        headerSpan.innerHTML = '<i class="fa-regular fa-eye" style="color:#2A3F54;margin-right:8px;"></i>Chi tiết yêu cầu – ' + req.code;
+    }
+
+    const body = document.getElementById('mgrBody');
+    body.innerHTML = `
+        <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 16px;">
+            <div class="form-group"><label>Mã yêu cầu</label><input value="${req.code}" readonly style="background:#f8f9fa; font-weight:600;"></div>
+            <div class="form-group"><label>Ngày gửi</label><input value="${req.sent}" readonly style="background:#f8f9fa;"></div>
+            <div class="form-group"><label>Ngày đổi ca</label><input value="${req.date}" readonly style="background:#f8f9fa; font-weight:600; color:#2A3F54;"></div>
+            <div class="form-group"><label>Lý do</label><input value="${req.reason || '—'}" readonly style="background:#f8f9fa;"></div>
+        </div>
+
+        <div class="section-title">Nội dung đổi tuyến</div>
+        <div class="compare-block" style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+            <div class="compare-side" style="flex:1; border:1px solid #cbd5e1; border-radius:6px; padding:12px; background:#f8fafc;">
+                <div style="font-weight:700; color:#0f172a; margin-bottom:8px;"><i class="fa-solid fa-user" style="color:#2A3F54;"></i> ${req.fromName} (CTV gửi)</div>
+                <div style="font-size:13px; color:#475569;">Tuyến: <strong>${req.fromRoute}</strong></div>
+                <div style="font-size:13px; color:#475569;">Giờ chạy: <strong>${req.fromTime}</strong></div>
+            </div>
+            <div style="font-size:20px; color:#64748b;"><i class="fa-solid fa-right-left"></i></div>
+            <div class="compare-side" style="flex:1; border:1px solid #cbd5e1; border-radius:6px; padding:12px; background:#f8fafc;">
+                <div style="font-weight:700; color:#0f172a; margin-bottom:8px;"><i class="fa-solid fa-user" style="color:#16a34a;"></i> ${req.toName} (CTV nhận đổi)</div>
+                <div style="font-size:13px; color:#475569;">Tuyến: <strong>${req.toRoute}</strong></div>
+                <div style="font-size:13px; color:#475569;">Giờ chạy: <strong>${req.toTime}</strong></div>
+            </div>
+        </div>
+
+        <div class="section-title">Trạng thái xác nhận</div>
+        <div style="padding:10px 14px; border-radius:6px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:13px; font-weight:600; margin-bottom:16px;">
+            <i class="fa-solid fa-circle-check"></i> ${req.toName} đã xác nhận đồng ý đổi ca làm việc.
+        </div>
+    `;
+
+    const footer = document.getElementById('mgrFooter');
+    if (req.status === 'Chờ cán bộ duyệt') {
+        footer.innerHTML = `
+            <button class="btn btn-reset" onclick="closeModal('modalMgr')">Hủy</button>
+            <button class="btn btn-danger" onclick="decideRequest(${req.id}, 'reject')"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+            <button class="btn btn-primary" style="background:#16a34a; border-color:#16a34a;" onclick="decideRequest(${req.id}, 'approve')"><i class="fa-solid fa-check"></i> Phê duyệt</button>
+        `;
+    } else {
+        footer.innerHTML = `<button class="btn btn-reset" onclick="closeModal('modalMgr')">Đóng</button>`;
+    }
+
+    document.getElementById('modalMgr').classList.add('show');
+}
+
+function decideRequest(id, decision) {
+    const req = exchangeRequestsData.find(r => r.id === id);
+    if (!req) return;
+    
+    if (decision === 'approve') {
+        req.status = 'Đã duyệt';
+        req.type = 'approved';
+        alert(`Đã PHÊ DUYỆT yêu cầu đổi lịch ${req.code} thành công! Lịch chạy của 2 CTV đã được cập nhật.`);
+    } else {
+        req.status = 'Từ chối';
+        req.type = 'rejected';
+        alert(`Đã TỪ CHỐI yêu cầu đổi lịch ${req.code}.`);
+    }
+
+    closeModal('modalMgr');
+    renderExchangeTable(exchangeRequestsData);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderExchangeTable(exchangeRequestsData);
+
+    const fp = flatpickr("#filterDateRange", {
+        mode: "range",
+        dateFormat: "d/m/Y",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        defaultDate: ["01/07/2025", "31/07/2025"]
+    });
+
+    // Handle reset button if clicked
+    const resetBtn = document.querySelector('.btn-reset');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            if (fp) {
+                fp.clear();
+            }
+            resetRequestSearch();
+        });
+    }
+});
+</script>
+
+
+
+<script>
+// Utility to handle table cell text overflow and show full text on hover
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .auto-ellipsis {
+      max-width: 220px;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      cursor: default;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function applyEllipsis() {
+    const cells = document.querySelectorAll('.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td, .table-container td');
+    cells.forEach(cell => {
+      // Ignore interactive cells, status badges, dropdowns, and button containers
+      if (cell.querySelector('input, select, button, a, .img-cell, .badge, .icon-btn, .action-btn, .status-active, .status-inactive, .route-tag')) {
+        return;
+      }
+      
+      const text = cell.innerText.trim();
+      if (text.length > 25) {
+        if (!cell.classList.contains('auto-ellipsis')) {
+          cell.classList.add('auto-ellipsis');
+        }
+        if (!cell.getAttribute('title')) {
+          cell.setAttribute('title', text);
+        }
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEllipsis);
+  } else {
+    applyEllipsis();
+  }
+
+  // Observe dynamic rendering (e.g., search filtering, pagination, modal tables)
+  const observer = new MutationObserver((mutations) => {
+    applyEllipsis();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
+</html>

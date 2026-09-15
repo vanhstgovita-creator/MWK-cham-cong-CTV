@@ -1,0 +1,1490 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo lịch nghỉ CTV</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Flatpickr Range Calendar CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f5f7fa;}
+.wrapper{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.menu{padding:10px 0;}
+.level-1{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:500;font-size:14px;}
+.level-1:hover{background:#f5f8fc;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 12px 50px;color:#475569;font-size:13px;}
+.level-3 a{display:block;padding:10px 20px 10px 80px;color:#64748b;text-decoration:none;font-size:13px;}
+.level-3 a:hover{background:#f0f4f8;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* CONTENT */
+.content{flex:1;min-width:0;}
+.page-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;}
+.breadcrumb{color:#64748b;font-size:13px;}
+.page-title{margin-top:5px;font-size:24px;font-weight:600;color:#1e293b;}
+.container{padding:20px;}
+
+/* CARD */
+.card{background:#fff;border:1px solid #e5e7eb;margin-bottom:20px;}
+.card-header{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;border-bottom:1px solid #e5e7eb;font-weight:600;}
+.card-body{padding:16px;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.form-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.form-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.form-group label{display:block;margin-bottom:6px;font-size:13px;color:#475569;}
+.form-group label .req{color:#dc2626;margin-left:2px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;height:36px;border:1px solid #d1d5db;border-radius:4px;padding:0 10px;font-size:14px;color:#1e293b;}
+.form-group textarea{height:80px;padding:8px 10px;resize:none;}
+.readonly-field{background:#f8f9fa !important;color:#64748b;}
+
+/* BUTTON */
+.btn{height:36px;border:none;border-radius:4px;padding:0 14px;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:#4d647b;color:#fff;}
+.btn-primary:hover{background:#3b5068;}
+.btn-search{background:#4d647b;color:#fff;}
+.btn-reset{background:#f3f4f6;border:1px solid #d1d5db;color:#374151;}
+.btn-danger{background:#dc2626;color:#fff;}
+.btn-success{background:#16a34a;color:#fff;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead th{background:#2f4660;color:#fff;padding:12px;text-align:left;font-size:13px;white-space:nowrap;}
+.data-table tbody td{border:1px solid #e5e7eb;padding:10px 12px;font-size:14px;vertical-align:middle;}
+.data-table tbody tr:hover{background:#f8faff;}
+.icon-btn{border:none;background:none;cursor:pointer;margin-right:2px;font-size:15px;padding:2px;}
+.view{color:#2A3F54;}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap;}
+.badge-waiting{background:#ede9fe;color:#5b21b6;}
+.badge-approved{background:#dcfce7;color:#166534;}
+.badge-rejected{background:#fee2e2;color:#991b1b;}
+.badge-cancelled{background:#f3f4f6;color:#6b7280;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.stat-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.stat-num{font-size:22px;font-weight:700;line-height:1;}
+.stat-label{font-size:12px;color:#64748b;margin-top:2px;}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;z-index:1000;}
+.modal.show{display:flex;}
+.modal-content{background:#fff;max-height:90vh;overflow:auto;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,.2);}
+.modal-sm{width:480px;}
+.modal-md{width:680px;}
+.modal-header{height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:16px;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-header .close-btn{cursor:pointer;color:#64748b;font-size:18px;}
+.modal-body{padding:20px;}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff;z-index:1;}
+.section-title{font-weight:600;color:#2f4660;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;font-size:14px;}
+.section-title:first-child{margin-top:0;}
+
+/* INFO BLOCK */
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 24px;margin-bottom:4px;}
+.info-row{display:flex;gap:6px;font-size:13px;padding:4px 0;}
+.info-label{color:#64748b;min-width:130px;flex-shrink:0;}
+.info-value{color:#1e293b;font-weight:500;}
+
+/* NOTICE BOX */
+.notice-box{border-radius:6px;padding:12px 16px;margin-top:10px;font-size:13px;}
+.notice-warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
+.notice-success{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;}
+.notice-danger{background:#fff5f5;border:1px solid #fecaca;color:#991b1b;}
+
+/* TUYẾN TAG */
+.route-tag{display:inline-block;background:#dbeafe;color:#1e2f3f;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600;}
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   WIREFRAME STYLES (SYNCHRONIZED & UNIFIED SIZING)
+   ========================================================================== */
+
+/* GLOBAL & BODY */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.menu-item {
+    width: 100% !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: default !important;
+}
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 20px 12px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: default !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a i {
+    margin-right: 6px !important;
+    color: #94a3b8 !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+.btn-secondary, .btn-add, .btn-info, .btn-search {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-secondary:hover, .btn-add:hover, .btn-info:hover, .btn-search:hover {
+    background: #f1f5f9 !important;
+}
+.btn-reset {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover {
+    background: #f1f5f9 !important;
+}
+.btn-danger {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-danger:hover {
+    background: #f1f5f9 !important;
+}
+.btn-success {
+    background: #475569 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+.btn-success:hover {
+    background: #334155 !important;
+}
+.btn-warning {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-warning:hover {
+    background: #f1f5f9 !important;
+}
+
+/* FORM CONTROLS */
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea, 
+.filter-group input, .filter-group select, .date-range-picker input,
+.time-range-box input {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+    box-sizing: border-box !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+.filter-group input:focus, .filter-group select:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+.ro, input[readonly], .readonly-field {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* CARDS & HEADERS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.card-header, .day-header, .route-header, .compare-side-header {
+    height: 50px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.day-header {
+    border-radius: 6px 6px 0 0 !important;
+}
+.compare-side-header.requester {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.compare-side-header.target {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.card-body, .day-content, .route-body {
+    padding: 20px !important;
+}
+
+/* TABLES & SCROLLING */
+.table-container, .tbl-wrap {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    -webkit-overflow-scrolling: touch;
+}
+.table-container table, .tbl-wrap table {
+    min-width: 1100px !important; /* Force min-width ONLY inside a scroll container to enable scrollbar */
+}
+.data-table, .chotcong-summary, .sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th, .chotcong-summary thead th, .sub-tbl th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* DEMO BAR */
+.demo-bar {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.demo-bar label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.demo-bar select {
+    height: 32px !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 0 !important;
+}
+.main-tab-btn {
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    white-space: nowrap !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+.tab-bar {
+    display: flex !important;
+    gap: 4px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 16px !important;
+}
+.tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    background: #ffffff !important;
+    max-height: 90vh !important;
+    max-width: 95vw !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important; /* Prevent horizontal scroll in modal content */
+    border-radius: 6px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important; /* Detail modal opens on top of other modals */
+}
+#modalRouteDetail {
+    z-index: 1200 !important; /* Nested route detail modal sits above all */
+}
+
+/* INFO GRIDS (RESPONSIVE WIREFRAME DESIGN) */
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+.floating-action-bar-content span {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+    <div class="page-header">
+      <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Lịch làm việc VCM <span>/</span> <strong>Báo lịch nghỉ</strong></div>
+      <div class="page-title">Báo lịch nghỉ CTV VCM</div>
+    </div>
+
+    <div class="container">
+
+      <!-- THỐNG KÊ -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <div class="stat-num">5</div>
+            <div class="stat-label">Chờ duyệt</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div class="stat-num">18</div>
+            <div class="stat-label">Đã duyệt</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div>
+            <div class="stat-num">3</div>
+            <div class="stat-label">Đã từ chối</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-ban"></i></div>
+          <div>
+            <div class="stat-num">2</div>
+            <div class="stat-label">Đã hủy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÌM KIẾM -->
+      <div class="card">
+        <div class="card-header">Điều kiện tìm kiếm</div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group" style="position: relative;">
+              <label>Thời gian nghỉ</label>
+              <div style="position: relative;">
+                <input id="filterDateRange" type="text" placeholder="Chọn khoảng thời gian" style="width:100%; height:36px; padding:0 34px 0 10px; border:1px solid #d1d5db; border-radius:4px; font-family:'Inter'; background:#ffffff; cursor:pointer;" readonly value="01/07/2025   →   31/07/2025">
+                <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 11px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>CTV</label>
+              <input type="text" id="filterLeaveCTV" placeholder="Tên hoặc mã CTV...">
+            </div>
+            <div class="form-group">
+              <label>Tuyến</label>
+              <select id="filterLeaveRoute">
+                <option value="">-- Tất cả tuyến --</option>
+                <option value="VCM001">VCM001 – Thu Cúc → LABO</option>
+                <option value="VCM002">VCM002 – Đống Đa → LABO</option>
+                <option value="VCM003">VCM003 – Bệnh Viện E → LABO</option>
+                <option value="VCM004">VCM004 – Cầu Giấy → LABO</option>
+                <option value="VCM005">VCM005 – Phòng Khám X → LABO</option>
+                <option value="VCM006">VCM006 – Ba Đình → LABO</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Trạng thái</label>
+              <select id="filterLeaveStatus">
+                <option value="">-- Tất cả --</option>
+                <option value="Chờ duyệt">Chờ duyệt</option>
+                <option value="Đã duyệt">Đã duyệt</option>
+                <option value="Từ chối">Từ chối</option>
+              </select>
+            </div>
+          </div>
+          <br>
+          <button class="btn btn-primary" onclick="searchLeaveRequests()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+          <button class="btn btn-reset" onclick="resetLeaveSearch()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+        </div>
+      </div>
+
+      <!-- DANH SÁCH -->
+      <div class="card">
+        <div class="card-header">
+          <span>Danh sách báo lịch nghỉ</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:13px;font-weight:400;color:#64748b;">Tổng: 28 yêu cầu</span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div class="table-container">
+<table class="data-table">
+            <thead>
+              <tr>
+                <th width="46">STT</th>
+                <th>Mã YC</th>
+                <th>Ngày gửi</th>
+                <th>Ngày nghỉ</th>
+                <th>CTV</th>
+                <th>Tuyến hôm đó</th>
+                <th>Lý do</th>
+                <th>Xử lý tuyến</th>
+                <th>Trạng thái</th>
+                <th width="180">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>1</td>
+                <td><strong>YCLN-0710-001</strong></td>
+                <td>08/07/2025</td>
+                <td>12/07/2025</td>
+                <td>Nguyễn Văn A <span style="color:#94a3b8;font-size:12px;">(CTV-0001)</span></td>
+                <td><span class="route-tag">VCM001</span></td>
+                <td>Bận việc gia đình</td>
+                <td><span style="color:#f59e0b;font-size:12px;font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Chưa xử lý</span></td>
+                <td><span class="badge badge-waiting">Chờ duyệt</span></td>
+                <td style="white-space: nowrap;">
+                  <button class="action-icon gavel" title="Duyệt yêu cầu nghỉ" onclick="openModal('pending','YCLN-0710-001')">
+                    <i class="fa-solid fa-gavel"></i>
+                  </button>
+                  <button class="action-icon view" title="Đổi lịch làm việc" onclick="window.location.href='lichlamviecctvvcm.html'">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <td><strong>YCLN-0709-002</strong></td>
+                <td>07/07/2025</td>
+                <td>11/07/2025</td>
+                <td>Lê Văn D <span style="color:#94a3b8;font-size:12px;">(CTV-0017)</span></td>
+                <td><span class="route-tag">VCM002</span></td>
+                <td>Khám sức khỏe</td>
+                <td><span style="color:#f59e0b;font-size:12px;font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Chưa xử lý</span></td>
+                <td><span class="badge badge-waiting">Chờ duyệt</span></td>
+                <td style="white-space: nowrap;">
+                  <button class="action-icon gavel" title="Duyệt yêu cầu nghỉ" onclick="openModal('pending','YCLN-0709-002')">
+                    <i class="fa-solid fa-gavel"></i>
+                  </button>
+                  <button class="action-icon view" title="Đổi lịch làm việc" onclick="window.location.href='lichlamviecctvvcm.html'">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>3</td>
+                <td><strong>YCLN-0708-003</strong></td>
+                <td>06/07/2025</td>
+                <td>10/07/2025</td>
+                <td>Trần Thị C <span style="color:#94a3b8;font-size:12px;">(CTV-0055)</span></td>
+                <td><span class="route-tag">VCM005</span></td>
+                <td>Nghỉ đột xuất</td>
+                <td><span style="color:#f59e0b;font-size:12px;font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Chưa xử lý</span></td>
+                <td><span class="badge badge-waiting">Chờ duyệt</span></td>
+                <td style="white-space: nowrap;">
+                  <button class="action-icon gavel" title="Duyệt yêu cầu nghỉ" onclick="openModal('pending','YCLN-0708-003')">
+                    <i class="fa-solid fa-gavel"></i>
+                  </button>
+                  <button class="action-icon view" title="Đổi lịch làm việc" onclick="window.location.href='lichlamviecctvvcm.html'">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td><strong>YCLN-0706-004</strong></td>
+                <td>04/07/2025</td>
+                <td>08/07/2025</td>
+                <td>Hoàng Văn F <span style="color:#94a3b8;font-size:12px;">(CTV-0088)</span></td>
+                <td><span class="route-tag">VCM004</span></td>
+                <td></td>
+                <td><span style="color:#f59e0b;font-size:12px;font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Chưa xử lý</span></td>
+                <td><span class="badge badge-waiting">Chờ duyệt</span></td>
+                <td style="white-space: nowrap;">
+                  <button class="action-icon gavel" title="Duyệt yêu cầu nghỉ" onclick="openModal('pending','YCLN-0706-004')">
+                    <i class="fa-solid fa-gavel"></i>
+                  </button>
+                  <button class="action-icon view" title="Đổi lịch làm việc" onclick="window.location.href='lichlamviecctvvcm.html'">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>5</td>
+                <td><strong>YCLN-0704-005</strong></td>
+                <td>03/07/2025</td>
+                <td>07/07/2025</td>
+                <td>Vũ Thị G <span style="color:#94a3b8;font-size:12px;">(CTV-0033)</span></td>
+                <td><span class="route-tag">VCM003</span></td>
+                <td>Dự đám cưới</td>
+                <td><span style="color:#f59e0b;font-size:12px;font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Chưa xử lý</span></td>
+                <td><span class="badge badge-waiting">Chờ duyệt</span></td>
+                <td style="white-space: nowrap;">
+                  <button class="action-icon gavel" title="Duyệt yêu cầu nghỉ" onclick="openModal('pending','YCLN-0704-005')">
+                    <i class="fa-solid fa-gavel"></i>
+                  </button>
+                  <button class="action-icon view" title="Đổi lịch làm việc" onclick="window.location.href='lichlamviecctvvcm.html'">
+                    <i class="fa-solid fa-calendar-days"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>6</td>
+                <td><strong>YCLN-0701-006</strong></td>
+                <td>29/06/2025</td>
+                <td>03/07/2025</td>
+                <td>Phạm Thị E <span style="color:#94a3b8;font-size:12px;">(CTV-0063)</span></td>
+                <td><span class="route-tag">VCM006</span></td>
+                <td>Nghỉ ốm</td>
+                <td><span style="color:#16a34a;font-size:12px;font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã xử lý lịch</span></td>
+                <td><span class="badge badge-approved">Đã duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" title="Xem chi tiết" onclick="openModal('approved','YCLN-0701-006')">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>7</td>
+                <td><strong>YCLN-0628-007</strong></td>
+                <td>27/06/2025</td>
+                <td>01/07/2025</td>
+                <td>Đặng Văn H <span style="color:#94a3b8;font-size:12px;">(CTV-0077)</span></td>
+                <td><span class="route-tag">VCM008</span></td>
+                <td>Việc cá nhân</td>
+                <td><span style="color:#dc2626;font-size:12px;font-weight:600;">—</span></td>
+                <td><span class="badge badge-rejected">Từ chối</span></td>
+                <td>
+                  <button class="icon-btn view" title="Xem chi tiết" onclick="openModal('rejected','YCLN-0628-007')">
+                    <i class="fa-regular fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+</div>
+
+          <!-- PAGINATION -->
+          <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e5e7eb;">
+            <div style="font-size:13px;color:#64748b;">Hiển thị 1–7 / 28 bản ghi</div>
+            <div style="display:flex;gap:4px;">
+              <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">‹</button>
+              <button class="btn btn-primary" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">1</button>
+              <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">2</button>
+              <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">3</button>
+              <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">4</button>
+              <button class="btn btn-reset" style="height:30px;min-width:32px;padding:0 10px;font-size:13px;">›</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     MODAL XEM & DUYỆT
+===================================================== -->
+<div class="modal" id="mainModal">
+  <div class="modal-content modal-md">
+    <div class="modal-header">
+      <span id="modalTitle"></span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal()"></i>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<!-- =====================================================
+     CẢNH BÁO DUYỆT LỊCH NGHỈ (XÁC NHẬN / HỦY / ĐỔI LỊCH)
+===================================================== -->
+<div class="modal" id="confirmModal" style="z-index: 1070;">
+  <div class="modal-content modal-sm" style="max-width: 420px; border-radius: 8px !important;">
+    <div class="modal-header" style="background: #fffbeb; color: #b45309; border-bottom: 1px solid #fef3c7; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; height: 52px; font-weight: 600; font-size: 16px;">
+      <span><i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i>Cảnh báo duyệt lịch nghỉ</span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeConfirmModal()" style="cursor: pointer;"></i>
+    </div>
+    <div class="modal-body" style="padding: 20px; font-size: 14px; color: #334155; line-height: 1.6; font-family: 'Inter', sans-serif;">
+      Sau khi duyệt xong, CTV báo nghỉ sẽ không còn vận chuyển tuyến này nữa. Bạn có muốn tiếp tục hay muốn đổi lịch cho CTV khác?
+    </div>
+    <div class="modal-footer" style="padding: 14px 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; background: #fff;">
+      <button class="btn btn-reset" onclick="closeConfirmModal()" style="height: 36px; padding: 0 14px; font-size: 13px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; color: #475569;">Hủy</button>
+      <button class="btn" onclick="redirectToReschedule()" style="height: 36px; padding: 0 14px; font-size: 13px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 4px; cursor: pointer; color: #475569; display: inline-flex; align-items: center; gap: 6px; font-weight: 500;">
+        <i class="fa-solid fa-calendar-days" style="font-size: 12px; color: #475569;"></i> Đổi lịch
+      </button>
+      <button class="btn" onclick="confirmApproval()" style="height: 36px; padding: 0 14px; font-size: 13px; background: #16a34a; border: 1px solid #16a34a; border-radius: 4px; cursor: pointer; color: #ffffff; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;">
+        <i class="fa-solid fa-check" style="font-size: 12px;"></i> Xác nhận
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const DATA = {
+  'YCLN-0710-001':{
+    ctv:'Nguyễn Văn A', code:'CTV-0001', sent:'08/07/2025 07:42',
+    date:'12/07/2025', dow:'Thứ 7',
+    route:'VCM001 – Thu Cúc → LABO', time:'06:00 – 08:30',
+    reason:'Bận việc gia đình',
+    routeHandled:false, decision:null
+  },
+  'YCLN-0709-002':{
+    ctv:'Lê Văn D', code:'CTV-0017', sent:'07/07/2025 08:10',
+    date:'11/07/2025', dow:'Thứ 6',
+    route:'VCM002 – Đống Đa → LABO', time:'06:00 – 08:00',
+    reason:'Khám sức khỏe',
+    routeHandled:false, decision:null
+  },
+  'YCLN-0708-003':{
+    ctv:'Trần Thị C', code:'CTV-0055', sent:'06/07/2025 06:55',
+    date:'10/07/2025', dow:'Thứ 5',
+    route:'VCM005 – Phòng Khám X → LABO', time:'07:00 – 09:30',
+    reason:'Nghỉ đột xuất',
+    routeHandled:false, decision:null
+  },
+  'YCLN-0706-004':{
+    ctv:'Hoàng Văn F', code:'CTV-0088', sent:'04/07/2025 09:00',
+    date:'08/07/2025', dow:'Thứ 3',
+    route:'VCM004 – Cầu Giấy → LABO', time:'06:30 – 09:00',
+    reason:'',
+    routeHandled:false, decision:null
+  },
+  'YCLN-0704-005':{
+    ctv:'Vũ Thị G', code:'CTV-0033', sent:'03/07/2025 10:15',
+    date:'07/07/2025', dow:'Thứ 2',
+    route:'VCM003 – Bệnh Viện E → LABO', time:'06:30 – 09:00',
+    reason:'Dự đám cưới',
+    routeHandled:false, decision:null
+  },
+  'YCLN-0701-006':{
+    ctv:'Phạm Thị E', code:'CTV-0063', sent:'29/06/2025 07:30',
+    date:'03/07/2025', dow:'Thứ 5',
+    route:'VCM006 – Ba Đình → LABO', time:'07:30 – 10:00',
+    reason:'Nghỉ ốm',
+    routeHandled:true,
+    decision:{type:'approved', by:'Phạm Quang Minh', at:'29/06/2025 09:15', note:'Chấp thuận. Đã điều chỉnh lịch tuyến VCM006.'}
+  },
+  'YCLN-0628-007':{
+    ctv:'Đặng Văn H', code:'CTV-0077', sent:'27/06/2025 08:00',
+    date:'01/07/2025', dow:'Thứ 3',
+    route:'VCM008 – Tây Hồ → LABO', time:'07:00 – 09:30',
+    reason:'Việc cá nhân',
+    routeHandled:false,
+    decision:{type:'rejected', by:'Phạm Quang Minh', at:'27/06/2025 10:30', note:'Không có CTV thay thế, không đảm bảo vận chuyển mẫu.'}
+  }
+};
+
+let _currentCode = null;
+
+function openModal(status, code){
+  _currentCode = code;
+  const d = DATA[code];
+
+  /* Title */
+  const titleMap = {
+    pending:'<i class="fa-solid fa-gavel" style="color:#5b21b6;margin-right:8px;"></i>Xem & Duyệt báo nghỉ – ',
+    approved:'<i class="fa-regular fa-eye" style="color:#2A3F54;margin-right:8px;"></i>Chi tiết báo nghỉ – ',
+    rejected:'<i class="fa-regular fa-eye" style="color:#2A3F54;margin-right:8px;"></i>Chi tiết báo nghỉ – '
+  };
+  document.getElementById('modalTitle').innerHTML = titleMap[status] + code;
+
+  /* Decision box */
+  let decisionBox = '';
+  if(d.decision){
+    if(d.decision.type==='approved'){
+      decisionBox = `<div class="notice-box notice-success" style="margin-top:10px;">
+        <div style="font-weight:600;margin-bottom:4px;"><i class="fa-solid fa-circle-check"></i> Đã phê duyệt – ${d.decision.at}</div>
+        <div>Cán bộ duyệt: <strong>${d.decision.by}</strong>${d.decision.note?'  |  Ghi chú: '+d.decision.note:''}</div>
+      </div>`;
+    } else {
+      decisionBox = `<div class="notice-box notice-danger" style="margin-top:10px;">
+        <div style="font-weight:600;margin-bottom:4px;"><i class="fa-solid fa-circle-xmark"></i> Đã từ chối – ${d.decision.at}</div>
+        <div>Cán bộ duyệt: <strong>${d.decision.by}</strong>${d.decision.note?'  |  Lý do: '+d.decision.note:''}</div>
+      </div>`;
+    }
+  }
+
+  /* Route handling notice */
+  let routeNotice = '';
+  if(status==='pending'){
+    routeNotice = `
+      <div class="section-title">Xử lý tuyến sau khi duyệt</div>
+      <div class="notice-box notice-warn">
+        <div style="font-weight:600;margin-bottom:4px;"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý</div>
+        <div>Sau khi phê duyệt, tuyến <strong>${d.route}</strong> ngày <strong>${d.date} (${d.dow})</strong> sẽ không có CTV thực hiện. Cán bộ quản lý cần vào màn <strong>Lịch làm việc</strong> để điều chỉnh tuyến thủ công.</div>
+      </div>`;
+  } else if(status==='approved'){
+    routeNotice = `
+      <div class="section-title">Xử lý tuyến</div>
+      <div class="notice-box notice-success">
+        <i class="fa-solid fa-circle-check"></i> Tuyến <strong>${d.route}</strong> ngày <strong>${d.date}</strong> đã được xử lý lịch thủ công.
+      </div>`;
+  }
+
+  /* Note input (chỉ khi pending) */
+  const noteInput = (status==='pending') ? `
+    <div class="section-title">Quyết định của cán bộ</div>
+    <div class="form-group">
+      <label>Ghi chú / Lý do từ chối</label>
+      <textarea id="mgrNote" placeholder="Nhập ghi chú hoặc lý do nếu từ chối..."></textarea>
+    </div>` : '';
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="section-title" style="margin-top:0;">Thông tin CTV</div>
+    <div class="info-grid">
+      <div class="info-row"><span class="info-label">Họ tên CTV:</span><span class="info-value">${d.ctv}</span></div>
+      <div class="info-row"><span class="info-label">Mã CTV:</span><span class="info-value">${d.code}</span></div>
+    </div>
+
+    <div class="section-title">Thông tin ngày nghỉ</div>
+    <div class="info-grid">
+      <div class="info-row"><span class="info-label">Ngày nghỉ:</span><span class="info-value">${d.date} (${d.dow})</span></div>
+      <div class="info-row"><span class="info-label">Ngày gửi YC:</span><span class="info-value">${d.sent}</span></div>
+      <div class="info-row"><span class="info-label">Tuyến hôm đó:</span><span class="info-value"><span class="route-tag">${d.route.split(' ')[0]}</span> ${d.route.split(' – ')[1]||''}</span></div>
+      <div class="info-row"><span class="info-label">Giờ làm:</span><span class="info-value">${d.time}</span></div>
+      <div class="info-row" style="grid-column:1/-1;"><span class="info-label">Lý do nghỉ:</span><span class="info-value">${d.reason||'—'}</span></div>
+    </div>
+
+    ${routeNotice}
+    ${decisionBox}
+    ${noteInput}
+  `;
+
+  /* Footer */
+  let footerHtml = '';
+  if(status==='pending'){
+    footerHtml = `
+      <button class="btn btn-reset" onclick="closeModal()">Hủy</button>
+      <button class="btn btn-danger" onclick="doDecision('rejected')">
+        <i class="fa-solid fa-xmark"></i> Từ chối
+      </button>
+      <button class="btn btn-success" onclick="doDecision('approved')">
+        <i class="fa-solid fa-check"></i> Phê duyệt
+      </button>`;
+  } else {
+    footerHtml = `<button class="btn btn-reset" onclick="closeModal()">Đóng</button>`;
+  }
+  document.getElementById('modalFooter').innerHTML = footerHtml;
+
+  document.getElementById('mainModal').classList.add('show');
+}
+
+function doDecision(type){
+  const note = (document.getElementById('mgrNote')||{}).value || '';
+  if(type==='rejected'){
+    if(!note.trim()){
+      alert('Vui lòng nhập lý do từ chối.');
+      document.getElementById('mgrNote').focus();
+      return;
+    }
+    // Update DATA object
+    const d = DATA[_currentCode];
+    d.decision = {
+      type: 'rejected',
+      by: 'Phạm Quang Minh',
+      at: formatCurrentDateTime(),
+      note: note
+    };
+    updateRowUI(_currentCode, 'rejected', note);
+    alert('Đã từ chối yêu cầu nghỉ ' + _currentCode + '.');
+    closeModal();
+  } else if(type==='approved') {
+    openConfirmModal();
+  }
+}
+
+function closeModal(){
+  document.getElementById('mainModal').classList.remove('show');
+}
+
+document.getElementById('mainModal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+/* Confirm modal actions */
+function openConfirmModal() {
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
+document.getElementById('confirmModal').addEventListener('click',function(e){
+  if(e.target===this) closeConfirmModal();
+});
+
+function confirmApproval() {
+  const note = (document.getElementById('mgrNote')||{}).value || '';
+  
+  // Update DATA object
+  const d = DATA[_currentCode];
+  d.routeHandled = true;
+  d.decision = {
+    type: 'approved',
+    by: 'Phạm Quang Minh',
+    at: formatCurrentDateTime(),
+    note: note
+  };
+  
+  // Update UI row
+  updateRowUI(_currentCode, 'approved', note);
+  
+  closeConfirmModal();
+  closeModal();
+  
+  alert('Đã phê duyệt yêu cầu nghỉ ' + _currentCode + '.\nVui lòng vào Lịch làm việc để xử lý tuyến thủ công.');
+}
+
+function redirectToReschedule() {
+  closeConfirmModal();
+  closeModal();
+  window.location.href = 'lichlamviecctvvcm.html';
+}
+
+function formatCurrentDateTime() {
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2, '0');
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const y = now.getFullYear();
+  const h = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  return `${d}/${m}/${y} ${h}:${min}`;
+}
+
+function updateRowUI(code, type, note) {
+  const tbody = document.querySelector('.data-table tbody');
+  if (!tbody) return;
+  const rows = tbody.querySelectorAll('tr');
+  for (const row of rows) {
+    const codeCell = row.cells[1];
+    if (codeCell && codeCell.innerText.trim() === code) {
+      // Found the row!
+      if (type === 'approved') {
+        row.cells[7].innerHTML = `<span style="color:#16a34a;font-size:12px;font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã xử lý lịch</span>`;
+        row.cells[8].innerHTML = `<span class="badge badge-approved">Đã duyệt</span>`;
+        row.cells[9].innerHTML = `
+          <button class="icon-btn view" title="Xem chi tiết" onclick="openModal('approved','${code}')">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        `;
+      } else if (type === 'rejected') {
+        row.cells[7].innerHTML = `<span style="color:#dc2626;font-size:12px;font-weight:600;">—</span>`;
+        row.cells[8].innerHTML = `<span class="badge badge-rejected">Từ chối</span>`;
+        row.cells[9].innerHTML = `
+          <button class="icon-btn view" title="Xem chi tiết" onclick="openModal('rejected','${code}')">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        `;
+      }
+      break;
+    }
+  }
+}
+
+function searchLeaveRequests() {
+  const ctv = (document.getElementById('filterLeaveCTV').value || '').toLowerCase().trim();
+  const route = document.getElementById('filterLeaveRoute').value;
+  const status = document.getElementById('filterLeaveStatus').value;
+
+  const rows = document.querySelectorAll('.data-table tbody tr');
+  rows.forEach(row => {
+    const code = row.cells[1] ? row.cells[1].innerText.trim() : '';
+    const d = DATA[code];
+    if (!d) return;
+
+    let show = true;
+    if (ctv && !d.ctv.toLowerCase().includes(ctv) && !d.code.toLowerCase().includes(ctv)) show = false;
+    if (route && !d.route.includes(route)) show = false;
+    if (status) {
+      if (status === 'Chờ duyệt' && d.decision) show = false;
+      if (status === 'Đã duyệt' && (!d.decision || d.decision.type !== 'approved')) show = false;
+      if (status === 'Từ chối' && (!d.decision || d.decision.type !== 'rejected')) show = false;
+    }
+
+    row.style.display = show ? '' : 'none';
+  });
+}
+
+function resetLeaveSearch() {
+  document.getElementById('filterLeaveCTV').value = '';
+  document.getElementById('filterLeaveRoute').value = '';
+  document.getElementById('filterLeaveStatus').value = '';
+  const rows = document.querySelectorAll('.data-table tbody tr');
+  rows.forEach(row => row.style.display = '');
+}
+
+// Initialize Flatpickr for search filter date range
+document.addEventListener("DOMContentLoaded", function() {
+    flatpickr("#filterDateRange", {
+        mode: "range",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        dateFormat: "d/m/Y"
+    });
+});
+</script>
+
+
+
+<script>
+// Utility to handle table cell text overflow and show full text on hover
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .auto-ellipsis {
+      max-width: 220px;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      cursor: default;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function applyEllipsis() {
+    const cells = document.querySelectorAll('.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td, .table-container td');
+    cells.forEach(cell => {
+      // Ignore interactive cells, status badges, dropdowns, and button containers
+      if (cell.querySelector('input, select, button, a, .img-cell, .badge, .icon-btn, .action-btn, .status-active, .status-inactive, .route-tag')) {
+        return;
+      }
+      
+      const text = cell.innerText.trim();
+      if (text.length > 25) {
+        if (!cell.classList.contains('auto-ellipsis')) {
+          cell.classList.add('auto-ellipsis');
+        }
+        if (!cell.getAttribute('title')) {
+          cell.setAttribute('title', text);
+        }
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEllipsis);
+  } else {
+    applyEllipsis();
+  }
+
+  // Observe dynamic rendering (e.g., search filtering, pagination, modal tables)
+  const observer = new MutationObserver((mutations) => {
+    applyEllipsis();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
+</html>

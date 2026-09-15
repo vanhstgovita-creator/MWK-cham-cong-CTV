@@ -1,0 +1,2253 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng dữ liệu chấm công – CTV Vận chuyển mẫu</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Flatpickr Range Calendar CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f5f7fa;}
+.wrapper{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.menu{padding:10px 0;}
+.level-1{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:500;}
+.level-1:hover{background:#f5f8fc;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 12px 50px;color:#475569;}
+.level-3 a{display:block;padding:10px 20px 10px 80px;color:#64748b;text-decoration:none;font-size:14px;}
+.level-3 a:hover{background:#f0f4f8;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* CONTENT */
+.content{flex:1;min-width:0;}
+.page-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;}
+.breadcrumb{color:#64748b;font-size:13px;}
+.page-title{margin-top:5px;font-size:24px;font-weight:600;color:#1e293b;}
+.container{padding:20px;}
+
+/* CARD */
+.card{background:#fff;border:1px solid #e5e7eb;margin-bottom:20px;}
+.card-header{min-height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;border-bottom:1px solid #e5e7eb;font-weight:600;flex-wrap:wrap;gap:8px;}
+.card-body{padding:16px;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.form-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.form-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.form-group label{display:block;margin-bottom:6px;font-size:13px;color:#475569;}
+.form-group input,.form-group select,.form-group textarea{width:100%;height:36px;border:1px solid #d1d5db;border-radius:4px;padding:0 10px;font-size:14px;color:#1e293b;}
+.form-group textarea{height:80px;padding:8px 10px;resize:vertical;}
+.ro{background:#f8f9fa !important;color:#64748b;}
+
+/* BUTTON */
+.btn{height:36px;border:none;border-radius:4px;padding:0 14px;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:#4d647b;color:#fff;}.btn-primary:hover{background:#3b5068;}
+.btn-reset{background:#f3f4f6;border:1px solid #d1d5db;color:#374151;}
+.btn-danger{background:#dc2626;color:#fff;}
+.btn-success{background:#16a34a;color:#fff;}
+.btn-warning{background:#f59e0b;color:#fff;}
+.btn-info{background:#0ea5e9;color:#fff;}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;}
+.data-table{width:100%;border-collapse:collapse;min-width:900px;}
+.data-table thead th{background:#2f4660;color:#fff;padding:10px 12px;text-align:left;font-size:12px;white-space:nowrap;position:sticky;top:0;z-index:1;}
+.data-table tbody td{border:1px solid #e5e7eb;padding:8px 10px;font-size:13px;vertical-align:middle;white-space:nowrap;}
+.data-table tbody tr:hover{background:#f8faff;}
+.icon-btn{border:none;background:none;cursor:pointer;margin-right:2px;font-size:15px;padding:2px;}
+.view{color:#2A3F54;}.edit{color:#2A3F54;}.del{color:#dc2626;}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap;}
+.b-ok{background:#dcfce7;color:#166534;}
+.b-on{background:#dbeafe;color:#1e2f3f;}
+.b-late-in{background:#fef9c3;color:#854d0e;}
+.b-late-out{background:#ffedd5;color:#9a3412;}
+.b-no-in{background:#fee2e2;color:#991b1b;}
+.b-no-out{background:#fee2e2;color:#991b1b;}
+.b-wrong{background:#f3e8ff;color:#6b21a8;}
+.b-no-data{background:#f3f4f6;color:#6b7280;}
+.b-img-miss{background:#fef3c7;color:#92400e;}
+
+/* ảnh status mini (trong cell bảng) */
+.img-cell{display:flex;flex-direction:column;gap:3px;min-width:100px;}
+.img-row{display:flex;align-items:center;gap:4px;font-size:11px;}
+.img-row .label{color:#64748b;min-width:70px;}
+.img-dot-ok{width:8px;height:8px;border-radius:50%;background:#16a34a;flex-shrink:0;}
+.img-dot-miss{width:8px;height:8px;border-radius:50%;background:#dc2626;flex-shrink:0;}
+.img-dot-na{width:8px;height:8px;border-radius:50%;background:#d1d5db;flex-shrink:0;}
+.req-star{color:#dc2626;font-size:9px;}
+
+/* GIẢI TRÌNH STATUS */
+.gs-wait{background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.gs-pending{background:#dbeafe;color:#1e2f3f;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.gs-approved{background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.gs-rejected{background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;justify-content:center;align-items:center;z-index:1000;}
+.modal.show{display:flex;}
+.modal-content{background:#fff;max-height:92vh;overflow:auto;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.25);}
+.modal-sm{width:500px;}
+.modal-md{width:760px;}
+.modal-lg{width:980px;}
+.modal-xl{width:1120px;}
+.modal-header{height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:600;font-size:16px;position:sticky;top:0;background:#fff;z-index:2;}
+.modal-header .close-btn{cursor:pointer;color:#64748b;font-size:18px;}
+.modal-body{padding:20px;}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:#fff;z-index:2;}
+
+/* SECTION TITLE */
+.sec{font-weight:600;color:#2f4660;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;font-size:13px;display:flex;align-items:center;gap:8px;}
+.sec:first-child{margin-top:0;}
+
+/* INFO GRID */
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 20px;}
+.ig2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;}
+.ig4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 20px;}
+.ir{display:flex;gap:6px;font-size:13px;padding:3px 0;}
+.il{color:#64748b;min-width:130px;flex-shrink:0;}
+.iv{color:#1e293b;font-weight:500;}
+
+/* NOTICE BOX */
+.nb-ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px 14px;font-size:13px;color:#166534;margin-bottom:10px;}
+.nb-warn{background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;font-size:13px;color:#92400e;margin-bottom:10px;}
+.nb-err{background:#fff1f2;border:1px solid #fecdd3;border-radius:6px;padding:10px 14px;font-size:13px;color:#9f1239;margin-bottom:10px;}
+.nb-info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:10px 14px;font-size:13px;color:#1e2f3f;margin-bottom:10px;}
+
+/* GPS LINK */
+.gps-link{color:#2A3F54;text-decoration:underline;cursor:pointer;font-size:12px;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.stat-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.stat-num{font-size:20px;font-weight:700;line-height:1;}
+.stat-lbl{font-size:11px;color:#64748b;margin-top:2px;}
+
+/* ============================================================
+   DETAIL DIRECTION BLOCK
+============================================================ */
+.dir-block{border:1px solid #e5e7eb;border-radius:8px;margin-bottom:16px;overflow:hidden;}
+.dir-block.dir-fwd{border-color:#d1fae5;}
+.dir-block.dir-rev{border-color:#bfdbfe;}
+.dir-block-hd{padding:10px 16px;display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;}
+.dir-block.dir-fwd .dir-block-hd{background:#f0fdf4;}
+.dir-block.dir-rev .dir-block-hd{background:#eff6ff;}
+.dir-block-body{padding:16px;}
+.dir-title{font-weight:600;font-size:14px;color:#1e293b;display:flex;align-items:center;gap:8px;}
+.dir-badge-fwd{background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.dir-badge-rev{background:#dbeafe;color:#1e2f3f;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.req-tag{background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:3px;padding:1px 6px;font-size:10px;font-weight:600;}
+.opt-tag{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;border-radius:3px;padding:1px 6px;font-size:10px;font-weight:600;}
+
+/* TIMELINE (trong detail) */
+.tl{display:flex;flex-direction:column;gap:0;margin-top:10px;}
+.tl-row{display:flex;gap:0;}
+.tl-axis{width:56px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.tl-time-lbl{font-size:11px;font-weight:600;color:#2A3F54;text-align:center;padding:4px 0 2px;line-height:1.2;white-space:nowrap;}
+.tl-time-lbl.err{color:#dc2626;}
+.tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0;z-index:1;}
+.tl-dot.dn{background:#2A3F54;}
+.tl-dot.dg{background:#16a34a;}
+.tl-dot.dtc{background:#f59e0b;}
+.tl-dot.derr{background:#dc2626;}
+.tl-vline{width:2px;flex:1;background:#e5e7eb;min-height:20px;}
+.tl-content{flex:1;padding:4px 0 18px 14px;}
+.tl-content-title{font-size:13px;font-weight:600;color:#1e293b;}
+.tl-content-meta{font-size:12px;color:#64748b;margin-top:2px;line-height:1.5;}
+.tl-content-imgs{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:flex-start;}
+
+/* ẢNH trong timeline */
+.img-card{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.img-card-label{font-size:11px;color:#64748b;font-weight:500;}
+.img-card img{width:120px;height:90px;object-fit:cover;border-radius:5px;border:1px solid #e5e7eb;cursor:pointer;transition:opacity .15s;}
+.img-card img:hover{opacity:.85;}
+.img-card-miss{width:120px;height:90px;border:2px dashed #fca5a5;border-radius:5px;background:#fff1f2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.img-card-miss i{color:#dc2626;font-size:22px;}
+.img-card-miss span{font-size:10px;color:#dc2626;font-weight:600;}
+.img-card-na{width:120px;height:90px;border:1px dashed #d1d5db;border-radius:5px;background:#f9fafb;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.img-card-na i{color:#94a3b8;font-size:22px;}
+.img-card-na span{font-size:10px;color:#94a3b8;}
+
+/* SUB TABLE */
+.sub-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.sub-tbl th{background:#f8faff;color:#374151;padding:7px 10px;text-align:left;font-size:12px;font-weight:600;border:1px solid #e5e7eb;}
+.sub-tbl td{border:1px solid #e5e7eb;padding:7px 10px;vertical-align:middle;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;justify-content:center;align-items:center;z-index:2000;cursor:pointer;}
+.lightbox.show{display:flex;}
+.lightbox img{max-width:90vw;max-height:86vh;border-radius:6px;box-shadow:0 4px 30px rgba(0,0,0,.5);}
+
+#modalDetail{z-index:1050;}
+
+/* DATE RANGE PICKER */
+.date-range-picker{flex:1;display:flex;align-items:center;border:1px solid #d1d5db;border-radius:4px;background:#fff;height:36px;padding:0 10px;gap:4px;}
+.date-range-picker input{border:none !important;outline:none !important;background:transparent !important;width:88px;height:100% !important;padding:0 !important;font-size:14px;color:#1e293b;}
+.date-range-picker .separator{color:#94a3b8;font-size:13px;margin:0 4px;}
+.date-range-picker .calendar-icon{color:#94a3b8;margin-left:auto;font-size:14px;cursor:pointer;}
+
+/* TABS STYLE */
+.tab-bar{display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid #e5e7eb;padding-bottom:0;}
+.tab-btn{background:none;border:none;padding:10px 20px;font-size:14px;font-weight:600;color:#64748b;cursor:pointer;position:relative;transition:all .2s ease;}
+.tab-btn:hover{color:#2f4660;}
+.tab-btn.active{color:#2f4660;}
+.tab-btn.active::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:3px;background:#2f4660;border-radius:3px 3px 0 0;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* COLLAPSIBLE DIRECTION BLOCK */
+.dir-block-hd{cursor:pointer;user-select:none;}
+.dir-block-hd:hover{filter:brightness(.97);}
+.dir-toggle-icon{font-size:13px;color:#64748b;transition:transform .2s;}
+.dir-block-body{transition:none;}
+.dir-block.collapsed .dir-block-body{display:none;}
+.dir-block.collapsed .dir-toggle-icon{transform:rotate(-90deg);}
+
+
+
+
+/* ==========================================================================
+   WIREFRAME STYLES (SYNCHRONIZED & UNIFIED SIZING)
+   ========================================================================== */
+
+/* GLOBAL & BODY */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.menu-item {
+    width: 100% !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: default !important;
+}
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 20px 12px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: default !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a i {
+    margin-right: 6px !important;
+    color: #94a3b8 !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+.btn-secondary, .btn-add, .btn-info, .btn-search {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-secondary:hover, .btn-add:hover, .btn-info:hover, .btn-search:hover {
+    background: #f1f5f9 !important;
+}
+.btn-reset {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover {
+    background: #f1f5f9 !important;
+}
+.btn-danger {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-danger:hover {
+    background: #f1f5f9 !important;
+}
+.btn-success {
+    background: #475569 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+.btn-success:hover {
+    background: #334155 !important;
+}
+.btn-warning {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-warning:hover {
+    background: #f1f5f9 !important;
+}
+
+/* FORM CONTROLS */
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea, 
+.filter-group input, .filter-group select, .date-range-picker input,
+.time-range-box input {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+    box-sizing: border-box !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+.filter-group input:focus, .filter-group select:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+.ro, input[readonly], .readonly-field {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* CARDS & HEADERS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.card-header, .day-header, .route-header, .compare-side-header {
+    height: 50px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.day-header {
+    border-radius: 6px 6px 0 0 !important;
+}
+.compare-side-header.requester {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.compare-side-header.target {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.card-body, .day-content, .route-body {
+    padding: 20px !important;
+}
+
+/* TABLES & SCROLLING */
+.table-container, .tbl-wrap {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    -webkit-overflow-scrolling: touch;
+}
+.table-container table, .tbl-wrap table {
+    min-width: 1100px !important; /* Force min-width ONLY inside a scroll container to enable scrollbar */
+}
+.data-table, .chotcong-summary, .sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th, .chotcong-summary thead th, .sub-tbl th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* DEMO BAR */
+.demo-bar {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.demo-bar label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.demo-bar select {
+    height: 32px !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 0 !important;
+}
+.main-tab-btn {
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    white-space: nowrap !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+.tab-bar {
+    display: flex !important;
+    gap: 4px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 16px !important;
+}
+.tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    background: #ffffff !important;
+    max-height: 90vh !important;
+    max-width: 95vw !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important; /* Prevent horizontal scroll in modal content */
+    border-radius: 6px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important; /* Detail modal opens on top of other modals */
+}
+#modalRouteDetail {
+    z-index: 1200 !important; /* Nested route detail modal sits above all */
+}
+
+/* INFO GRIDS (RESPONSIVE WIREFRAME DESIGN) */
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+.floating-action-bar-content span {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+<body>
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV KSK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-stethoscope icon-left"></i>
+                        Cộng tác viên KSK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-ksk"></i>
+                </div>
+                <div class="level-2" id="menu-ksk" style="display:none;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công KSK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvksk.html" id="NAV_bangdulieucongctvksk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvksk.html" id="NAV_bangtonghopcongctvksk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="bangchotcongctvksk.html" id="NAV_bangchotcongctvksk">
+                                <i class="fa-solid fa-check-double"></i> Bảng chốt công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Chấm công VCM <span>/</span> <strong>Bảng dữ liệu chấm công</strong></div>
+    <div class="page-title">Bảng dữ liệu chấm công – CTV VCM</div>
+  </div>
+
+  <div class="container">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-circle-check"></i></div>
+        <div><div class="stat-num" >142</div><div class="stat-lbl">Hợp lệ</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-spinner"></i></div>
+        <div><div class="stat-num" >8</div><div class="stat-lbl">Đang trong ca</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div><div class="stat-num" >14</div><div class="stat-lbl">Lỗi chấm công</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-image-slash"></i></div>
+        <div><div class="stat-num" >7</div><div class="stat-lbl">Thiếu ảnh bắt buộc</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-clock"></i></div>
+        <div><div class="stat-num" >9</div><div class="stat-lbl">Chờ giải trình</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" ><i class="fa-solid fa-file-signature"></i></div>
+        <div><div class="stat-num" >5</div><div class="stat-lbl">Chờ duyệt GT</div></div>
+      </div>
+    </div>
+
+    <!-- TÌM KIẾM -->
+    <div class="card">
+      <div class="card-header">Điều kiện tìm kiếm</div>
+      <div class="card-body">
+        <div class="form-grid-5" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label>Thời gian</label>
+            <div style="position: relative;">
+              <input id="filterDateRange" type="text" placeholder="Chọn khoảng thời gian" style="padding-right: 34px !important;" readonly value="01/06/2026   →   30/06/2026">
+              <i class="fa-regular fa-calendar" style="position: absolute; right: 12px; top: 11px; color: #94a3b8; font-size: 14px; pointer-events: none;"></i>
+            </div>
+          </div>
+          <div class="form-group"><label>CTV</label><input type="text" placeholder="Tên hoặc mã CTV..."></div>
+          <div class="form-group">
+            <label>Tuyến / Ký hiệu cung</label>
+            <select>
+              <option value="">-- Tất cả --</option>
+              <option>VCM001 – Thu Cúc → LABO</option>
+              <option>VCM002 – Đống Đa → LABO</option>
+              <option>VCM003 – Bệnh Viện E → LABO</option>
+              <option>VCM004 – Cầu Giấy → LABO</option>
+              <option>VCM005 – Phòng Khám X → LABO</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Trạng thái chấm công</label>
+            <select>
+              <option value="">-- Tất cả --</option>
+              <option>Hợp lệ</option>
+              <option>Đang trong ca làm việc</option>
+              <option>Chấm nhận mẫu muộn</option>
+              <option>Chấm giao mẫu muộn</option>
+              <option>Không chấm nhận mẫu</option>
+              <option>Không chấm giao mẫu</option>
+              <option>Thiếu ảnh bắt buộc (tuyến giao đồ)</option>
+              <option>Sai vị trí làm việc</option>
+              <option>Không có dữ liệu chấm</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="form-group"><label>Ca làm việc</label>
+            <select><option value="">-- Tất cả --</option><option>Ca sáng (05:00–12:00)</option><option>Ca chiều (12:00–18:00)</option><option>Ca tối (18:00–22:00)</option></select>
+          </div>
+          <div class="form-group"><label>Trạng thái giải trình</label>
+            <select><option value="">-- Tất cả --</option><option>Chờ giải trình</option><option>Chờ duyệt</option><option>Đã duyệt</option><option>Từ chối</option></select>
+          </div>
+          <div class="form-group"><label>Cơ sở</label>
+            <select><option value="">-- Tất cả --</option><option>Hà Nội</option><option>TP. HCM</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+        <button class="btn btn-reset"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+      </div>
+    </div>
+
+    <!-- BẢNG DỮ LIỆU CÔNG -->
+    <div id="tab-attendance">
+      <!-- DANH SÁCH -->
+      <div class="card">
+      <div class="card-header">
+        <span>Bảng dữ liệu chấm công VCM – Tháng 07/2025</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:13px;font-weight:400;color:#64748b;">Tổng: 173 bản ghi  |  <span style="color:#f59e0b;">5 giải trình cần xử lý</span></span>
+          <button class="btn btn-primary" onclick="openBatchModal()" style="height:32px;font-size:13px;"><i class="fa-solid fa-check-double"></i> Duyệt hàng loạt</button>
+          <button class="btn btn-reset" style="height:32px;font-size:13px;"><i class="fa-solid fa-file-excel"></i> Xuất Excel</button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="tbl-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th width="40">STT</th>
+                <th>Ngày</th>
+                <th>Trạng thái chấm công</th>
+                <th>Công chấm</th>
+                <th>Công ghi nhận</th>
+                <th>Thứ</th>
+                <th>Mã CTV</th>
+                <th>Tên CTV</th>
+                <th>Cơ sở</th>
+                <th>Tên cung</th>
+                <th>Ký hiệu cung</th>
+                <th>Quãng đường (km)</th>
+                <th>Giờ làm việc (lịch)</th>
+                <th>Giải trình công</th>
+                <th>Trạng thái duyệt giải trình</th>
+                <th width="82">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- ROW 1: Hợp lệ – có tuyến giao đồ, đủ ảnh -->
+              <tr>
+                <td>1</td>
+                <td>01/07/2025</td>
+                <td><span class="badge b-ok">Hợp lệ</span></td>
+                <td>2</td>
+                <td>2</td>
+                <td>Thứ 3</td>
+                <td>CTV-0001</td>
+                <td>Nguyễn Văn A</td>
+                <td>Hà Nội</td>
+                <td>Thu Cúc → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM001</span></td>
+                <td>12.5</td>
+                <td>06:00 – 08:30</td>
+                <td style="color:#94a3b8;">—</td>
+                <td style="color:#94a3b8;">—</td>
+                <td><button class="icon-btn view" onclick="openDetail('ok_with_rev')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button></td>
+              </tr>
+
+              <!-- ROW 2: Hợp lệ – chỉ tuyến giao mẫu -->
+              <tr>
+                <td>2</td>
+                <td>10/07/2025</td>
+                <td><span class="badge b-ok">Hợp lệ</span></td>
+                <td>1</td>
+                <td>1</td>
+                <td>Thứ 5</td>
+                <td>CTV-0017</td>
+                <td>Lê Văn D</td>
+                <td>Hà Nội</td>
+                <td>Đống Đa → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM002</span></td>
+                <td>8.2</td>
+                <td>06:00 – 08:00</td>
+                <td style="color:#94a3b8;">—</td>
+                <td style="color:#94a3b8;">—</td>
+                <td><button class="icon-btn view" onclick="openDetail('ok_fwd_only')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button></td>
+              </tr>
+
+              <!-- ROW 3: Tuyến giao đồ – Thiếu ảnh nhận -->
+              <tr style="background:#fffbeb;">
+                <td>3</td>
+                <td>03/07/2025</td>
+                <td><span class="badge b-img-miss">Thiếu ảnh nhận (tuyến giao đồ)</span></td>
+                <td>2</td>
+                <td style="color:#dc2626;">Chờ giải trình</td>
+                <td>Thứ 5</td>
+                <td>CTV-0055</td>
+                <td>Trần Thị C</td>
+                <td>Hà Nội</td>
+                <td>Phòng Khám X → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM005</span></td>
+                <td>9.8</td>
+                <td>07:00 – 09:30</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Tôi quên chụp ảnh lúc nhận đồ tại LABO do vội giao hàng. Gửi kèm ảnh biên bản bàn giao có chữ ký của phòng khám để đối chiếu.</td>
+                <td><span class="gs-pending">Chờ duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('miss_img_in')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                  <button class="icon-btn" onclick="openDuyetGT('miss_img_in')" title="Duyệt giải trình" ><i class="fa-solid fa-gavel"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 4: Tuyến giao đồ – Thiếu ảnh giao -->
+              <tr style="background:#fffbeb;">
+                <td>4</td>
+                <td>04/07/2025</td>
+                <td><span class="badge b-img-miss">Thiếu ảnh giao (tuyến giao đồ)</span></td>
+                <td>2</td>
+                <td style="color:#dc2626;">Chờ giải trình</td>
+                <td>Thứ 6</td>
+                <td>CTV-0088</td>
+                <td>Hoàng Văn F</td>
+                <td>Hà Nội</td>
+                <td>Cầu Giấy → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM004</span></td>
+                <td>11.3</td>
+                <td>06:30 – 09:00</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Ứng dụng bị lỗi không cho phép chụp ảnh khi giao. Đã báo cáo Phòng HC và có xác nhận bằng tin nhắn lúc 09:05.</td>
+                <td><span class="gs-pending">Chờ duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('miss_img_out')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                  <button class="icon-btn" onclick="openDuyetGT('miss_img_out')" title="Duyệt giải trình" ><i class="fa-solid fa-gavel"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 5: Chấm nhận muộn -->
+              <tr style="background:#fffbeb;">
+                <td>5</td>
+                <td>03/07/2025</td>
+                <td><span class="badge b-late-in">Chấm nhận mẫu muộn</span></td>
+                <td>1</td>
+                <td style="color:#dc2626;">Chờ giải trình</td>
+                <td>Thứ 5</td>
+                <td>CTV-0055</td>
+                <td>Trần Thị C</td>
+                <td>Hà Nội</td>
+                <td>Phòng Khám X → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM005</span></td>
+                <td>9.8</td>
+                <td>13:00 – 15:30</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Xe bị vỡ lốp trên đường đến điểm nhận mẫu, phải đợi thợ sửa mất 20 phút. Đã gửi tin nhắn báo điều phối lúc 06:55.</td>
+                <td><span class="gs-pending">Chờ duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('late_in')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                  <button class="icon-btn" onclick="openDuyetGT('late_in')" title="Duyệt giải trình" ><i class="fa-solid fa-gavel"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 6: Không chấm nhận -->
+              <tr style="background:#fff5f5;">
+                <td>6</td>
+                <td>05/07/2025</td>
+                <td><span class="badge b-no-in">Không chấm nhận mẫu</span></td>
+                <td>1</td>
+                <td style="color:#dc2626;">Chờ giải trình</td>
+                <td>Thứ 7</td>
+                <td>CTV-0033</td>
+                <td>Vũ Thị G</td>
+                <td>Hà Nội</td>
+                <td>Bệnh Viện E → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM003</span></td>
+                <td>10.6</td>
+                <td>06:30 – 09:00</td>
+                <td style="color:#94a3b8;font-size:12px;">Chưa có nội dung giải trình</td>
+                <td><span class="gs-wait">Chờ giải trình</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('no_in')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 7: Không chấm giao tuyến giao đồ + thiếu ảnh -->
+              <tr style="background:#fef2f2;">
+                <td>7</td>
+                <td>06/07/2025</td>
+                <td><span class="badge b-no-out">Không chấm giao + Thiếu ảnh (tuyến giao đồ)</span></td>
+                <td>2</td>
+                <td style="color:#dc2626;">Chờ giải trình</td>
+                <td>CN</td>
+                <td>CTV-0063</td>
+                <td>Phạm Thị E</td>
+                <td>Hà Nội</td>
+                <td>Ba Đình → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM006</span></td>
+                <td>7.4</td>
+                <td>07:30 – 10:00</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Trong quá trình giao đồ tại điểm cuối, ứng dụng bị lỗi không cho phép chụp ảnh. CTV đã báo cáo trực tiếp Phòng HC, có xác nhận tin nhắn lúc 10:35.</td>
+                <td><span class="gs-pending">Chờ duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('no_out_rev')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                  <button class="icon-btn" onclick="openDuyetGT('no_out_rev')" title="Duyệt giải trình" ><i class="fa-solid fa-gavel"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 8: Sai vị trí GPS -->
+              <tr style="background:#faf5ff;">
+                <td>8</td>
+                <td>07/07/2025</td>
+                <td><span class="badge b-wrong">Sai vị trí GPS</span></td>
+                <td>1</td>
+                <td>1</td>
+                <td>Thứ 2</td>
+                <td>CTV-0077</td>
+                <td>Đặng Văn H</td>
+                <td>Hà Nội</td>
+                <td>Tây Hồ → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM008</span></td>
+                <td>13.1</td>
+                <td>07:00 – 09:30</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Điện thoại định vị sai do thời tiết xấu nhiều mây, tôi đứng đúng cửa phòng khám nhưng GPS lệch 350m.</td>
+                <td><span class="gs-approved">Đã duyệt</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('wrong_gps')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                </td>
+              </tr>
+
+              <!-- ROW 9: Đang trong ca -->
+              <tr>
+                <td>9</td>
+                <td>10/07/2025</td>
+                <td><span class="badge b-on">Đang trong ca</span></td>
+                <td>2</td>
+                <td style="color:#94a3b8;">Chưa ghi nhận</td>
+                <td>Thứ 5</td>
+                <td>CTV-0017</td>
+                <td>Lê Văn D</td>
+                <td>Hà Nội</td>
+                <td>Đống Đa → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM002</span></td>
+                <td>8.2</td>
+                <td>13:00 – 15:00</td>
+                <td style="color:#94a3b8;">—</td>
+                <td style="color:#94a3b8;">—</td>
+                <td><button class="icon-btn view" onclick="openDetail('on')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button></td>
+              </tr>
+
+              <!-- ROW 10: Không có dữ liệu -->
+              <tr style="background:#f9fafb;">
+                <td>10</td>
+                <td>08/07/2025</td>
+                <td><span class="badge b-no-data">Không có dữ liệu chấm</span></td>
+                <td>0</td>
+                <td>0 (Giải trình bị từ chối)</td>
+                <td>Thứ 3</td>
+                <td>CTV-0042</td>
+                <td>Nguyễn Văn B</td>
+                <td>Hà Nội</td>
+                <td>Thu Cúc → LABO</td>
+                <td><span style="background:#dbeafe;color:#1e2f3f;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;">VCM001</span></td>
+                <td>12.5</td>
+                <td>06:00 – 08:30</td>
+                <td style="white-space:normal;max-width:220px;font-size:12px;color:#374151;">Nghỉ đột xuất không kịp báo trước. Mong admin thông cảm tạo điều kiện ghi nhận công.</td>
+                <td><span class="gs-rejected">Từ chối</span></td>
+                <td>
+                  <button class="icon-btn view" onclick="openDetail('no_data')" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PAGINATION -->
+        <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e5e7eb;">
+          <div style="font-size:13px;color:#64748b;">Hiển thị 1–10 / 173 bản ghi</div>
+          <div style="display:flex;gap:4px;">
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">‹</button>
+            <button class="btn btn-primary" style="height:30px;padding:0 10px;font-size:13px;">1</button>
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">2</button>
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">3</button>
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">…</button>
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">20</button>
+            <button class="btn btn-reset" style="height:30px;padding:0 10px;font-size:13px;">›</button>
+          </div>
+        </div>
+      </div><!-- /card-body -->
+    </div><!-- /card -->
+  </div><!-- /tab-attendance -->
+
+  </div><!-- /container -->
+</div><!-- /content -->
+</div><!-- /wrapper -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <img id="lbImg" src="" alt="Ảnh chấm công phóng to">
+</div>
+
+<!-- ================================================================
+     MODAL CHI TIẾT
+================================================================ -->
+<div class="modal" id="modalDetail">
+  <div class="modal-content modal-xl">
+    <div class="modal-header">
+      <span id="dtTitle"></span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalDetail')"></i>
+    </div>
+    <div class="modal-body" id="dtBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-reset" onclick="closeModal('modalDetail')">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL GIẢI TRÌNH
+================================================================ -->
+<div class="modal" id="modalGT">
+  <div class="modal-content modal-md">
+    <div class="modal-header">
+      <span><i class="fa-solid fa-file-pen" style="color:#f59e0b;margin-right:8px;"></i>Giải trình công</span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalGT')"></i>
+    </div>
+    <div class="modal-body">
+      <div class="sec" style="margin-top:0;">Thông tin lỗi</div>
+      <div id="gtInfo" class="ig2" style="margin-bottom:10px;"></div>
+      <div id="gtNotice"></div>
+      <div class="sec">Nội dung giải trình</div>
+      <div class="form-group">
+        <label>Lý do giải trình <span style="color:#dc2626;">*</span></label>
+        <textarea id="gtNote" placeholder="Nhập lý do giải trình..."></textarea>
+      </div>
+      <div class="sec">Đính kèm bằng chứng</div>
+      <div class="ig2">
+        <div class="form-group"><label>Ảnh bằng chứng nhận</label><input type="file" accept="image/*" style="height:auto;padding:6px;"></div>
+        <div class="form-group"><label>Ảnh bằng chứng giao</label><input type="file" accept="image/*" style="height:auto;padding:6px;"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-reset" onclick="closeModal('modalGT')">Hủy</button>
+      <button class="btn btn-primary" onclick="submitGT()"><i class="fa-solid fa-paper-plane"></i> Gửi giải trình</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL DUYỆT GIẢI TRÌNH
+================================================================ -->
+<div class="modal" id="modalDuyet">
+  <div class="modal-content modal-md">
+    <div class="modal-header">
+      <span><i class="fa-solid fa-gavel" style="color:#5b21b6;margin-right:8px;"></i>Duyệt giải trình công</span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalDuyet')"></i>
+    </div>
+    <div class="modal-body">
+      <div class="sec" style="margin-top:0; display:flex; justify-content:space-between; align-items:center;">
+        <span>Thông tin bản ghi</span>
+        <button class="btn btn-info" onclick="openDetailFromDuyet()" style="height:26px;font-size:12px;padding:0 8px;margin-left:auto;"><i class="fa-regular fa-eye"></i> Chi tiết chấm công</button>
+      </div>
+      <div class="ig2" id="duyetInfo">
+        <!-- Điền tự động bởi JS -->
+      </div>
+      <div id="duyetNotice">
+        <!-- Điền tự động bởi JS -->
+      </div>
+      <div class="sec">Nội dung giải trình của CTV</div>
+      <div id="duyetExpl" style="background:#f8f9fa;padding:12px;border-radius:6px;font-size:13px;color:#374151;border:1px solid #e5e7eb;">
+        <!-- Điền tự động bởi JS -->
+      </div>
+      <div class="sec">Bằng chứng đính kèm</div>
+      <div id="duyetAttachment" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <!-- Điền tự động bởi JS -->
+      </div>
+      <div class="sec">Quyết định</div>
+      <div class="form-group"><label>Ghi chú (bắt buộc nếu từ chối)</label><textarea id="duyetNote" placeholder="Nhập ghi chú..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-reset" onclick="closeModal('modalDuyet')">Hủy</button>
+      <button class="btn btn-danger" onclick="actionDuyet('reject')"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+      <button class="btn btn-success" onclick="actionDuyet('approve')"><i class="fa-solid fa-check"></i> Phê duyệt</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL DUYỆT HÀNG LOẠT
+================================================================ -->
+<div class="modal" id="modalBatch">
+  <div class="modal-content modal-md">
+    <div class="modal-header">
+      <span><i class="fa-solid fa-check-double" style="margin-right:8px;color:#334155;"></i>Duyệt giải trình hàng loạt</span>
+      <i class="fa-solid fa-xmark close-btn" onclick="closeModal('modalBatch')"></i>
+    </div>
+    <div class="modal-body">
+      <div class="sec" style="margin-top:0;">Phương thức duyệt hàng loạt</div>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+        <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; background:#ffffff;">
+          <input type="radio" name="batchType" value="all" checked style="margin-top:3px; width:auto !important; height:auto !important;">
+          <div>
+            <span style="font-weight:600; color:#1e293b; font-size:14px; display:block;">Duyệt tất cả giải trình đang chờ</span>
+            <span style="font-size:12px; color:#64748b; margin-top:2px; display:block;">Phê duyệt toàn bộ bản ghi đang có trạng thái chờ duyệt giải trình hiện tại.</span>
+          </div>
+        </label>
+        <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; background:#ffffff;">
+          <input type="radio" name="batchType" value="filter" style="margin-top:3px; width:auto !important; height:auto !important;">
+          <div>
+            <span style="font-weight:600; color:#1e293b; font-size:14px; display:block;">Duyệt theo bộ lọc hiện tại</span>
+            <span style="font-size:12px; color:#64748b; margin-top:2px; display:block;">Chỉ phê duyệt các bản ghi chờ duyệt giải trình thỏa mãn bộ lọc tìm kiếm hiện tại.</span>
+          </div>
+        </label>
+        <label style="display:flex; align-items:flex-start; gap:10px; padding:12px; border:1px solid #cbd5e1; border-radius:6px; cursor:pointer; background:#ffffff;">
+          <input type="radio" name="batchType" value="select" style="margin-top:3px; width:auto !important; height:auto !important;">
+          <div>
+            <span style="font-weight:600; color:#1e293b; font-size:14px; display:block;">Tự chọn từng bản ghi để duyệt</span>
+            <span style="font-size:12px; color:#64748b; margin-top:2px; display:block;">Hiển thị cột checkbox ở đầu bảng để bạn tự tay tích chọn các bản ghi cần phê duyệt.</span>
+          </div>
+        </label>
+      </div>
+      <div class="sec">Thông tin phê duyệt</div>
+      <div class="form-group">
+        <label>Ghi chú phê duyệt hàng loạt</label>
+        <textarea id="batchNote" placeholder="Nhập ghi chú phê duyệt chung cho các bản ghi..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-reset" onclick="closeModal('modalBatch')">Hủy</button>
+      <button class="btn btn-primary" onclick="submitBatch()"><i class="fa-solid fa-check"></i> Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING ACTION BAR FOR BATCH ACTIONS -->
+<div id="floatingBatchBar" class="floating-action-bar" style="display:none;">
+  <div class="floating-action-bar-content">
+    <span>Đã chọn <strong id="selectedCount">0</strong> bản ghi giải trình</span>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="btn btn-reset" onclick="cancelBatchSelection()" style="height:32px; font-size:13px;">Hủy chọn</button>
+      <button class="btn btn-danger" onclick="executeBatchAction('reject')" style="height:32px; font-size:13px;"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+      <button class="btn btn-success" onclick="executeBatchAction('approve')" style="height:32px; font-size:13px;"><i class="fa-solid fa-check"></i> Phê duyệt</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== LIGHTBOX ===================== */
+function openLB(src){ document.getElementById('lbImg').src=src; document.getElementById('lightbox').classList.add('show'); }
+function closeLB(){ document.getElementById('lightbox').classList.remove('show'); }
+
+/* ===================== PLACEHOLDERS ===================== */
+const PH_GREEN = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect fill='%23d1fae5' width='120' height='90'/%3E%3Ctext x='50%25' y='45%25' text-anchor='middle' font-size='28' fill='%23065f46'%3E📷%3C/text%3E%3Ctext x='50%25' y='80%25' text-anchor='middle' font-size='10' fill='%23065f46'%3ECó ảnh%3C/text%3E%3C/svg%3E`;
+const PH_BLUE  = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='90'%3E%3Crect fill='%23dbeafe' width='120' height='90'/%3E%3Ctext x='50%25' y='45%25' text-anchor='middle' font-size='28' fill='%231e40af'%3E📷%3C/text%3E%3Ctext x='50%25' y='80%25' text-anchor='middle' font-size='10' fill='%231e40af'%3ECó ảnh%3C/text%3E%3C/svg%3E`;
+
+/* Tạo thẻ ảnh có sẵn */
+function imgOk(ph,label){ return `<div class="img-card"><div class="img-card-label">${label}</div><img src="${ph}" onclick="openLB(this.src)" title="Phóng to ảnh"></div>`; }
+function imgMiss(label){ return `<div class="img-card"><div class="img-card-label">${label}</div><div class="img-card-miss"><i class="fa-solid fa-image-slash"></i><span>Thiếu ảnh</span></div></div>`; }
+function imgNA(label){ return `<div class="img-card"><div class="img-card-label">${label}</div><div class="img-card-na"><i class="fa-regular fa-image"></i><span>Không bắt buộc</span></div></div>`; }
+
+/* Tạo một mốc timeline */
+function tlStep(dotCls, icon, time, isErrTime, title, meta, imgs=''){
+  const timeClass = isErrTime ? 'tl-time-lbl err' : 'tl-time-lbl';
+  return `
+  <div class="tl-row">
+    <div class="tl-axis">
+      <div class="${timeClass}">${time}</div>
+      <div class="tl-dot ${dotCls}"><i class="fa-solid ${icon}"></i></div>
+      <div class="tl-vline"></div>
+    </div>
+    <div class="tl-content">
+      <div class="tl-content-title">${title}</div>
+      <div class="tl-content-meta">${meta}</div>
+      ${imgs ? `<div class="tl-content-imgs">${imgs}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* Tạo bảng điểm trung chuyển */
+function tcTable(rows){
+  const trs = rows.map(r=>`<tr>
+    <td>${r.stt}</td><td>${r.ten}</td><td>${r.gioBD}</td><td>${r.gioTT||'—'}</td>
+    <td><a class="gps-link" onclick="alert('Mở Google Maps: ${r.gps}')">${r.gps}</a></td>
+    <td><span class="badge ${r.ok?'b-ok':'b-late-in'}">${r.status}</span></td>
+  </tr>`).join('');
+  return `<table class="sub-tbl">
+    <thead><tr><th>STT</th><th>Tên điểm</th><th>Giờ đến (lịch)</th><th>Giờ đến (TT)</th><th>GPS</th><th>Trạng thái</th></tr></thead>
+    <tbody>${trs}</tbody>
+  </table>`;
+}
+
+/* Thông tin chung */
+function infoGrid(d){
+  return `<div class="ig">
+    <div class="ir"><span class="il">CTV:</span><span class="iv">${d.ctv}</span></div>
+    <div class="ir"><span class="il">Ngày làm việc:</span><span class="iv">${d.ngay}</span></div>
+    <div class="ir"><span class="il">Ca làm việc:</span><span class="iv">${d.ca}</span></div>
+    <div class="ir"><span class="il">Ký hiệu cung:</span><span class="iv"><span style="background:#dbeafe;color:#1e2f3f;padding:1px 7px;border-radius:4px;font-size:12px;font-weight:600;">${d.kyHieu}</span></span></div>
+    <div class="ir"><span class="il">Tên cung:</span><span class="iv">${d.tenCung}</span></div>
+    <div class="ir"><span class="il">Quãng đường:</span><span class="iv">${d.km}</span></div>
+    <div class="ir"><span class="il">Có tuyến giao đồ:</span><span class="iv">${d.hasRev ? '<span style="color:#1e2f3f;font-weight:600;">Có</span>' : '<span style="color:#64748b;">Không</span>'}</span></div>
+    <div class="ir"><span class="il">Công ghi nhận:</span><span class="iv">${d.cong}</span></div>
+    <div class="ir"><span class="il">Tổng cước:</span><span class="iv" style="color:#16a34a;font-weight:600;">${d.cuoc}</span></div>
+  </div>`;
+}
+
+/* ===================== DETAIL BUILDERS ===================== */
+const DETAIL = {
+
+  /* ---- Hợp lệ, có tuyến giao đồ, đủ ảnh ---- */
+  ok_with_rev: ()=>{
+    const info = {ctv:'Nguyễn Văn A (CTV-0001)',ngay:'01/07/2025 (Thứ 3)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM001',tenCung:'Thu Cúc → LABO (+ tuyến giao đồ)',km:'12.5 + 12.5 km',hasRev:true,cong:'2',cuoc:'312,000đ'};
+    return `
+    <div class="nb-ok"><i class="fa-solid fa-circle-check"></i> <strong>Hợp lệ.</strong> Cả tuyến giao mẫu và tuyến giao đồ đều đạt. Tuyến giao đồ có đủ ảnh nhận và giao theo yêu cầu bắt buộc.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+
+    <!-- tuyến giao mẫu -->
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Thu Cúc → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 06:00 – 08:30  |  Thực tế: 05:58 – 08:22</div>
+      </div>
+      <div class="dir-block-body">
+        <div style="font-size:12px;color:#475569;margin-bottom:8px;"><strong>Điểm trung chuyển:</strong></div>
+        ${tcTable([
+          {stt:1,ten:'BV Thu Cúc (điểm nhận)',gioBD:'06:00',gioTT:'05:58',gps:'21.0285, 105.8542',ok:true,status:'Sớm 2 phút'},
+          {stt:2,ten:'Bệnh Viện K (điểm TC)',gioBD:'06:45',gioTT:'06:43',gps:'21.0301, 105.8490',ok:true,status:'Sớm 2 phút'},
+          {stt:3,ten:'LABO – 82 Duy Tân (điểm giao)',gioBD:'08:30',gioTT:'08:22',gps:'21.0275, 105.8390',ok:true,status:'Sớm 8 phút'}
+        ])}
+        <div style="font-size:12px;color:#475569;margin:12px 0 4px;"><strong>Timeline & Ảnh chấm công:</strong></div>
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','05:58',false,
+            'Chấm nhận tại BV Thu Cúc',
+            'GPS: <a class="gps-link" onclick="alert(\'21.0285, 105.8542\')">21.0285, 105.8542</a>  |  Sớm 2 phút  |  <span style="color:#64748b;">Ảnh: không bắt buộc</span>',
+            imgNA('Ảnh nhận')
+          )}
+          ${tlStep('dtc','fa-location-dot','06:43',false,
+            'Qua điểm TC: Bệnh Viện K',
+            'GPS: <a class="gps-link" onclick="alert(\'21.0301, 105.8490\')">21.0301, 105.8490</a>  |  Sớm 2 phút','')
+          }
+          ${tlStep('dg','fa-arrow-up-from-line','08:22',false,
+            'Chấm giao tại LABO – 82 Duy Tân',
+            'GPS: <a class="gps-link" onclick="alert(\'21.0275, 105.8390\')">21.0275, 105.8390</a>  |  Sớm 8 phút  |  <span style="color:#64748b;">Ảnh: không bắt buộc</span>',
+            imgNA('Ảnh giao')
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- tuyến giao đồ -->
+    <div class="sec"><i class="fa-solid fa-arrow-left" ></i> tuyến giao đồ: LABO → Thu Cúc</div>
+    <div class="dir-block dir-rev">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-left"></i> tuyến giao đồ  <span class="dir-badge-rev">Bắt buộc ảnh nhận + giao</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 08:50 – 10:20  |  Thực tế: 08:52 – 10:18</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="nb-info" style="margin-bottom:10px;padding:8px 12px;"><i class="fa-solid fa-star" style="color:#f59e0b;"></i> Tuyến giao đồ (mang đồ trở về) – CTV <strong>bắt buộc</strong> chấm nhận và giao có hình ảnh.</div>
+        <div style="font-size:12px;color:#475569;margin-bottom:8px;"><strong>Điểm trung chuyển:</strong></div>
+        ${tcTable([
+          {stt:1,ten:'LABO – 82 Duy Tân (điểm nhận đồ)',gioBD:'08:50',gioTT:'08:52',gps:'21.0275, 105.8390',ok:true,status:'Đúng giờ'},
+          {stt:2,ten:'BV Thu Cúc (điểm giao đồ)',gioBD:'10:20',gioTT:'10:18',gps:'21.0285, 105.8542',ok:true,status:'Sớm 2 phút'}
+        ])}
+        <div style="font-size:12px;color:#475569;margin:12px 0 4px;"><strong>Timeline & Ảnh chấm công:</strong></div>
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','08:52',false,
+            'Chấm nhận đồ tại LABO – 82 Duy Tân',
+            'GPS: <a class="gps-link" onclick="alert(\'21.0275, 105.8390\')">21.0275, 105.8390</a>  |  Đúng giờ  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh</strong>',
+            imgOk(PH_GREEN,'Ảnh nhận đồ')
+          )}
+          ${tlStep('dg','fa-arrow-up-from-line','10:18',false,
+            'Chấm giao đồ tại BV Thu Cúc',
+            'GPS: <a class="gps-link" onclick="alert(\'21.0285, 105.8542\')">21.0285, 105.8542</a>  |  Sớm 2 phút  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh</strong>',
+            imgOk(PH_BLUE,'Ảnh giao đồ')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Hợp lệ, chỉ tuyến giao mẫu ---- */
+  ok_fwd_only: ()=>{
+    const info = {ctv:'Lê Văn D (CTV-0017)',ngay:'10/07/2025 (Thứ 5)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM002',tenCung:'Đống Đa → LABO',km:'9.8 km',hasRev:false,cong:'1',cuoc:'148,000đ'};
+    return `
+    <div class="nb-ok"><i class="fa-solid fa-circle-check"></i> <strong>Hợp lệ.</strong> Tuyến này không cấu hình tuyến giao đồ. Không bắt buộc chấm ảnh.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Đống Đa → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 06:00 – 08:00  |  Thực tế: 06:02 – 07:55</div>
+      </div>
+      <div class="dir-block-body">
+        ${tcTable([
+          {stt:1,ten:'BV Đống Đa (điểm nhận)',gioBD:'06:00',gioTT:'06:02',gps:'21.0354, 105.8462',ok:true,status:'Đúng giờ'},
+          {stt:2,ten:'Bệnh Viện Hữu Nghị (điểm TC)',gioBD:'06:50',gioTT:'06:48',gps:'21.0328, 105.8445',ok:true,status:'Sớm 2 phút'},
+          {stt:3,ten:'LABO – 82 Duy Tân (điểm giao)',gioBD:'08:00',gioTT:'07:55',gps:'21.0275, 105.8390',ok:true,status:'Sớm 5 phút'}
+        ])}
+        <div style="font-size:12px;color:#475569;margin:12px 0 4px;"><strong>Timeline & Ảnh chấm công:</strong></div>
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','06:02',false,'Chấm nhận tại BV Đống Đa','GPS: <a class="gps-link" onclick="alert(\'21.0354, 105.8462\')">21.0354, 105.8462</a>  |  Đúng giờ  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh nhận'))}
+          ${tlStep('dtc','fa-location-dot','06:48',false,'Qua điểm TC: BV Hữu Nghị','GPS: 21.0328, 105.8445  |  Sớm 2 phút','')}
+          ${tlStep('dg','fa-arrow-up-from-line','07:55',false,'Chấm giao tại LABO – 82 Duy Tân','GPS: <a class="gps-link" onclick="alert(\'21.0275, 105.8390\')">21.0275, 105.8390</a>  |  Sớm 5 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh giao'))}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Thiếu ảnh nhận (tuyến giao đồ) ---- */
+  miss_img_in: ()=>{
+    const info = {ctv:'Trần Thị C (CTV-0055)',ngay:'03/07/2025 (Thứ 5)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM005',tenCung:'Phòng Khám X → LABO (+ tuyến giao đồ)',km:'8.2 + 8.2 km',hasRev:true,cong:'Chờ giải trình',cuoc:'—'};
+    return `
+    <div class="nb-err"><i class="fa-solid fa-image-slash"></i> <strong>Lỗi: Thiếu ảnh nhận bắt buộc tại Tuyến giao đồ.</strong> CTV cần giải trình và bổ sung bằng chứng.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+
+    <!-- tuyến giao mẫu -->
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Phòng Khám X → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 07:00 – 09:30  |  Thực tế: 07:02 – 09:28</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','07:02',false,'Chấm nhận tại Phòng Khám X','GPS: 21.0221, 105.8311  |  Đúng giờ  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh nhận'))}
+          ${tlStep('dg','fa-arrow-up-from-line','09:28',false,'Chấm giao tại LABO – 82 Duy Tân','GPS: 21.0275, 105.8390  |  Sớm 2 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh giao'))}
+        </div>
+      </div>
+    </div>
+
+    <!-- tuyến giao đồ -->
+    <div class="sec"><i class="fa-solid fa-arrow-left" style="color:#dc2626;"></i> tuyến giao đồ: LABO → Phòng Khám X  <span style="background:#fee2e2;color:#991b1b;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;">⚠ Lỗi ảnh</span></div>
+    <div class="dir-block dir-rev" style="border-color:#fca5a5;">
+      <div class="dir-block-hd" onclick="toggleDir(this)" style="background:#fff1f2;"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-left"></i> tuyến giao đồ  <span class="dir-badge-rev">Bắt buộc ảnh nhận + giao</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 09:40 – 11:00  |  Thực tế: 09:42 – 11:05</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="nb-err" style="padding:8px 12px;"><i class="fa-solid fa-image-slash"></i> <strong>Thiếu ảnh nhận</strong> – CTV cần giải trình kèm bằng chứng ảnh nhận đồ.</div>
+        <div class="tl">
+          ${tlStep('derr','fa-image-slash','09:42',true,
+            'Chấm nhận đồ tại LABO – 82 Duy Tân  <span style="color:#dc2626;">[THIẾU ẢNH]</span>',
+            'GPS: 21.0275, 105.8390  |  Đúng giờ  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – CHƯA CÓ</strong>',
+            imgMiss('Ảnh nhận đồ ★')
+          )}
+          ${tlStep('dg','fa-arrow-up-from-line','11:05',false,
+            'Chấm giao đồ tại Phòng Khám X',
+            'GPS: 21.0221, 105.8311  |  Muộn 5 phút  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – Đã có</strong>',
+            imgOk(PH_BLUE,'Ảnh giao đồ ★')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Thiếu ảnh giao (tuyến giao đồ) ---- */
+  miss_img_out: ()=>{
+    const info = {ctv:'Hoàng Văn F (CTV-0088)',ngay:'04/07/2025 (Thứ 6)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM004',tenCung:'Cầu Giấy → LABO (+ tuyến giao đồ)',km:'11.0 + 11.0 km',hasRev:true,cong:'Chờ giải trình',cuoc:'—'};
+    return `
+    <div class="nb-err"><i class="fa-solid fa-image-slash"></i> <strong>Lỗi: Thiếu ảnh giao bắt buộc tại Tuyến giao đồ.</strong> CTV cần giải trình và bổ sung bằng chứng.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+
+    <!-- tuyến giao mẫu -->
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Cầu Giấy → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 06:30 – 09:00  |  Thực tế: 06:29 – 08:58</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','06:29',false,'Chấm nhận tại Cầu Giấy','GPS: 21.0368, 105.7831  |  Đúng giờ  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh nhận'))}
+          ${tlStep('dg','fa-arrow-up-from-line','08:58',false,'Chấm giao tại LABO – 82 Duy Tân','GPS: 21.0275, 105.8390  |  Sớm 2 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh giao'))}
+        </div>
+      </div>
+    </div>
+
+    <!-- tuyến giao đồ -->
+    <div class="sec"><i class="fa-solid fa-arrow-left" style="color:#dc2626;"></i> tuyến giao đồ: LABO → Cầu Giấy  <span style="background:#fee2e2;color:#991b1b;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;">⚠ Lỗi ảnh</span></div>
+    <div class="dir-block dir-rev" style="border-color:#fca5a5;">
+      <div class="dir-block-hd" onclick="toggleDir(this)" style="background:#fff1f2;"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-left"></i> tuyến giao đồ  <span class="dir-badge-rev">Bắt buộc ảnh nhận + giao</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 09:10 – 10:30  |  Thực tế: 09:11 – 10:35</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="nb-err" style="padding:8px 12px;"><i class="fa-solid fa-image-slash"></i> <strong>Thiếu ảnh giao</strong> – CTV cần giải trình kèm bằng chứng ảnh giao đồ.</div>
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','09:11',false,
+            'Chấm nhận đồ tại LABO – 82 Duy Tân',
+            'GPS: 21.0275, 105.8390  |  Đúng giờ  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – Đã có</strong>',
+            imgOk(PH_GREEN,'Ảnh nhận đồ ★')
+          )}
+          ${tlStep('derr','fa-image-slash','10:35',true,
+            'Chấm giao đồ tại Cầu Giấy  <span style="color:#dc2626;">[THIẾU ẢNH]</span>',
+            'GPS: 21.0368, 105.7831  |  Muộn 5 phút  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – CHƯA CÓ</strong>',
+            imgMiss('Ảnh giao đồ ★')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Chấm nhận muộn ---- */
+  late_in: ()=>{
+    const info = {ctv:'Trần Thị C (CTV-0055)',ngay:'03/07/2025 (Thứ 5)',ca:'Ca chiều (12:00–18:00)',kyHieu:'VCM005',tenCung:'Phòng Khám X → LABO',km:'8.2 km',hasRev:false,cong:'Chờ giải trình',cuoc:'162,000đ'};
+    return `
+    <div class="nb-warn"><i class="fa-solid fa-clock"></i> <strong>Chấm nhận muộn 22 phút.</strong> Tuyến giao mẫu – không bắt buộc ảnh. Cần giải trình lý do muộn.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Phòng Khám X → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 13:00 – 15:30  |  Thực tế: <span style="color:#dc2626;font-weight:600;">13:22</span> – 15:28</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('derr','fa-triangle-exclamation','13:22',true,
+            'Chấm nhận tại Phòng Khám X  <span style="color:#dc2626;">[MUỘN 22 PHÚT]</span>',
+            'GPS: 21.0221, 105.8311  |  Vượt giới hạn cho phép  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',
+            imgOk(PH_GREEN,'Ảnh nhận (tùy chọn)')
+          )}
+          ${tlStep('dg','fa-arrow-up-from-line','15:28',false,
+            'Chấm giao tại LABO – 82 Duy Tân',
+            'GPS: 21.0275, 105.8390  |  Sớm 2 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',
+            imgOk(PH_BLUE,'Ảnh giao (tùy chọn)')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Không chấm nhận ---- */
+  no_in: ()=>{
+    const info = {ctv:'Vũ Thị G (CTV-0033)',ngay:'05/07/2025 (Thứ 7)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM003',tenCung:'Bệnh Viện E → LABO',km:'13.7 km',hasRev:false,cong:'Chờ giải trình',cuoc:'—'};
+    return `
+    <div class="nb-warn"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Không chấm nhận mẫu.</strong> Tuyến giao mẫu – không bắt buộc ảnh. Thiếu mốc chấm nhận.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Bệnh Viện E → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 06:30 – 09:00</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('derr','fa-xmark','—',false,
+            'Không có dữ liệu chấm nhận tại BV E',
+            'Lỗi: Thiếu mốc chấm nhận  |  <span style="color:#64748b;">Không bắt buộc ảnh (tuyến đi)</span>',
+            imgMiss('Ảnh nhận (không có)')
+          )}
+          ${tlStep('dg','fa-arrow-up-from-line','09:05',false,
+            'Chấm giao tại LABO – 82 Duy Tân',
+            'GPS: 21.0275, 105.8390  |  Sớm 5 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',
+            imgOk(PH_GREEN,'Ảnh giao (tùy chọn)')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Không chấm giao + thiếu ảnh (tuyến giao đồ) ---- */
+  no_out_rev: ()=>{
+    const info = {ctv:'Phạm Thị E (CTV-0063)',ngay:'06/07/2025 (CN)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM006',tenCung:'Ba Đình → LABO (+ tuyến giao đồ)',km:'7.5 + 7.5 km',hasRev:true,cong:'Chờ giải trình',cuoc:'—'};
+    return `
+    <div class="nb-err"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Tuyến giao đồ: Không chấm giao + Thiếu ảnh giao.</strong> Đây là lỗi nghiêm trọng vì cả chấm công lẫn hình ảnh đều bắt buộc với tuyến giao đồ.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+
+    <!-- tuyến giao mẫu -->
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Ba Đình → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 07:30 – 10:00  |  Thực tế: 07:28 – 09:55</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','07:28',false,'Chấm nhận tại Ba Đình','GPS: 21.0452, 105.8219  |  Sớm 2 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh nhận'))}
+          ${tlStep('dg','fa-arrow-up-from-line','09:55',false,'Chấm giao tại LABO – 82 Duy Tân','GPS: 21.0275, 105.8390  |  Sớm 5 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',imgNA('Ảnh giao'))}
+        </div>
+      </div>
+    </div>
+
+    <!-- tuyến giao đồ -->
+    <div class="sec"><i class="fa-solid fa-arrow-left" style="color:#dc2626;"></i> tuyến giao đồ: LABO → Ba Đình  <span style="background:#fee2e2;color:#991b1b;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;">⚠ Lỗi nghiêm trọng</span></div>
+    <div class="dir-block dir-rev" style="border-color:#fca5a5;">
+      <div class="dir-block-hd" onclick="toggleDir(this)" style="background:#fff1f2;"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-left"></i> tuyến giao đồ  <span class="dir-badge-rev">Bắt buộc ảnh nhận + giao</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 10:10 – 11:30  |  Thực tế: 10:12 – <span style="color:#dc2626;">Không có</span></div>
+      </div>
+      <div class="dir-block-body">
+        <div class="nb-err" style="padding:8px 12px;"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Không chấm giao + Thiếu ảnh giao.</strong> Cả mốc chấm công lẫn hình ảnh đều bắt buộc với tuyến giao đồ.</div>
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','10:12',false,
+            'Chấm nhận đồ tại LABO – 82 Duy Tân',
+            'GPS: 21.0275, 105.8390  |  Đúng giờ  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – Đã có</strong>',
+            imgOk(PH_GREEN,'Ảnh nhận đồ ★')
+          )}
+          ${tlStep('derr','fa-xmark','—',false,
+            'Không có dữ liệu chấm giao tại Ba Đình  <span style="color:#dc2626;">[KHÔNG CHẤM + THIẾU ẢNH]</span>',
+            'Lỗi: Thiếu mốc chấm giao  |  <strong style="color:#dc2626;">⭐ Bắt buộc ảnh – Chưa có</strong>',
+            imgMiss('Ảnh giao đồ ★')
+          )}
+        </div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Sai vị trí GPS ---- */
+  wrong_gps: ()=>{
+    const info = {ctv:'Đặng Văn H (CTV-0077)',ngay:'07/07/2025 (Thứ 2)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM008',tenCung:'Tây Hồ → LABO',km:'16.2 km',hasRev:false,cong:'1 (GT đã duyệt)',cuoc:'198,000đ'};
+    return `
+    <div class="nb-warn"><i class="fa-solid fa-location-dot"></i> <strong>Sai vị trí GPS khi chấm nhận.</strong> Lệch 350m so với điểm đầu tuyến. Giải trình đã được duyệt.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Tây Hồ → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 07:00 – 09:30  |  Thực tế: 07:01 – 09:25</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('derr','fa-location-dot','07:01',true,
+            'Chấm nhận tại Tây Hồ  <span style="color:#7c3aed;">[GPS LỆCH 350m]</span>',
+            'GPS thực tế: <span style="color:#7c3aed;">21.0621, 105.8302</span> (⚠ Cách điểm quy định 350m)  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',
+            imgOk(PH_GREEN,'Ảnh nhận (tùy chọn)')
+          )}
+          ${tlStep('dg','fa-arrow-up-from-line','09:25',false,
+            'Chấm giao tại LABO – 82 Duy Tân',
+            'GPS: 21.0275, 105.8390  |  Sớm 5 phút  |  <span style="color:#64748b;">Không bắt buộc ảnh</span>',
+            imgOk(PH_BLUE,'Ảnh giao (tùy chọn)')
+          )}
+        </div>
+        <div class="nb-ok" style="margin-top:6px;"><i class="fa-solid fa-gavel"></i> Giải trình <strong>Đã được duyệt</strong> – Công ghi nhận: <strong>1</strong></div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Đang trong ca ---- */
+  on: ()=>{
+    const info = {ctv:'Lê Văn D (CTV-0017)',ngay:'10/07/2025 (Thứ 5)',ca:'Ca chiều (12:00–18:00)',kyHieu:'VCM002',tenCung:'Đống Đa → LABO (+ tuyến giao đồ)',km:'9.8 km + chưa xong',hasRev:true,cong:'Chưa ghi nhận',cuoc:'—'};
+    return `
+    <div class="nb-info"><i class="fa-solid fa-spinner fa-spin"></i> <strong>Đang trong ca làm việc.</strong> Công chưa được ghi nhận cho đến khi CTV hoàn tất chấm giao.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Đống Đa → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 13:00 – 15:00</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('dn','fa-arrow-down-to-line','13:02',false,'Chấm nhận tại Đống Đa','GPS: 21.0354, 105.8462  |  Đúng giờ','')}
+          ${tlStep('dtc','fa-spinner','—',false,'Đang vận chuyển... (Chờ chấm giao tại LABO)','','')}
+        </div>
+      </div>
+    </div>
+    <div class="dir-block dir-rev" style="opacity:.5;">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-left"></i> tuyến giao đồ  <span class="dir-badge-rev">Bắt buộc ảnh nhận + giao</span></div>
+        <div style="font-size:12px;color:#64748b;">Chưa bắt đầu</div>
+      </div>
+    </div>`;
+  },
+
+  /* ---- Không có dữ liệu ---- */
+  no_data: ()=>{
+    const info = {ctv:'Nguyễn Văn B (CTV-0042)',ngay:'08/07/2025 (Thứ 3)',ca:'Ca sáng (05:00–12:00)',kyHieu:'VCM001',tenCung:'Thu Cúc → LABO',km:'12.5 km',hasRev:false,cong:'0 (GT từ chối)',cuoc:'—'};
+    return `
+    <div class="nb-err"><i class="fa-solid fa-circle-xmark"></i> Không có dữ liệu chấm công. Giải trình đã bị <strong>từ chối</strong>. Công = 0.</div>
+    <div class="sec"><i class="fa-solid fa-circle-info"></i> Thông tin chung</div>
+    ${infoGrid(info)}
+    <div class="sec"><i class="fa-solid fa-arrow-right" ></i> tuyến giao mẫu: Thu Cúc → LABO</div>
+    <div class="dir-block dir-fwd">
+      <div class="dir-block-hd" onclick="toggleDir(this)"><div class="dir-title"><i class="fa-solid fa-chevron-down dir-toggle-icon" style="margin-right:6px;"></i><i class="fa-solid fa-arrow-right"></i> tuyến giao mẫu  <span class="dir-badge-fwd">Không bắt buộc ảnh</span></div>
+        <div style="font-size:12px;color:#64748b;">Giờ lịch: 06:00 – 08:30  |  Thực tế: Không có dữ liệu</div>
+      </div>
+      <div class="dir-block-body">
+        <div class="tl">
+          ${tlStep('derr','fa-xmark','—',false,'Không có dữ liệu chấm nhận','Không chấm công',imgMiss('Ảnh nhận'))}
+          ${tlStep('derr','fa-xmark','—',false,'Không có dữ liệu chấm giao','Không chấm công',imgMiss('Ảnh giao'))}
+        </div>
+      </div>
+    </div>`;
+  }
+};
+
+/* ===================== GT INFO ===================== */
+const GT_DATA = {
+  miss_img:[
+    {l:'CTV:',v:'Trần Thị C (CTV-0055)'},{l:'Ngày:',v:'03/07/2025'},{l:'Tuyến:',v:'VCM005'},
+    {l:'Loại lỗi:',v:'<span style="color:#dc2626;font-weight:600;">Thiếu ảnh bắt buộc – Tuyến giao đồ</span>'},
+    {l:'Yêu cầu:',v:'Đính kèm ảnh nhận/giao làm bằng chứng'}
+  ],
+  late_in:[
+    {l:'CTV:',v:'Trần Thị C (CTV-0055)'},{l:'Ngày:',v:'03/07/2025'},{l:'Tuyến:',v:'VCM005'},
+    {l:'Lỗi:',v:'Chấm nhận muộn 22 phút'},{l:'Giờ quy định:',v:'13:00'},{l:'Giờ thực tế:',v:'13:22'}
+  ],
+  no_in:[
+    {l:'CTV:',v:'Vũ Thị G (CTV-0033)'},{l:'Ngày:',v:'05/07/2025'},{l:'Tuyến:',v:'VCM003'},
+    {l:'Lỗi:',v:'Không có mốc chấm nhận mẫu'},{l:'Giờ giao TT:',v:'09:05'},{l:'Giờ nhận TT:',v:'—'}
+  ]
+};
+
+/* ===================== OPEN FUNCTIONS ===================== */
+const TITLES = {
+  ok_with_rev:'Chi tiết – Hợp lệ (có tuyến giao đồ)',
+  ok_fwd_only:'Chi tiết – Hợp lệ (chỉ tuyến giao mẫu)',
+  miss_img_in:'Chi tiết – Thiếu ảnh nhận (tuyến giao đồ)',
+  miss_img_out:'Chi tiết – Thiếu ảnh giao (tuyến giao đồ)',
+  late_in:'Chi tiết – Chấm nhận muộn',
+  no_in:'Chi tiết – Không chấm nhận mẫu',
+  no_out_rev:'Chi tiết – Không chấm giao + Thiếu ảnh (tuyến giao đồ)',
+  wrong_gps:'Chi tiết – Sai vị trí GPS',
+  on:'Chi tiết – Đang trong ca làm việc',
+  no_data:'Chi tiết – Không có dữ liệu chấm công'
+};
+
+function openDetail(type){
+  const fn = DETAIL[type]; if(!fn) return;
+  document.getElementById('dtTitle').innerHTML = `<i class="fa-regular fa-eye" style="color:#2A3F54;margin-right:8px;"></i>${TITLES[type]||'Chi tiết'}`;
+  document.getElementById('dtBody').innerHTML = fn();
+  document.getElementById('modalDetail').classList.add('show');
+}
+
+function openGiaiTrinh(type){
+  const rows = GT_DATA[type]||[];
+  document.getElementById('gtInfo').innerHTML = rows.map(r=>`<div class="ir"><span class="il">${r.l}</span><span class="iv">${r.v}</span></div>`).join('');
+  document.getElementById('gtNote').value = '';
+  document.getElementById('gtNotice').innerHTML = type==='miss_img'
+    ? `<div class="nb-err" style="margin-bottom:10px;"><i class="fa-solid fa-star"></i> <strong>Tuyến giao đồ:</strong> Bắt buộc đính kèm ảnh nhận và/hoặc ảnh giao còn thiếu làm bằng chứng.</div>` : '';
+  document.getElementById('modalGT').classList.add('show');
+}
+
+function submitGT(){
+  const note = document.getElementById('gtNote').value.trim();
+  if(!note){ alert('Vui lòng nhập lý do giải trình.'); return; }
+  alert('Đã gửi giải trình thành công! Cán bộ quản lý sẽ xem xét và phản hồi.');
+  closeModal('modalGT');
+}
+
+/* ===================== TAB CONTROL ===================== */
+function openTab(evt, tabId) {
+  document.querySelectorAll('.tab-pane').forEach(tp => tp.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+  
+  document.getElementById(tabId).classList.add('active');
+  if (evt) {
+    evt.currentTarget.classList.add('active');
+  }
+}
+
+/* ===================== DUYỆT GIẢI TRÌNH DỮ LIỆU ĐỘNG ===================== */
+const DUYET_DATA = {
+  no_out_rev: {
+    ctv: 'Phạm Thị E (CTV-0063)',
+    ngay: '06/07/2025 (CN)',
+    tuyen: 'VCM006 – Ba Đình → LABO',
+    statusCC: '<span class="badge b-no-out">Không chấm giao (tuyến giao đồ)</span>',
+    anhNhan: '<span style="color:#16a34a;font-weight:600;">✓ Có ảnh</span>',
+    anhGiao: '<span style="color:#dc2626;font-weight:600;">✗ Thiếu ảnh (bắt buộc)</span>',
+    notice: `
+      <div class="nb-err" style="margin-top:10px;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <strong>Tuyến giao đồ:</strong> Bắt buộc ảnh nhận + giao. Bản ghi thiếu ảnh giao – cần xem xét kỹ trước khi duyệt.
+      </div>`,
+    noidung: 'Trong quá trình giao đồ tại điểm cuối, ứng dụng bị lỗi không cho phép chụp ảnh. CTV đã báo cáo trực tiếp với Phòng HC và có xác nhận bằng tin nhắn lúc 10:35.',
+    bangchung: `
+        <div style="text-align:center;">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='82' viewBox='0 0 110 82'%3E%3Crect fill='%23f3f4f6' width='110' height='82'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='28' fill='%236b7280'%3E📄%3C/text%3E%3C/svg%3E" style="width:110px;height:82px;border-radius:4px;border:1px solid #e5e7eb;object-fit:cover;cursor:pointer;" onclick="openLB(this.src)">
+          <div style="font-size:11px;color:#64748b;margin-top:4px;">Screenshot tin nhắn xác nhận</div>
+        </div>`
+  },
+  late_in: {
+    ctv: 'Trần Thị C (CTV-0055)',
+    ngay: '03/07/2025 (Thứ 5)',
+    tuyen: 'VCM005 – Phòng Khám X → LABO',
+    statusCC: '<span class="badge b-late-in">Chấm nhận muộn</span>',
+    anhNhan: '<span style="color:#94a3b8;">Không bắt buộc</span>',
+    anhGiao: '<span style="color:#94a3b8;">Không bắt buộc</span>',
+    notice: `
+      <div class="nb-warn" style="margin-top:10px;">
+        <i class="fa-solid fa-clock"></i>
+        <strong>Chấm nhận muộn:</strong> Lệch 22 phút so với giờ lịch. Tuyến giao mẫu, ảnh không bắt buộc.
+      </div>`,
+    noidung: 'Xe bị hỏng dọc đường trên đường đến điểm nhận mẫu (vỡ lốp), phải đợi thợ sửa mất 20 phút. Tôi đã gửi tin nhắn báo cho điều phối lúc 06:55.',
+    bangchung: `
+        <div style="text-align:center;">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='82' viewBox='0 0 110 82'%3E%3Crect fill='%23fee2e2' width='110' height='82'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='28' fill='%23991b1b'%3E🛠️%3C/text%3E%3C/svg%3E" style="width:110px;height:82px;border-radius:4px;border:1px solid #e5e7eb;object-fit:cover;cursor:pointer;" onclick="openLB(this.src)">
+          <div style="font-size:11px;color:#64748b;margin-top:4px;">Ảnh sửa xe dọc đường</div>
+        </div>`
+  },
+  miss_img_in: {
+    ctv: 'Trần Thị C (CTV-0055)',
+    ngay: '03/07/2025 (Thứ 5)',
+    tuyen: 'VCM005 – Phòng Khám X → LABO',
+    statusCC: '<span class="badge b-img-miss">Thiếu ảnh nhận (tuyến giao đồ)</span>',
+    anhNhan: '<span style="color:#dc2626;font-weight:600;">✗ Thiếu ảnh (bắt buộc)</span>',
+    anhGiao: '<span style="color:#16a34a;font-weight:600;">✓ Có ảnh</span>',
+    notice: `
+      <div class="nb-err" style="margin-top:10px;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <strong>Tuyến giao đồ:</strong> Bắt buộc ảnh nhận + giao. Thiếu ảnh nhận.
+      </div>`,
+    noidung: 'Tôi quên chụp ảnh lúc nhận đồ tại LABO do vội giao hàng. Gửi kèm ảnh biên bản bàn giao mẫu có chữ ký của phòng khám để đối chiếu.',
+    bangchung: `
+        <div style="text-align:center;">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='82' viewBox='0 0 110 82'%3E%3Crect fill='%23f3f4f6' width='110' height='82'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='28' fill='%236b7280'%3E📄%3C/text%3E%3C/svg%3E" style="width:110px;height:82px;border-radius:4px;border:1px solid #e5e7eb;object-fit:cover;cursor:pointer;" onclick="openLB(this.src)">
+          <div style="font-size:11px;color:#64748b;margin-top:4px;">Ảnh biên bản bàn giao</div>
+        </div>`
+  }
+};
+
+let currentDuyetType = '';
+
+function openDuyetGT(type){
+  currentDuyetType = type || 'no_out_rev';
+  const data = DUYET_DATA[currentDuyetType];
+  if(!data) return;
+
+  const infoHtml = `
+    <div class="ir"><span class="il">CTV:</span><span class="iv">${data.ctv}</span></div>
+    <div class="ir"><span class="il">Ngày:</span><span class="iv">${data.ngay}</span></div>
+    <div class="ir"><span class="il">Tuyến:</span><span class="iv">${data.tuyen}</span></div>
+    <div class="ir"><span class="il">Trạng thái CC:</span><span class="iv">${data.statusCC}</span></div>
+    <div class="ir"><span class="il">Ảnh nhận (tuyến giao đồ):</span><span class="iv">${data.anhNhan}</span></div>
+    <div class="ir"><span class="il">Ảnh giao (tuyến giao đồ):</span><span class="iv">${data.anhGiao}</span></div>
+  `;
+
+  document.getElementById('duyetInfo').innerHTML = infoHtml;
+  document.getElementById('duyetNotice').innerHTML = data.notice;
+  document.getElementById('duyetExpl').innerHTML = data.noidung;
+  document.getElementById('duyetAttachment').innerHTML = data.bangchung;
+  document.getElementById('duyetNote').value = '';
+  document.getElementById('modalDuyet').classList.add('show');
+}
+
+function openDetailFromDuyet() {
+  openDetail(currentDuyetType);
+}
+
+function actionDuyet(action){
+  const note = document.getElementById('duyetNote').value.trim();
+  if (action === 'reject' && !note) {
+    alert('Vui lòng nhập ghi chú lý do từ chối giải trình.');
+    return;
+  }
+  
+  if (action === 'approve') {
+    alert('Đã phê duyệt giải trình công thành công. Công và cước sẽ được cập nhật lại hợp lệ.');
+  } else {
+    alert('Đã từ chối giải trình công.');
+  }
+  
+  closeModal('modalDuyet');
+}
+
+
+function toggleDir(hd){
+  const block = hd.closest('.dir-block');
+  block.classList.toggle('collapsed');
+}
+
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',function(e){ if(e.target===this) closeModal(this.id); });
+});
+
+/* ===================== BATCH APPROVAL FUNCTIONS ===================== */
+function openBatchModal() {
+  document.getElementById('batchNote').value = '';
+  document.getElementById('modalBatch').classList.add('show');
+}
+
+function submitBatch() {
+  const type = document.querySelector('input[name="batchType"]:checked').value;
+  const note = document.getElementById('batchNote').value.trim();
+  closeModal('modalBatch');
+  
+  if (type === 'all') {
+    alert('Đã phê duyệt hàng loạt TẤT CẢ giải trình đang chờ với ghi chú: "' + (note || '—') + '"');
+  } else if (type === 'filter') {
+    alert('Đã phê duyệt hàng loạt các giải trình theo BỘ LỌC hiện tại với ghi chú: "' + (note || '—') + '"');
+  } else if (type === 'select') {
+    enableTableCheckboxes();
+  }
+}
+
+function enableTableCheckboxes() {
+  if (document.getElementById('checkAllBatch')) return;
+
+  // 1. Add checkbox to header
+  const headerRow = document.querySelector('.data-table thead tr');
+  const th = document.createElement('th');
+  th.width = "40";
+  th.id = "checkAllBatchHeader";
+  th.innerHTML = '<input type="checkbox" id="checkAllBatch" onchange="toggleAllBatch(this)">';
+  headerRow.insertBefore(th, headerRow.firstChild);
+
+  // 2. Add checkbox to body rows
+  const bodyRows = document.querySelectorAll('.data-table tbody tr');
+  bodyRows.forEach(row => {
+    const td = document.createElement('td');
+    // Check if this row has a gavel button in the last cell
+    const hasGavel = row.querySelector('.fa-gavel');
+    if (hasGavel) {
+      td.innerHTML = '<input type="checkbox" class="batch-row-checkbox" onchange="updateBatchCount()">';
+    } else {
+      td.innerHTML = '';
+    }
+    row.insertBefore(td, row.firstChild);
+  });
+
+  // 3. Show floating batch bar
+  document.getElementById('floatingBatchBar').style.display = 'block';
+  updateBatchCount();
+}
+
+function toggleAllBatch(master) {
+  const checkboxes = document.querySelectorAll('.batch-row-checkbox');
+  checkboxes.forEach(cb => {
+    cb.checked = master.checked;
+  });
+  updateBatchCount();
+}
+
+function updateBatchCount() {
+  const checked = document.querySelectorAll('.batch-row-checkbox:checked').length;
+  document.getElementById('selectedCount').innerText = checked;
+}
+
+function cancelBatchSelection() {
+  const headerTh = document.getElementById('checkAllBatchHeader');
+  if (headerTh && headerTh.parentNode) {
+    headerTh.parentNode.removeChild(headerTh);
+  }
+  
+  const bodyRows = document.querySelectorAll('.data-table tbody tr');
+  bodyRows.forEach(row => {
+    const firstCell = row.querySelector('td:first-child');
+    if (firstCell && (firstCell.querySelector('.batch-row-checkbox') || firstCell.innerHTML === '')) {
+      firstCell.parentNode.removeChild(firstCell);
+    }
+  });
+
+  document.getElementById('floatingBatchBar').style.display = 'none';
+}
+
+function executeBatchAction(action) {
+  const checked = document.querySelectorAll('.batch-row-checkbox:checked').length;
+  if (checked === 0) {
+    alert('Vui lòng chọn ít nhất một bản ghi để duyệt!');
+    return;
+  }
+  const actionText = action === 'approve' ? 'PHÊ DUYỆT' : 'TỪ CHỐI';
+  alert('Đã ' + actionText + ' hàng loạt ' + checked + ' bản ghi giải trình công được chọn!');
+  cancelBatchSelection();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const fp = flatpickr("#filterDateRange", {
+        mode: "range",
+        dateFormat: "d/m/Y",
+        locale: {
+            rangeSeparator: "   →   "
+        },
+        showMonths: 2,
+        defaultDate: ["01/06/2026", "30/06/2026"]
+    });
+
+    const resetBtn = document.querySelector('.btn-reset');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            if (fp) {
+                fp.clear();
+            }
+        });
+    }
+});
+</script>
+<script>
+// Utility to handle table cell text overflow and show full text on hover
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .auto-ellipsis {
+      max-width: 220px;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      cursor: default;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function applyEllipsis() {
+    const cells = document.querySelectorAll('.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td, .table-container td');
+    cells.forEach(cell => {
+      // Ignore interactive cells, status badges, dropdowns, and button containers
+      if (cell.querySelector('input, select, button, a, .img-cell, .badge, .icon-btn, .action-btn, .status-active, .status-inactive, .route-tag')) {
+        return;
+      }
+      
+      const text = cell.innerText.trim();
+      if (text.length > 25) {
+        if (!cell.classList.contains('auto-ellipsis')) {
+          cell.classList.add('auto-ellipsis');
+        }
+        if (!cell.getAttribute('title')) {
+          cell.setAttribute('title', text);
+        }
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEllipsis);
+  } else {
+    applyEllipsis();
+  }
+
+  // Observe dynamic rendering (e.g., search filtering, pagination, modal tables)
+  const observer = new MutationObserver((mutations) => {
+    applyEllipsis();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
+</html>
+

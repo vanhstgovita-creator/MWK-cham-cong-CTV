@@ -1,0 +1,1017 @@
+/* ==========================================================================
+   HỆ THỐNG DESIGN SYSTEM & COMPONENT DÙNG CHUNG - MEDWORKING (MWK) STANDARD
+   ========================================================================== */
+
+/* Import Google Font Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* MEDWorking (MWK) Core Brand Colors - Standard #2A3F54 Theme */
+    --primary-color: #2A3F54;       /* MWK Dark Navy/Slate - Buttons, Icons & Highlights */
+    --primary-hover: #1e2f3f;       /* Darker on hover */
+    --primary-light: #f0f4f8;       /* Light surface / active menu */
+    --primary-active: #d6e0ea;      /* Sub-active highlight */
+    
+    --mwk-navy: #2A3F54;
+    --mwk-navy-hover: #1e2f3f;
+    --mwk-dark: #2A3F54;            /* Dark Slate #2A3F54 - Table Header & Active pagination */
+    --mwk-dark-hover: #1e2f3f;
+    
+    --text-main: #1e293b;           /* Primary text */
+    --text-sub: #475569;            /* Secondary text */
+    --text-muted: #64748b;          /* Muted / Breadcrumb text */
+    --text-light: #94a3b8;          /* Light gray border / placeholder */
+    
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-header: #ffffff;
+    --bg-hover: #f1f5f9;
+    --bg-subtle: #f8fafc;
+    
+    --border-color: #e2e8f0;
+    --border-dark: #cbd5e1;
+    --border-darker: #94a3b8;
+    
+    --success-color: #16a34a;
+    --success-bg: #dcfce7;
+    --success-text: #166534;
+    
+    --warning-color: #f59e0b;
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+    
+    --danger-color: #dc2626;
+    --danger-bg: #fee2e2;
+    --danger-text: #991b1b;
+    
+    --info-color: #0ea5e9;
+    --info-bg: #e0f2fe;
+    --info-text: #075985;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.02);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-body) !important;
+    color: var(--text-main) !important;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.wrapper {
+    display: flex !important;
+    min-height: 100vh !important;
+    width: 100% !important;
+}
+
+/* ==========================================================================
+   UNIFIED SIDEBAR STYLES (MWK ACCORDION SIDEBAR)
+   ========================================================================== */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 100;
+}
+
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    font-size: 16px !important;
+    background: #ffffff !important;
+    letter-spacing: -0.2px !important;
+}
+
+.sidebar-header .mwk-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2A3F54;
+}
+
+.sidebar-header .mwk-logo i {
+    font-size: 20px !important;
+    color: #2A3F54 !important;
+}
+
+.sidebar-header .mwk-logo span {
+    font-size: 16px;
+    font-weight: 800;
+    color: #2A3F54;
+    letter-spacing: -0.3px;
+}
+
+.sidebar-header .mwk-subtext {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+    margin-left: 2px;
+}
+
+.sidebar .menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+
+.sidebar .menu-item {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+}
+
+.sidebar .level-1 {
+    height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 18px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    transition: background 0.15s ease !important;
+}
+
+.sidebar .level-1:hover {
+    background: #f8fafc !important;
+}
+
+.sidebar .level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.sidebar .level-1 .arrow {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    transition: transform 0.25s ease !important;
+}
+
+.sidebar .level-1 .arrow.open {
+    transform: rotate(180deg) !important;
+}
+
+.sidebar .level-2 {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.sidebar .level-2-group {
+    margin-bottom: 0 !important;
+}
+
+.sidebar .level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 18px 6px 36px !important;
+    color: #64748b !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    cursor: default !important;
+}
+
+.sidebar .level-3 {
+    display: block !important;
+}
+
+.sidebar .level-3 a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 8px 18px 8px 42px !important;
+    color: #475569 !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+    border-left: 3px solid transparent !important;
+}
+
+.sidebar .level-3 a i {
+    font-size: 13px !important;
+    color: #94a3b8 !important;
+    width: 16px;
+    text-align: center;
+}
+
+.sidebar .level-3 a:hover {
+    background: #f0f4f8 !important;
+    color: #2A3F54 !important;
+}
+
+.sidebar .level-3 a:hover i {
+    color: #2A3F54 !important;
+}
+
+.sidebar .level-3 a.active {
+    background: #edf2f7 !important;
+    color: #2A3F54 !important;
+    border-left: 3px solid #2A3F54 !important;
+    font-weight: 600 !important;
+}
+
+.sidebar .level-3 a.active i {
+    color: #2A3F54 !important;
+}
+
+/* ==========================================================================
+   CONTENT LAYOUT & MWK PAGE HEADER & BREADCRUMB
+   ========================================================================== */
+.content {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: var(--bg-body) !important;
+}
+
+.page-header {
+    background: var(--bg-header) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 14px 24px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.breadcrumb {
+    color: var(--text-muted) !important;
+    font-size: 13px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.breadcrumb i.fa-house, .breadcrumb i.fa-regular, .breadcrumb i.fa-solid {
+    color: #64748b !important;
+    font-size: 13.5px !important;
+    margin-right: 2px;
+}
+
+.breadcrumb span {
+    color: var(--text-light) !important;
+    margin: 0 2px;
+}
+
+.breadcrumb a {
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color) !important;
+}
+
+.breadcrumb strong, .breadcrumb .current-page {
+    color: #1e293b !important;
+    font-weight: 700 !important;
+}
+
+.page-title {
+    margin-top: 4px !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    letter-spacing: -0.2px;
+}
+
+.container {
+    padding: 20px !important;
+    flex: 1 !important;
+}
+
+/* ==========================================================================
+   TOP SUB NAVIGATION TABS (MWK UNDERLINE TABS)
+   ========================================================================== */
+.top-subnav, .main-tab-bar, .tab-bar {
+    display: flex !important;
+    align-items: center !important;
+    gap: 24px !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 0 !important;
+    background: transparent !important;
+}
+
+.subnav-tab, .main-tab-btn, .tab-btn {
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    padding: 8px 4px 12px 4px !important;
+    cursor: pointer !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: color 0.2s ease !important;
+    text-decoration: none !important;
+    border: none !important;
+    background: transparent !important;
+    border-bottom: 2px solid transparent !important;
+}
+
+.subnav-tab:hover, .main-tab-btn:hover, .tab-btn:hover {
+    color: var(--primary-color) !important;
+}
+
+.subnav-tab.active, .main-tab-btn.active, .tab-btn.active {
+    color: var(--primary-color) !important;
+    border-bottom: 2px solid var(--primary-color) !important;
+    background: transparent !important;
+}
+
+.subnav-tab.active::after, .main-tab-btn.active::after, .tab-btn.active::after {
+    display: none !important;
+}
+
+/* ==========================================================================
+   CARDS & FILTER FORMS
+   ========================================================================== */
+.card, .filter-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 16px !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.card-header {
+    height: 46px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 16px !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    font-weight: 600 !important;
+    color: var(--text-main) !important;
+    font-size: 13.5px !important;
+    background: #fafbfc !important;
+    border-top-left-radius: var(--radius-md) !important;
+    border-top-right-radius: var(--radius-md) !important;
+}
+
+.card-body {
+    padding: 16px !important;
+}
+
+/* FORM CONTROLS */
+.form-grid {
+    display: grid !important;
+    gap: 12px 16px !important;
+}
+
+.form-group, .filter-field {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.form-group label, .filter-field label {
+    margin-bottom: 6px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--text-sub) !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.filter-field input,
+.filter-field select,
+.filter-field textarea,
+.form-control {
+    height: 36px !important;
+    border: 1px solid var(--border-dark) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+    color: var(--text-main) !important;
+    outline: none !important;
+    background: #ffffff !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.form-group textarea, .filter-field textarea {
+    height: auto !important;
+    padding: 8px 12px !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.filter-field input:focus,
+.filter-field select:focus,
+.filter-field textarea:focus,
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(42, 63, 84, 0.12) !important;
+}
+
+.form-group input[readonly],
+.filter-field input[readonly] {
+    background: #f8fafc !important;
+    color: var(--text-sub) !important;
+}
+
+.btn-row, .filter-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+}
+
+/* ==========================================================================
+   BUTTONS SYSTEM (MATCHING MWK EXACT SPECIFICATIONS - #2A3F54 THEME)
+   ========================================================================== */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+
+/* 1. PRIMARY BUTTON (Solid #2A3F54 Theme) */
+.btn-primary, .btn-submit, .btn-search, .btn-blue, .btn-save, .btn-apply {
+    background: var(--primary-color) !important;       /* #2A3F54 */
+    color: #ffffff !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover, .btn-submit:hover, .btn-search:hover, .btn-blue:hover, .btn-save:hover, .btn-apply:hover {
+    background: var(--primary-hover) !important;       /* #1e2f3f */
+    border-color: var(--primary-hover) !important;
+    color: #ffffff !important;
+}
+
+/* 2. OUTLINE PRIMARY BUTTON (White with #2A3F54 Border & Text) */
+.btn-outline-primary, .btn-secondary-blue {
+    background: #ffffff !important;
+    border: 1px solid var(--primary-color) !important; /* #2A3F54 border */
+    color: var(--primary-color) !important;            /* #2A3F54 text */
+}
+
+.btn-outline-primary:hover, .btn-secondary-blue:hover {
+    background: var(--primary-light) !important;       /* #f0f4f8 */
+    color: var(--primary-hover) !important;
+}
+
+/* 3. DISMISS / CANCEL / RESET / SECONDARY (White with Light Slate Border) */
+.btn-secondary, .btn-dismiss, .btn-reset, .btn-add, .btn-info {
+    background: #ffffff !important;
+    border: 1px solid var(--border-dark) !important;    /* #cbd5e1 */
+    color: var(--text-main) !important;                 /* #1e293b */
+}
+
+.btn-secondary:hover, .btn-dismiss:hover, .btn-reset:hover, .btn-add:hover, .btn-info:hover {
+    background: var(--bg-hover) !important;            /* #f1f5f9 */
+    border-color: var(--border-darker) !important;     /* #94a3b8 */
+    color: #0f172a !important;
+}
+
+/* 4. SUCCESS BUTTON */
+.btn-success {
+    background: var(--success-color) !important;
+    color: #ffffff !important;
+    border-color: var(--success-color) !important;
+}
+
+.btn-success:hover {
+    background: #15803d !important;
+}
+
+/* 5. DANGER BUTTON */
+.btn-danger {
+    background: var(--danger-color) !important;
+    color: #ffffff !important;
+    border-color: var(--danger-color) !important;
+}
+
+.btn-danger:hover {
+    background: #b91c1c !important;
+}
+
+/* 6. WARNING BUTTON */
+.btn-warning {
+    background: var(--warning-color) !important;
+    color: #ffffff !important;
+    border-color: var(--warning-color) !important;
+}
+
+.btn-warning:hover {
+    background: #d97706 !important;
+}
+
+/* TABLE ACTION ICONS (STANDARDIZED ICON BUTTONS FOR ALL DATA TABLES) */
+.action-icon, .icon-btn, .action-btn {
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    color: #2A3F54 !important;
+    padding: 5px 8px !important;
+    border-radius: var(--radius-sm) !important;
+    transition: all 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    vertical-align: middle !important;
+}
+
+.action-icon:hover, .icon-btn:hover, .action-btn:hover {
+    background: #f0f4f8 !important;
+    color: #1e2f3f !important;
+}
+
+.action-icon.view, .icon-btn.view, .action-btn.view, .view { 
+    color: #2A3F54 !important; 
+}
+.action-icon.view:hover, .icon-btn.view:hover, .action-btn.view:hover, .view:hover { 
+    background: #f0f4f8 !important; 
+    color: #1e2f3f !important; 
+}
+
+.action-icon.edit, .icon-btn.edit, .action-btn.edit, .edit { 
+    color: #2A3F54 !important; 
+}
+.action-icon.edit:hover, .icon-btn.edit:hover, .action-btn.edit:hover, .edit:hover { 
+    background: #f0f4f8 !important; 
+    color: #1e2f3f !important; 
+}
+
+.action-icon.delete, .icon-btn.delete, .action-btn.delete, .del, .delete { 
+    color: #dc2626 !important; 
+}
+.action-icon.delete:hover, .icon-btn.delete:hover, .action-btn.delete:hover, .del:hover, .delete:hover { 
+    background: #fee2e2 !important; 
+    color: #b91c1c !important; 
+}
+
+/* TABLE CELL ICONS */
+table.med-table td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i),
+table.data-table td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i),
+table.table td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i),
+table.tbl-data td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i),
+table.chotcong-summary td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i),
+table.sub-tbl td i:not(.badge i):not(.status-active i):not(.status-inactive i):not(.b-ok i):not(.b-no-in i):not(.b-on i):not(.b-late-in i):not(.b-late-out i):not(.gs-approved i):not(.gs-rejected i):not(.action-icon.delete i):not(.delete i):not(.del i) {
+    color: #2A3F54 !important;
+}
+
+table td .icon-btn,
+table td .action-icon,
+table td .action-btn {
+    color: #2A3F54 !important;
+}
+
+table td .icon-btn i,
+table td .action-icon i,
+table td .action-btn i {
+    color: inherit !important;
+}
+
+table td .icon-btn.delete,
+table td .action-icon.delete,
+table td .action-btn.delete,
+table td .icon-btn.del {
+    color: #dc2626 !important;
+}
+
+.action-icon.gavel, .icon-btn.gavel, .action-btn.gavel {
+    color: #7c3aed !important;
+}
+.action-icon.gavel:hover, .icon-btn.gavel:hover, .action-btn.gavel:hover {
+    background: #f5f3ff !important;
+    color: #6d28d9 !important;
+}
+
+.action-icon.approve, .icon-btn.approve, .action-btn.approve {
+    color: #16a34a !important;
+}
+.action-icon.approve:hover, .icon-btn.approve:hover, .action-btn.approve:hover {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+}
+
+.action-icon.reject, .icon-btn.reject, .action-btn.reject {
+    color: #dc2626 !important;
+}
+.action-icon.reject:hover, .icon-btn.reject:hover, .action-btn.reject:hover {
+    background: #fee2e2 !important;
+    color: #b91c1c !important;
+}
+
+/* ==========================================================================
+   DATA TABLES (MWK THEAD)
+   ========================================================================== */
+.tbl-wrap, .table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    border: 1px solid var(--border-dark) !important;
+    border-radius: var(--radius-sm) !important;
+    background: #ffffff !important;
+    margin-bottom: 0 !important;
+}
+
+table.med-table, table.data-table, table.table, table.tbl-data, table.chotcong-summary, table.sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 12.5px !important;
+}
+
+table.med-table thead th,
+table.data-table thead th,
+table.table thead th,
+table.tbl-data thead th,
+table.chotcong-summary thead th,
+table.sub-tbl thead th {
+    background: var(--mwk-dark) !important;
+    color: #ffffff !important;
+    padding: 10px 10px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+    border: 1px solid #334155 !important;
+}
+
+table.med-table tbody td,
+table.data-table tbody td,
+table.table tbody td,
+table.tbl-data tbody td,
+table.chotcong-summary tbody td,
+table.sub-tbl tbody td {
+    padding: 9px 10px !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+}
+
+table.med-table tbody tr:hover,
+table.data-table tbody tr:hover,
+table.table tbody tr:hover,
+table.tbl-data tbody tr:hover,
+table.chotcong-summary tbody tr:hover,
+table.sub-tbl tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+.date-link {
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.date-link:hover {
+    text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   TABLE TOOLBAR & PAGINATION
+   ========================================================================== */
+.table-toolbar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+}
+
+.table-page-size {
+    font-size: 13px !important;
+    color: var(--text-sub) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.table-page-size select {
+    height: 32px !important;
+    border: 1px solid var(--border-dark) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0 8px !important;
+    font-size: 13px !important;
+    outline: none !important;
+}
+
+.table-right-btns {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.pag-bar, .pagination-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: var(--text-muted) !important;
+    border-top: 1px solid var(--border-color) !important;
+    background: #ffffff !important;
+}
+
+.pag-buttons, .pagination-btns {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.pag-btn, .page-btn {
+    height: 30px !important;
+    min-width: 30px !important;
+    padding: 0 8px !important;
+    border: 1px solid var(--border-dark) !important;
+    background: #ffffff !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 12.5px !important;
+    color: var(--text-sub) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.pag-btn:hover, .page-btn:hover {
+    background: var(--bg-body) !important;
+}
+
+.pag-btn.active, .page-btn.active {
+    border-color: var(--primary-color) !important;
+    background: var(--primary-color) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   BADGES & PILLS (MWK SYSTEM)
+   ========================================================================== */
+.badge, .status-active, .status-inactive, .b-ok, .b-on, .b-late-in, .b-late-out,
+.b-no-in, .b-no-out, .b-wrong, .b-no-data, .gs-pending, .gs-wait, .gs-approved, .gs-rejected, .gs-none {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 3px 8px !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+.badge-success, .b-ok, .b-on, .gs-approved, .status-active, .b-approved {
+    background: var(--success-bg) !important;
+    color: var(--success-text) !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
+.badge-warning, .b-late-in, .b-late-out, .gs-pending, .gs-wait, .badge-waiting {
+    background: var(--warning-bg) !important;
+    color: var(--warning-text) !important;
+    border: 1px solid #fde68a !important;
+}
+
+.badge-danger, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .gs-rejected, .status-inactive, .b-returned {
+    background: var(--danger-bg) !important;
+    color: var(--danger-text) !important;
+    border: 1px solid #fecaca !important;
+}
+
+.badge-info {
+    background: var(--info-bg) !important;
+    color: var(--info-text) !important;
+    border: 1px solid #bae6fd !important;
+}
+
+.badge-secondary, .gs-none {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* ==========================================================================
+   STATS CARDS
+   ========================================================================== */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+}
+
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.stat-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: var(--radius-sm) !important;
+    background: #f1f5f9 !important;
+    color: var(--primary-color) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    line-height: 1.2 !important;
+}
+
+.stat-lbl {
+    font-size: 11.5px !important;
+    color: var(--text-muted) !important;
+    font-weight: 500 !important;
+}
+
+/* ==========================================================================
+   MODALS & DIALOGS
+   ========================================================================== */
+.modal-overlay, .modal {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 23, 42, 0.5) !important;
+    display: none;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1000 !important;
+    padding: 20px !important;
+}
+
+.modal-overlay.active, .modal-overlay.show, .modal.show, .modal.active {
+    display: flex !important;
+}
+
+.inner-popup {
+    display: none;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: #ffffff !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1050 !important;
+    width: 90% !important;
+    max-width: 480px !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.inner-popup.active, .inner-popup.show {
+    display: block !important;
+}
+
+.modal-box, .modal-content {
+    background: #ffffff !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-lg) !important;
+    width: 100% !important;
+    max-width: 640px !important;
+    max-height: 90vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.modal-header {
+    height: 52px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    color: var(--text-main) !important;
+    background: #ffffff !important;
+}
+
+.modal-header .close-icon, .modal-header .close-btn {
+    font-size: 18px !important;
+    color: var(--text-muted) !important;
+    cursor: pointer !important;
+}
+
+.modal-body {
+    padding: 20px !important;
+    overflow-y: auto !important;
+}
+
+.modal-footer {
+    padding: 14px 20px !important;
+    border-top: 1px solid var(--border-color) !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    background: #fafbfc !important;
+}
+
+/* STEPPERS */
+.horiz-stepper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 16px !important;
+    margin-bottom: 20px !important;
+    position: relative !important;
+}
+
+.horiz-step {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    z-index: 2 !important;
+}
+
+.horiz-step.active {
+    color: var(--text-main) !important;
+}
+
+.horiz-circle {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    border: 2px solid var(--border-dark) !important;
+    background: #ffffff !important;
+    color: var(--text-muted) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.horiz-circle.completed {
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.horiz-circle.active {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #ffffff !important;
+}
+
+.horiz-line {
+    flex: 1 !important;
+    height: 2px !important;
+    background: var(--border-color) !important;
+    margin: 0 8px !important;
+}

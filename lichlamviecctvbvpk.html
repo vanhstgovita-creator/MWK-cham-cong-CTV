@@ -1,0 +1,928 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch làm việc & Phân lịch – CTV BV/PK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Flatpickr Date Picker CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Common Design System & Sidebar Script -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f5f7fa; color:#1e293b;}
+.wrapper{display:flex;min-height:100vh;}
+
+/* =========================
+SIDEBAR
+========================= */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.sidebar-header{height:60px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:700;color:#2f4660;gap:10px;font-size:16px;}
+.sidebar-header i{font-size:20px;color:#2A3F54;}
+.menu{padding:10px 0;}
+.menu-item{margin-bottom:4px;}
+.level-1{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:600;font-size:14px;cursor:pointer;transition:background 0.2s;}
+.level-1:hover{background:#f8fafc;}
+.level-1 .icon-left{margin-right:10px;font-size:16px;color:#475569;}
+.level-1 .arrow{font-size:12px;transition:transform 0.2s;}
+.level-2{padding-left:0;display:block;}
+.level-2-group{margin-bottom:2px;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 10px 40px;color:#475569;font-size:13px;font-weight:600;cursor:pointer;background:#fafbfc;}
+.level-2-item:hover{background:#f1f5f9;}
+.level-2-item .arrow{font-size:10px;}
+.level-3{display:block;}
+.level-3 a{display:flex;align-items:center;gap:10px;padding:9px 20px 9px 60px;color:#64748b;text-decoration:none;font-size:13px;transition:all 0.2s;}
+.level-3 a:hover{background:#eff6ff;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* =========================
+CONTENT LAYOUT
+========================= */
+.content{flex:1;min-width:0;display:flex;flex-direction:column;}
+.page-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;}
+.breadcrumb{color:#64748b;font-size:13px;}
+.breadcrumb span{color:#94a3b8;margin:0 4px;}
+.page-title{margin-top:5px;font-size:22px;font-weight:700;color:#0f172a;}
+.container{padding:20px;flex:1;}
+
+/* =========================
+CARDS & BLOCKS
+========================= */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:6px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.02);}
+.card-header{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;border-bottom:1px solid #e5e7eb;font-weight:600;color:#2f4660;font-size:14px;}
+.card-body{padding:16px;}
+
+/* =========================
+SEARCH FILTERS
+========================= */
+.form-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.form-group{display:flex;flex-direction:column;}
+.form-group label{margin-bottom:6px;font-size:12px;font-weight:600;color:#475569;}
+.form-group input, .form-group select{height:36px;border:1px solid #cbd5e1;border-radius:4px;padding:0 10px;font-size:13px;color:#1e293b;outline:none;background:#fff;transition:border-color 0.2s;}
+.form-group input:focus, .form-group select:focus{border-color:#2A3F54;}
+.btn-row{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;border-top:1px solid #f1f5f9;padding-top:12px;}
+
+/* =========================
+BUTTONS
+========================= */
+.btn{height:36px;border:none;border-radius:4px;padding:0 16px;cursor:pointer;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;}
+.btn-primary{background:#2A3F54;color:#fff;}
+.btn-primary:hover{background:#223345;}
+.btn-success{background:#16a34a;color:#fff;}
+.btn-success:hover{background:#117e37;}
+.btn-secondary{background:#fff;border:1px solid #cbd5e1;color:#475569;}
+.btn-secondary:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a;}
+.btn-warning{background:#f59e0b;color:#fff;}
+.btn-warning:hover{background:#d97706;}
+
+/* =========================
+SCHEDULER INTERFACE
+========================= */
+.scheduler-layout{display:grid;grid-template-columns:1fr 320px;gap:20px;}
+.calendar-container{background:#fff;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;}
+.calendar-header{background:#f8fafc;border-bottom:1px solid #e5e7eb;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+.calendar-title{font-size:15px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;}
+.calendar-nav{display:flex;gap:4px;}
+.nav-btn{width:32px;height:32px;border:1px solid #cbd5e1;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;}
+.nav-btn:hover{background:#f1f5f9;}
+
+/* Grid Table */
+.scheduler-grid{width:100%;border-collapse:collapse;}
+.scheduler-grid th{background:#2A3F54;color:#fff;font-weight:600;font-size:12px;padding:10px;text-align:center;border:1px solid #223345;width:13.5%;}
+.scheduler-grid th.dept-col{width:15%;text-align:left;background:#233345;}
+.scheduler-grid td{border:1px solid #e5e7eb;padding:10px;vertical-align:top;height:180px;background:#fff;transition:background 0.2s;}
+.scheduler-grid td:hover{background:#fafbfc;}
+.scheduler-grid td.dept-info{height:auto;vertical-align:middle;background:#f8fafc;font-weight:600;font-size:13px;border-right:2px solid #cbd5e1;}
+.dept-title{color:#1e293b;font-size:13px;}
+.dept-loc{color:#64748b;font-size:11px;font-weight:400;margin-top:2px;display:flex;align-items:center;gap:4px;}
+
+/* Shift Cards */
+.shift-card{background:#f8fafc;border:1px solid #cbd5e1;border-radius:5px;padding:8px;margin-bottom:8px;font-size:12px;position:relative;cursor:pointer;transition:all 0.2s;box-shadow:0 1px 2px rgba(0,0,0,0.03);}
+.shift-card:hover{transform:translateY(-1px);box-shadow:0 3px 6px rgba(0,0,0,0.05);border-color:#94a3b8;}
+.shift-card.active{border-color:#2A3F54;background:#eff6ff;}
+.shift-card.draft{border-left:3px solid #94a3b8;}
+.shift-card.published{border-left:3px solid #f59e0b;}
+.shift-card.confirmed{border-left:3px solid #16a34a;}
+.shift-card.unassigned{border:1px dashed #cbd5e1;background:#fff;border-left:3px dashed #dc2626;}
+
+.shift-time{font-weight:700;color:#0f172a;display:flex;align-items:center;justify-content:between;margin-bottom:4px;}
+.shift-type-tag{font-size:9.5px;padding:1px 4px;border-radius:3px;font-weight:600;}
+.tag-normal{background:#e0f2fe;color:#0369a1;}
+.tag-duty{background:#f3e8ff;color:#6b21a8;}
+
+.shift-detail{font-size:11px;color:#64748b;margin-bottom:6px;display:flex;flex-direction:column;gap:2px;}
+.shift-ctv{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e2e8f0;padding:4px 6px;border-radius:4px;font-weight:600;color:#1e293b;}
+.shift-ctv i{color:#2A3F54;font-size:10px;}
+.shift-ctv.empty{color:#dc2626;border-color:#fee2e2;background:#fff5f5;font-weight:500;}
+
+/* Right Side Panel: Registered Free Calendar */
+.side-panel{background:#fff;border:1px solid #e5e7eb;border-radius:6px;display:flex;flex-direction:column;max-height:550px;}
+.panel-header{background:#f8fafc;border-bottom:1px solid #e5e7eb;padding:12px 16px;font-weight:700;font-size:14px;color:#2f4660;display:flex;align-items:center;gap:8px;}
+.panel-body{padding:12px;overflow-y:auto;flex:1;}
+.selected-day-lbl{font-size:12px;color:#2A3F54;font-weight:600;margin-bottom:10px;background:#eff6ff;padding:6px 10px;border-radius:4px;display:flex;align-items:center;gap:6px;}
+
+.free-ctv-item{border:1px solid #e2e8f0;border-radius:6px;padding:10px;margin-bottom:8px;transition:all 0.2s;}
+.free-ctv-item:hover{background:#f8fafc;border-color:#cbd5e1;}
+.free-ctv-info{display:flex;align-items:start;justify-content:space-between;margin-bottom:8px;}
+.free-ctv-name{font-weight:700;font-size:12.5px;color:#0f172a;}
+.free-ctv-code{font-size:11px;color:#94a3b8;}
+.free-ctv-specialty{font-size:11px;color:#64748b;margin-top:2px;font-style:italic;}
+.free-slots{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
+.free-slot-badge{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;background:#f1f5f9;color:#475569;}
+.free-slot-badge.active{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;}
+
+/* Action status legend */
+.legend-bar{display:flex;gap:16px;font-size:12px;color:#475569;margin-top:12px;padding:10px 16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;}
+.legend-item{display:flex;align-items:center;gap:6px;}
+.legend-color{width:12px;height:12px;border-radius:3px;}
+
+/* Modals */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;justify-content:center;align-items:center;z-index:1000;}
+.modal.show{display:flex;}
+.modal-content{background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.2);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;}
+.modal-md{width:640px;}
+.modal-header{height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #e5e7eb;font-weight:700;font-size:15px;color:#2f4660;}
+.modal-header .close-btn{cursor:pointer;color:#64748b;font-size:18px;}
+.modal-body{padding:20px;overflow-y:auto;flex:1;}
+.modal-footer{padding:14px 20px;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:10px;background:#fafbfc;}
+
+/* Form layout inside Modal */
+.modal-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.modal-form-full{grid-column:1 / -1;}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên BV/PK <span>/</span> Chấm công BV/PK <span>/</span> <strong>Lịch làm việc & Phân lịch</strong></div>
+                <div class="page-title">Lịch làm việc & Phân lịch</div>
+            </div>
+            <div>
+                <a href="taolichlamviecctvbvpk.html" class="btn btn-primary"><i class="fa-solid fa-calendar-plus"></i> Tạo ca trực / lịch mới</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- =========================
+            SEARCH FORM CARD
+            ========================= -->
+            <div class="card">
+                <div class="card-header">Điều kiện lọc tìm kiếm</div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Cơ sở</label>
+                            <select id="filterLoc">
+                                <option value="">Tất cả cơ sở</option>
+                                <option value="BĐ" selected>BV Medlatec Ba Đình</option>
+                                <option value="TX">PK Medlatec Thanh Xuân</option>
+                                <option value="TH">PK Medlatec Tây Hồ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Khoa phòng / Chuyên khoa</label>
+                            <select id="filterDept">
+                                <option value="">Tất cả khoa phòng</option>
+                                <option value="NS">Khoa Nội soi tiêu hóa</option>
+                                <option value="GM">Khoa Gây mê hồi sức</option>
+                                <option value="HA">Khoa Chẩn đoán hình ảnh</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian áp dụng</label>
+                            <input type="text" id="filterDateRange" placeholder="Chọn tuần làm việc">
+                        </div>
+                        <div class="form-group">
+                            <label>Họ và tên / Mã CTV</label>
+                            <input type="text" placeholder="Tìm theo tên/mã CTV">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái phân công</label>
+                            <select>
+                                <option value="">Tất cả</option>
+                                <option value="UA">Chưa phân công</option>
+                                <option value="A">Đã phân công</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-secondary"><i class="fa-solid fa-arrow-rotate-left"></i> Nhập lại</button>
+                        <button class="btn btn-primary" onclick="searchFilter()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =========================
+            SCHEDULER LAYOUT
+            ========================= -->
+            <div class="scheduler-layout">
+                
+                <!-- Left: Interactive Calendar Grid -->
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-title">
+                            <i class="fa-solid fa-calendar-days" style="color:#2A3F54;"></i>
+                            <span id="calendar-week-label">Tuần: 27/07/2026 - 02/08/2026</span>
+                        </div>
+                        <div class="calendar-nav">
+                            <button class="nav-btn" onclick="prevWeek()"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button class="nav-btn" style="width:auto; padding:0 10px; font-weight:600;" onclick="todayWeek()">Tuần này</button>
+                            <button class="nav-btn" onclick="nextWeek()"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <table class="scheduler-grid">
+                        <thead>
+                            <tr>
+                                <th class="dept-col">Khoa / Cơ sở</th>
+                                <th>Thứ Hai<br><span style="font-weight:normal; font-size:11px;">27/07</span></th>
+                                <th>Thứ Ba<br><span style="font-weight:normal; font-size:11px;">28/07</span></th>
+                                <th>Thứ Tư<br><span style="font-weight:normal; font-size:11px;">29/07</span></th>
+                                <th>Thứ Năm<br><span style="font-weight:normal; font-size:11px;">30/07</span></th>
+                                <th>Thứ Sáu<br><span style="font-weight:normal; font-size:11px;">31/07</span></th>
+                                <th>Thứ Bảy<br><span style="font-weight:normal; font-size:11px;">01/08</span></th>
+                                <th>Chủ Nhật<br><span style="font-weight:normal; font-size:11px;">02/08</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduler-rows">
+                            <!-- Rows will be rendered dynamically by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Right: Free CTV List Panel -->
+                <div class="side-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-circle-user" style="color:#16a34a;"></i>
+                        <span>Danh sách CTV rảnh</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="selected-day-lbl" id="selected-shift-info">
+                            <i class="fa-solid fa-circle-info"></i> Chọn một ca trực (trống) ở lịch bên trái để phân công.
+                        </div>
+                        <div id="free-ctv-list">
+                            <!-- CTV list will render when a shift is selected -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Legend and publishing tools -->
+            <div class="legend-bar">
+                <div class="legend-item"><div class="legend-color" style="background:#94a3b8;"></div><span>Nháp (Chưa gửi CTV)</span></div>
+                <div class="legend-item"><div class="legend-color" style="background:#f59e0b;"></div><span>Đã phát hành (Chờ CTV xác nhận)</span></div>
+                <div class="legend-item"><div class="legend-color" style="background:#16a34a;"></div><span>Đã chốt / Đã xác nhận</span></div>
+                <div class="legend-item" style="margin-left:auto;"><button class="btn btn-warning" onclick="publishSchedule()"><i class="fa-solid fa-paper-plane"></i> Phát hành toàn bộ lịch tuần</button></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MODAL TẠO CA TRỰC / LỊCH MỚI
+===================================================== -->
+<div class="modal" id="createModal">
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <span>Tạo ca trực / lịch làm việc mới cho CTV</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeCreateModal()"></i>
+        </div>
+        <div class="modal-body">
+            <div class="modal-form-grid">
+                <div class="form-group">
+                    <label>Cơ sở làm việc <span style="color:red;">*</span></label>
+                    <select id="modalLoc" onchange="updateModalDepts()">
+                        <option value="BĐ">BV Medlatec Ba Đình</option>
+                        <option value="TX">PK Medlatec Thanh Xuân</option>
+                        <option value="TH">PK Medlatec Tây Hồ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Khoa phòng / Chuyên khoa <span style="color:red;">*</span></label>
+                    <select id="modalDept">
+                        <option value="NS">Khoa Nội soi tiêu hóa</option>
+                        <option value="GM">Khoa Gây mê hồi sức</option>
+                        <option value="HA">Khoa Chẩn đoán hình ảnh</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ngày làm việc <span style="color:red;">*</span></label>
+                    <input type="date" id="modalDate" value="2026-07-27">
+                </div>
+                <div class="form-group">
+                    <label>Loại ca làm việc <span style="color:red;">*</span></label>
+                    <select id="modalShiftType" onchange="updateShiftTimeDefaults()">
+                        <option value="normal">Ca thường (Sáng/Chiều)</option>
+                        <option value="duty">Ca trực chuyên môn (Mổ/Nội soi)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Khung giờ bắt đầu <span style="color:red;">*</span></label>
+                    <input type="time" id="modalStartTime" value="07:30">
+                </div>
+                <div class="form-group">
+                    <label>Khung giờ kết thúc <span style="color:red;">*</span></label>
+                    <input type="time" id="modalEndTime" value="12:00">
+                </div>
+                <div class="form-group modal-form-full">
+                    <label>Yêu cầu công việc / Ghi chú</label>
+                    <input type="text" id="modalNote" placeholder="Ví dụ: Trực phụ ca mổ nội soi ổ bụng...">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeCreateModal()">Hủy bỏ</button>
+            <button class="btn btn-primary" onclick="submitCreateShift()"><i class="fa-solid fa-floppy-disk"></i> Lưu ca trực</button>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     JAVASCRIPT LOGIC (INTERACTIVE WIREFRAME)
+===================================================== -->
+<script>
+// Sidebar Submenu toggle
+function toggleSubMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    const arrow = document.getElementById('arrow-' + menuId.split('-')[1]);
+    if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        menu.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+
+// Flatpickr for Search Range
+document.addEventListener("DOMContentLoaded", function() {
+    flatpickr("#filterDateRange", {
+        mode: "single",
+        dateFormat: "d/m/Y",
+        defaultDate: "27/07/2026",
+        locale: "vn"
+    });
+    
+    // Auto toggle VCM menu to closed, BVPK to open on load
+    document.getElementById('menu-vcm').style.display = 'none';
+    document.getElementById('arrow-vcm').style.transform = 'rotate(0deg)';
+    document.getElementById('menu-bvpk').style.display = 'block';
+    document.getElementById('arrow-bvpk').style.transform = 'rotate(180deg)';
+});
+
+// Mock database for Shifts
+let shiftsDb = [
+    // Khoa Nội Soi - Ba Đình
+    { id: 1, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-27", start: "07:30", end: "11:30", type: "normal", ctvId: "CTV-0010", ctvName: "BS. Nguyễn Văn A", status: "confirmed", note: "Nội soi dạ dày sáng" },
+    { id: 2, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-27", start: "13:30", end: "17:30", type: "normal", ctvId: null, ctvName: null, status: "unassigned", note: "Nội soi đại tràng" },
+    { id: 3, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-28", start: "07:30", end: "11:30", type: "normal", ctvId: "CTV-0012", ctvName: "BS. Trần Hữu B", status: "confirmed", note: "Ca sáng" },
+    { id: 4, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-29", start: "18:00", end: "22:00", type: "duty", ctvId: null, ctvName: null, status: "unassigned", note: "Trực cấp cứu nội soi dạ dày thực quản" },
+    { id: 5, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-30", start: "07:30", end: "11:30", type: "normal", ctvId: "CTV-0010", ctvName: "BS. Nguyễn Văn A", status: "confirmed", note: "Ca sáng" },
+    { id: 6, loc: "BĐ", dept: "NS", deptName: "Khoa Nội soi", locName: "Ba Đình", date: "2026-07-31", start: "13:30", end: "17:30", type: "normal", ctvId: "CTV-0018", ctvName: "BS. Phạm Thị E", status: "published", note: "Ca chiều" },
+    
+    // Khoa Gây Mê - Ba Đình
+    { id: 7, loc: "BĐ", dept: "GM", deptName: "Khoa Gây mê", locName: "Ba Đình", date: "2026-07-27", start: "08:00", end: "16:00", type: "duty", ctvId: "CTV-0022", ctvName: "BS. Lê Hữu Minh", status: "confirmed", note: "Phụ mổ ca nội soi dạ dày" },
+    { id: 8, loc: "BĐ", dept: "GM", deptName: "Khoa Gây mê", locName: "Ba Đình", date: "2026-07-28", start: "18:00", end: "06:00", type: "duty", ctvId: null, ctvName: null, status: "unassigned", note: "Trực đêm cấp cứu" },
+    { id: 9, loc: "BĐ", dept: "GM", deptName: "Khoa Gây mê", locName: "Ba Đình", date: "2026-07-30", start: "08:00", end: "16:00", type: "duty", ctvId: "CTV-0022", ctvName: "BS. Lê Hữu Minh", status: "draft", note: "Phụ mổ thường quy" },
+
+    // Khoa Chẩn đoán hình ảnh - Ba Đình
+    { id: 10, loc: "BĐ", dept: "HA", deptName: "C.Đ Hình ảnh", locName: "Ba Đình", date: "2026-07-29", start: "07:30", end: "11:30", type: "normal", ctvId: "CTV-0056", ctvName: "BS. Hoàng Văn Đạo", status: "confirmed", note: "Đọc phim XQuang/MRI từ xa" },
+    { id: 11, loc: "BĐ", dept: "HA", deptName: "C.Đ Hình ảnh", locName: "Ba Đình", date: "2026-07-31", start: "18:00", end: "22:00", type: "duty", ctvId: null, ctvName: null, status: "unassigned", note: "Trực đọc phim MRI tối" }
+];
+
+// Mock database for CTV Free Registrations
+const freeCtvDb = [
+    { ctvId: "CTV-0010", name: "BS. Nguyễn Văn A", specialty: "Nội soi tiêu hóa", slots: { "2026-07-27": ["Sáng"], "2026-07-29": ["Sáng", "Chiều"], "2026-07-30": ["Sáng"], "2026-07-31": ["Chiều"] } },
+    { ctvId: "CTV-0012", name: "BS. Trần Hữu B", specialty: "Nội soi tiêu hóa", slots: { "2026-07-27": ["Chiều", "Tối"], "2026-07-28": ["Sáng"], "2026-07-29": ["Tối"] } },
+    { ctvId: "CTV-0018", name: "BS. Phạm Thị E", specialty: "Nội soi tiêu hóa", slots: { "2026-07-31": ["Chiều", "Tối"], "2026-08-01": ["Sáng", "Chiều"] } },
+    { ctvId: "CTV-0022", name: "BS. Lê Hữu Minh", specialty: "Gây mê hồi sức", slots: { "2026-07-27": ["Sáng", "Chiều"], "2026-07-28": ["Tối"], "2026-07-30": ["Sáng", "Chiều"] } },
+    { ctvId: "CTV-0033", name: "BS. Vũ Hoàng Nam", specialty: "Gây mê hồi sức", slots: { "2026-07-28": ["Tối"], "2026-07-29": ["Chiều"], "2026-07-30": ["Sáng"] } },
+    { ctvId: "CTV-0056", name: "BS. Hoàng Văn Đạo", specialty: "Chẩn đoán hình ảnh", slots: { "2026-07-29": ["Sáng"], "2026-07-31": ["Sáng", "Tối"] } },
+    { ctvId: "CTV-0088", name: "BS. Đỗ Thị Xuân", specialty: "Chẩn đoán hình ảnh", slots: { "2026-07-31": ["Tối"], "2026-08-02": ["Sáng", "Chiều"] } }
+];
+
+const deptsInLoc = {
+    "BĐ": [
+        { code: "NS", name: "Khoa Nội soi", locName: "Ba Đình" },
+        { code: "GM", name: "Khoa Gây mê", locName: "Ba Đình" },
+        { code: "HA", name: "C.Đ Hình ảnh", locName: "Ba Đình" }
+    ],
+    "TX": [
+        { code: "NS", name: "Khoa Nội soi", locName: "Thanh Xuân" },
+        { code: "HA", name: "C.Đ Hình ảnh", locName: "Thanh Xuân" }
+    ],
+    "TH": [
+        { code: "NS", name: "Khoa Nội soi", locName: "Tây Hồ" },
+        { code: "GM", name: "Khoa Gây mê", locName: "Tây Hồ" }
+    ]
+};
+
+// Date Management (Current Week Start: 2026-07-27)
+let currentWeekStart = new Date("2026-07-27");
+let selectedShiftId = null;
+
+// Render schedule grid
+function renderGrid() {
+    const tbody = document.getElementById("scheduler-rows");
+    tbody.innerHTML = "";
+    
+    // Get filter values
+    const selectedLoc = document.getElementById("filterLoc").value;
+    const selectedDept = document.getElementById("filterDept").value;
+    
+    // Determine departments to show
+    let deptsToShow = [];
+    if (selectedLoc) {
+        deptsToShow = deptsInLoc[selectedLoc] || [];
+    } else {
+        // Show all
+        Object.keys(deptsInLoc).forEach(locKey => {
+            deptsToShow = deptsToShow.concat(deptsInLoc[locKey]);
+        });
+    }
+    
+    if (selectedDept) {
+        deptsToShow = deptsToShow.filter(d => d.code === selectedDept);
+    }
+    
+    // Days array for the active week
+    const days = [];
+    for(let i=0; i<7; i++) {
+        const d = new Date(currentWeekStart);
+        d.setDate(d.getDate() + i);
+        days.push(d.toISOString().split('T')[0]);
+    }
+    
+    // Update th date headers
+    const ths = document.querySelectorAll(".scheduler-grid thead th:not(.dept-col)");
+    const daysOfWeekNames = ["Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "Chủ Nhật"];
+    ths.forEach((th, idx) => {
+        const d = new Date(currentWeekStart);
+        d.setDate(d.getDate() + idx);
+        const dayStr = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+        th.innerHTML = `Thứ ${daysOfWeekNames[idx]}<br><span style="font-weight:normal; font-size:11px;">${dayStr}</span>`;
+    });
+    
+    // Render row for each department
+    if (deptsToShow.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; height:80px; vertical-align:middle; color:#64748b;">Không tìm thấy lịch trực thỏa mãn điều kiện.</td></tr>`;
+        return;
+    }
+    
+    deptsToShow.forEach(dept => {
+        const tr = document.createElement("tr");
+        
+        // Department info cell
+        const tdDept = document.createElement("td");
+        tdDept.className = "dept-info";
+        tdDept.innerHTML = `
+            <div class="dept-title">${dept.name}</div>
+            <div class="dept-loc"><i class="fa-solid fa-location-dot"></i> Medlatec ${dept.locName}</div>
+        `;
+        tr.appendChild(tdDept);
+        
+        // Render 7 day cells
+        days.forEach(dateISO => {
+            const tdDay = document.createElement("td");
+            tdDay.dataset.date = dateISO;
+            tdDay.dataset.dept = dept.code;
+            tdDay.dataset.loc = selectedLoc || "BĐ"; // default/assigned loc
+            
+            // Get shifts for this dept and date
+            const dayShifts = shiftsDb.filter(s => s.date === dateISO && s.dept === dept.code && (selectedLoc ? s.loc === selectedLoc : true));
+            
+            dayShifts.forEach(shift => {
+                const card = document.createElement("div");
+                card.className = `shift-card ${shift.status}`;
+                if (selectedShiftId === shift.id) {
+                    card.classList.add("active");
+                }
+                card.onclick = (e) => {
+                    e.stopPropagation();
+                    selectShift(shift.id);
+                };
+                
+                const ctvHtml = shift.ctvId 
+                    ? `<div class="shift-ctv"><i class="fa-solid fa-user-md"></i> ${shift.ctvName}</div>`
+                    : `<div class="shift-ctv empty"><i class="fa-solid fa-triangle-exclamation"></i> Chưa phân công</div>`;
+                
+                const typeText = shift.type === 'normal' ? 'Ca thường' : 'Ca trực';
+                const typeClass = shift.type === 'normal' ? 'tag-normal' : 'tag-duty';
+                const statusIcon = shift.status === 'confirmed' ? '<i class="fa-solid fa-circle-check" style="color:#16a34a; font-size:12px;" title="CTV đã xác nhận"></i>' : '';
+                
+                card.innerHTML = `
+                    <div class="shift-time">
+                        <span>${shift.start} - ${shift.end}</span>
+                        <span class="shift-type-tag ${typeClass}">${typeText}</span>
+                    </div>
+                    <div class="shift-detail">${shift.note || ""}</div>
+                    ${ctvHtml}
+                    <div style="position:absolute; bottom:6px; right:8px;">${statusIcon}</div>
+                `;
+                tdDay.appendChild(card);
+            });
+            
+            tr.appendChild(tdDay);
+        });
+        
+        tbody.appendChild(tr);
+    });
+}
+
+// Select a shift and show free collaborators
+function selectShift(shiftId) {
+    selectedShiftId = shiftId;
+    renderGrid();
+    
+    const shift = shiftsDb.find(s => s.id === shiftId);
+    if (!shift) return;
+    
+    // Update side panel info
+    const infoPanel = document.getElementById("selected-shift-info");
+    const d = new Date(shift.date);
+    const dayStr = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+    const shiftTypeStr = shift.type === 'normal' ? 'Ca thường' : 'Ca trực/mổ/nội soi';
+    infoPanel.innerHTML = `
+        <div>
+            <strong>Ca chọn:</strong> ${shiftTypeStr} (${shift.start} - ${shift.end})<br>
+            <strong>Ngày:</strong> ${dayStr} | <strong>Khoa:</strong> ${shift.deptName}<br>
+            <span style="font-size:11px;color:#64748b;">Chọn CTV rảnh dưới đây để phân công</span>
+        </div>
+    `;
+    
+    // Find free collaborators for this date and time slot
+    // Sáng: 06:00 - 12:00, Chiều: 12:00 - 18:00, Tối/Đêm: 18:00 - 06:00
+    let slotType = "Sáng";
+    const startHour = parseInt(shift.start.split(":")[0]);
+    if (startHour >= 12 && startHour < 18) {
+        slotType = "Chiều";
+    } else if (startHour >= 18 || startHour < 6) {
+        slotType = "Tối";
+    }
+    
+    // Filter free CTV list based on registered slots & specialty matching
+    const freeCtvs = freeCtvDb.filter(ctv => {
+        // Specialty match (broad check for mockup simplicity)
+        if (shift.dept === 'NS' && ctv.specialty !== 'Nội soi tiêu hóa') return false;
+        if (shift.dept === 'GM' && ctv.specialty !== 'Gây mê hồi sức') return false;
+        if (shift.dept === 'HA' && ctv.specialty !== 'Chẩn đoán hình ảnh') return false;
+        
+        // Slot match
+        return ctv.slots[shift.date] && ctv.slots[shift.date].includes(slotType);
+    });
+    
+    const listContainer = document.getElementById("free-ctv-list");
+    listContainer.innerHTML = "";
+    
+    if (freeCtvs.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b; font-size:12px;"><i class="fa-solid fa-circle-exclamation" style="font-size:16px; margin-bottom:6px; display:block;"></i>Không có CTV rảnh phù hợp ca này.</div>`;
+        return;
+    }
+    
+    freeCtvs.forEach(ctv => {
+        const item = document.createElement("div");
+        item.className = "free-ctv-item";
+        
+        // Check if this CTV is already assigned to this shift
+        const isAssigned = shift.ctvId === ctv.ctvId;
+        const assignBtn = isAssigned
+            ? `<button class="btn btn-secondary" style="height:28px; padding:0 8px; font-size:11px;" onclick="unassignCTV(${shift.id})"><i class="fa-solid fa-user-minus"></i> Hủy</button>`
+            : `<button class="btn btn-primary" style="height:28px; padding:0 8px; font-size:11px; background:#16a34a;" onclick="assignCTV(${shift.id}, '${ctv.ctvId}', '${ctv.name}')"><i class="fa-solid fa-user-plus"></i> Phân công</button>`;
+        
+        item.innerHTML = `
+            <div class="free-ctv-info">
+                <div>
+                    <div class="free-ctv-name">${ctv.name}</div>
+                    <div class="free-ctv-code">${ctv.ctvId}</div>
+                    <div class="free-ctv-specialty">${ctv.specialty}</div>
+                </div>
+                <div>${assignBtn}</div>
+            </div>
+            <div class="free-slots">
+                <span class="free-slot-badge ${ctv.slots[shift.date].includes('Sáng') ? 'active' : ''}">Sáng</span>
+                <span class="free-slot-badge ${ctv.slots[shift.date].includes('Chiều') ? 'active' : ''}">Chiều</span>
+                <span class="free-slot-badge ${ctv.slots[shift.date].includes('Tối') ? 'active' : ''}">Tối</span>
+            </div>
+        `;
+        listContainer.appendChild(item);
+    });
+}
+
+// Assign CTV to Shift (Interactive logic)
+function assignCTV(shiftId, ctvId, ctvName) {
+    const shift = shiftsDb.find(s => s.id === shiftId);
+    if (shift) {
+        shift.ctvId = ctvId;
+        shift.ctvName = ctvName;
+        shift.status = "draft"; // starts as draft when assigned
+        
+        // Render success and trigger visual flash highlight
+        selectShift(shiftId);
+        showFeedbackToast(`Đã phân công ${ctvName} vào ca trực!`);
+    }
+}
+
+// Unassign CTV
+function unassignCTV(shiftId) {
+    const shift = shiftsDb.find(s => s.id === shiftId);
+    if (shift) {
+        shift.ctvId = null;
+        shift.ctvName = null;
+        shift.status = "unassigned";
+        selectShift(shiftId);
+        showFeedbackToast("Đã hủy phân công ca trực này.");
+    }
+}
+
+// Publish Shift (Pending confirmation from CTV)
+function publishSchedule() {
+    let count = 0;
+    shiftsDb.forEach(s => {
+        if (s.status === 'draft' && s.ctvId) {
+            s.status = 'published';
+            count++;
+        }
+    });
+    renderGrid();
+    if (selectedShiftId) selectShift(selectedShiftId);
+    alert(`Đã phát hành thành công ${count} ca trực. Thông báo Zalo đã được gửi tới các CTV liên quan!`);
+}
+
+// Navigation week simulation
+function prevWeek() {
+    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+    updateWeekLabel();
+    renderGrid();
+}
+function nextWeek() {
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    updateWeekLabel();
+    renderGrid();
+}
+function todayWeek() {
+    currentWeekStart = new Date("2026-07-27");
+    updateWeekLabel();
+    renderGrid();
+}
+function updateWeekLabel() {
+    const end = new Date(currentWeekStart);
+    end.setDate(end.getDate() + 6);
+    
+    const startStr = String(currentWeekStart.getDate()).padStart(2, '0') + '/' + String(currentWeekStart.getMonth() + 1).padStart(2, '0') + '/' + currentWeekStart.getFullYear();
+    const endStr = String(end.getDate()).padStart(2, '0') + '/' + String(end.getMonth() + 1).padStart(2, '0') + '/' + end.getFullYear();
+    
+    document.getElementById("calendar-week-label").textContent = `Tuần: ${startStr} - ${endStr}`;
+}
+
+// Search filter simulation
+function searchFilter() {
+    selectedShiftId = null;
+    document.getElementById("selected-shift-info").innerHTML = `<i class="fa-solid fa-circle-info"></i> Chọn một ca trực (trống) ở lịch bên trái để phân công.`;
+    document.getElementById("free-ctv-list").innerHTML = "";
+    renderGrid();
+}
+
+// Feedback Toast helper
+function showFeedbackToast(msg) {
+    const toast = document.createElement("div");
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#0f172a";
+    toast.style.color = "#fff";
+    toast.style.padding = "10px 20px";
+    toast.style.borderRadius = "4px";
+    toast.style.fontSize = "13px";
+    toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+    toast.style.zIndex = "9999";
+    toast.style.display = "flex";
+    toast.style.alignItems = "center";
+    toast.style.gap = "8px";
+    toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#22c55e;"></i> ${msg}`;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.5s";
+        setTimeout(() => toast.remove(), 500);
+    }, 2500);
+}
+
+// Modal open/close actions
+function openCreateModal() {
+    document.getElementById("createModal").classList.add("show");
+    updateModalDepts();
+}
+function closeCreateModal() {
+    document.getElementById("createModal").classList.remove("show");
+}
+function updateModalDepts() {
+    const loc = document.getElementById("modalLoc").value;
+    const deptSelect = document.getElementById("modalDept");
+    deptSelect.innerHTML = "";
+    
+    const depts = deptsInLoc[loc] || [];
+    depts.forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d.code;
+        opt.textContent = d.name;
+        deptSelect.appendChild(opt);
+    });
+}
+function updateShiftTimeDefaults() {
+    const type = document.getElementById("modalShiftType").value;
+    if (type === 'normal') {
+        document.getElementById("modalStartTime").value = "07:30";
+        document.getElementById("modalEndTime").value = "11:30";
+    } else {
+        document.getElementById("modalStartTime").value = "18:00";
+        document.getElementById("modalEndTime").value = "06:00";
+    }
+}
+function submitCreateShift() {
+    const loc = document.getElementById("modalLoc").value;
+    const dept = document.getElementById("modalDept").value;
+    const date = document.getElementById("modalDate").value;
+    const type = document.getElementById("modalShiftType").value;
+    const start = document.getElementById("modalStartTime").value;
+    const end = document.getElementById("modalEndTime").value;
+    const note = document.getElementById("modalNote").value;
+    
+    if (!date || !start || !end) {
+        alert("Vui lòng nhập đầy đủ các trường thông tin bắt buộc!");
+        return;
+    }
+    
+    const newId = shiftsDb.length + 1;
+    const deptObj = deptsInLoc[loc].find(d => d.code === dept);
+    
+    const newShift = {
+        id: newId,
+        loc: loc,
+        dept: dept,
+        deptName: deptObj ? deptObj.name : "Khoa trực",
+        locName: loc === 'BĐ' ? 'Ba Đình' : loc === 'TX' ? 'Thanh Xuân' : 'Tây Hồ',
+        date: date,
+        start: start,
+        end: end,
+        type: type,
+        ctvId: null,
+        ctvName: null,
+        status: "unassigned",
+        note: note
+    };
+    
+    shiftsDb.push(newShift);
+    closeCreateModal();
+    renderGrid();
+    showFeedbackToast("Đã tạo ca trực mới thành công!");
+}
+
+// Initial Run
+updateWeekLabel();
+renderGrid();
+</script>
+</body>
+</html>

@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng tổng hợp công – CTV Bệnh viện / Phòng khám (BV/PK)</title>
+    <!-- FontAwesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar Script -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+
+    <style>
+        /* CSS Overrides & Enhancements for Bảng Tổng Hợp Công BV/PK */
+        body {
+            background-color: #f8fafc !important;
+        }
+
+        /* Top navigation tabs (Exact Image Layout) */
+        .top-tabs-bar {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+            background: #ffffff;
+            padding: 0 16px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .top-tab-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 4px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #334155;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .top-tab-item:hover {
+            color: #2A3F54;
+        }
+
+        .top-tab-item.active {
+            color: #1e293b;
+            font-weight: 600;
+            border-bottom-color: #2A3F54;
+        }
+
+        /* Exact 2-Row Filter Card from Image */
+        .filter-section-2row {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+        }
+
+        .filter-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 32px;
+        }
+
+        .filter-control-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .filter-control-group label {
+            width: 125px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #334155;
+            flex-shrink: 0;
+        }
+
+        .filter-control-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .filter-control-input input, .filter-control-input select {
+            width: 100%;
+            height: 36px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 0 12px;
+            font-size: 13px;
+            color: #1e293b;
+            background: #ffffff;
+            outline: none;
+        }
+
+        .filter-control-input input:focus, .filter-control-input select:focus {
+            border-color: #2A3F54;
+            box-shadow: 0 0 0 2px rgba(42, 63, 84, 0.1);
+        }
+
+        .filter-buttons-right {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            width: 100%;
+        }
+
+        /* Table Toolbar (Exact Image Layout) */
+        .table-toolbar-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-toolbar-custom .btn-create-main {
+            background-color: #2A3F54;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            height: 34px;
+            padding: 0 18px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .table-toolbar-custom .btn-create-main:hover {
+            background-color: #1e2f3f;
+        }
+
+        .table-toolbar-custom .btn-settings-gear {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            height: 34px;
+            width: 36px;
+            color: #475569;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .table-toolbar-custom .btn-settings-gear:hover {
+            background-color: #f1f5f9;
+            color: #2A3F54;
+        }
+
+        /* Master List Table (Exact Styling from Image) */
+        .table-container-list {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background: #ffffff;
+        }
+
+        table.list-table-exact {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        table.list-table-exact thead th {
+            background: #2A3F54 !important;
+            color: #ffffff !important;
+            padding: 10px 12px;
+            font-weight: 600;
+            text-align: left;
+            border: 1px solid #364d63;
+            white-space: nowrap;
+        }
+
+        table.list-table-exact thead th.th-center {
+            text-align: center;
+        }
+
+        table.list-table-exact tbody td {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        table.list-table-exact tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        table.list-table-exact tbody td.td-center {
+            text-align: center;
+        }
+
+        /* Action Icon Styling (View, Edit, Delete) */
+        .action-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .icon-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #2A3F54;
+            padding: 2px 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.15s ease;
+        }
+
+        .icon-action-btn:hover {
+            color: #0f172a;
+        }
+
+        .icon-action-btn.disabled {
+            color: #cbd5e1 !important;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Stepper header (Images 1, 2, 3) */
+        .wizard-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 24px;
+        }
+
+        .wizard-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .wizard-step.active {
+            color: #2A3F54;
+        }
+
+        .wizard-step.completed {
+            color: #16a34a;
+        }
+
+        .wizard-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1.5px solid #cbd5e1;
+            background: #ffffff;
+            color: #64748b;
+        }
+
+        .wizard-step.active .wizard-circle {
+            border-color: #2A3F54;
+            background: #2A3F54;
+            color: #ffffff;
+        }
+
+        .wizard-step.completed .wizard-circle {
+            border-color: #16a34a;
+            background: #16a34a;
+            color: #ffffff;
+        }
+
+        .wizard-line {
+            width: 50px;
+            height: 2px;
+            background: #e2e8f0;
+        }
+
+        .wizard-line.active {
+            background: #2A3F54;
+        }
+
+        /* Workspace Header Info Card (Images 1, 2, 3) */
+        .workspace-info-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .info-card-top-row {
+            margin-bottom: 12px;
+        }
+
+        .info-card-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .info-card-inputs {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .legend-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .legend-btn {
+            background: none;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .legend-btn:hover {
+            background: #edf2f7;
+            color: #2A3F54;
+        }
+
+        .legend-btn i {
+            color: #2A3F54;
+            font-size: 13px;
+        }
+
+        /* Multi-level Master Table Styles (Images 1, 2, 3) */
+        .master-table-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            background: #ffffff;
+            max-height: 650px;
+            position: relative;
+        }
+
+        table.master-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 12px;
+            min-width: 2500px;
+        }
+
+        table.master-table thead th {
+            background: #2A3F54 !important;
+            color: #ffffff !important;
+            padding: 8px 10px !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            border: 1px solid #3d566e !important;
+            white-space: nowrap !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        table.master-table thead tr:nth-child(2) th {
+            top: 36px;
+            background: #34495e !important;
+            font-size: 11.5px;
+            font-weight: 500;
+            border-top: none !important;
+        }
+
+        table.master-table tbody td {
+            padding: 7px 10px;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            white-space: nowrap;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        table.master-table tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        table.master-table tbody tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        /* Left fixed / sticky columns */
+        .col-sticky-1 { position: sticky; left: 0; z-index: 5; background: #fff; min-width: 45px; }
+        .col-sticky-2 { position: sticky; left: 45px; z-index: 5; background: #fff; min-width: 85px; text-align: left !important; }
+        .col-sticky-3 { position: sticky; left: 130px; z-index: 5; background: #fff; min-width: 140px; text-align: left !important; font-weight: 600; }
+        .col-sticky-4 { position: sticky; left: 270px; z-index: 5; background: #fff; min-width: 150px; text-align: left !important; }
+        .col-sticky-5 { position: sticky; left: 420px; z-index: 5; background: #fff; min-width: 150px; text-align: left !important; }
+
+        table.master-table thead th.col-sticky-1,
+        table.master-table thead th.col-sticky-2,
+        table.master-table thead th.col-sticky-3,
+        table.master-table thead th.col-sticky-4,
+        table.master-table thead th.col-sticky-5 {
+            z-index: 15;
+            background: #2A3F54 !important;
+        }
+
+        table.master-table tbody tr:hover td.col-sticky-1,
+        table.master-table tbody tr:hover td.col-sticky-2,
+        table.master-table tbody tr:hover td.col-sticky-3,
+        table.master-table tbody tr:hover td.col-sticky-4,
+        table.master-table tbody tr:hover td.col-sticky-5 {
+            background-color: #f1f5f9;
+        }
+
+        /* Value styling */
+        .val-num { font-weight: 600; color: #1e293b; }
+        .val-highlight { font-weight: 700; color: #2A3F54; background: #f0f4f8; }
+        .val-total { font-weight: 700; color: #0f172a; }
+        .val-money { font-weight: 700; color: #166534; text-align: right !important; }
+
+        /* Editable cell in edit mode */
+        .cell-editable {
+            background: #fefce8;
+            cursor: pointer;
+            border: 1px dashed #eab308 !important;
+        }
+
+        /* Bottom Legend Table (Image 3) */
+        .legend-explanation-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+
+        .legend-explanation-card h4 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            max-width: 800px;
+        }
+
+        .legend-table th {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            font-weight: 600;
+            color: #475569;
+            text-align: left;
+        }
+
+        .legend-table td {
+            border: 1px solid #e2e8f0;
+            padding: 7px 12px;
+            color: #334155;
+        }
+
+        .legend-code {
+            font-weight: 700;
+            color: #2A3F54;
+            background: #f0f4f8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Views management */
+        .workspace-view {
+            display: none;
+        }
+
+        .workspace-view.active {
+            display: block;
+        }
+
+        /* ===================================================================== */
+        /* CUSTOM MONTH PICKER POPUP (IMAGE 1)                                   */
+        /* ===================================================================== */
+        .month-picker-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .month-picker-input-wrap {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .month-picker-input-wrap input {
+            cursor: pointer;
+            padding-right: 32px;
+            background: #ffffff !important;
+        }
+
+        .month-picker-input-wrap .calendar-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .month-picker-popup {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1);
+            padding: 12px;
+            width: 260px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .month-picker-popup.show {
+            display: block;
+        }
+
+        .month-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        .month-picker-header button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .month-picker-header button:hover {
+            background: #f1f5f9;
+            color: #2A3F54;
+        }
+
+        .month-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .month-item-btn {
+            height: 34px;
+            border: none;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .month-item-btn:hover {
+            background: #f1f5f9;
+            color: #2A3F54;
+        }
+
+        .month-item-btn.active {
+            background: #2A3F54 !important;
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+
+        /* ===================================================================== */
+        /* CUSTOM SEARCHABLE UNIT DROPDOWN (IMAGE 3)                             */
+        /* ===================================================================== */
+        .custom-unit-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-unit-input-box {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-unit-input-box input {
+            cursor: pointer;
+            padding-right: 32px;
+            background: #ffffff !important;
+        }
+
+        .custom-unit-input-box .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .custom-unit-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1);
+            max-height: 280px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        .custom-unit-dropdown.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .unit-search-bar {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+            background: #f8fafc;
+        }
+
+        .unit-search-bar input {
+            width: 100%;
+            height: 32px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 0 28px 0 10px;
+            font-size: 12.5px;
+            outline: none;
+        }
+
+        .unit-search-bar input:focus {
+            border-color: #2A3F54;
+        }
+
+        .unit-search-bar i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .unit-options-list {
+            overflow-y: auto;
+            max-height: 230px;
+            padding: 4px 0;
+        }
+
+        .unit-option-item {
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .unit-option-item:hover {
+            background: #f1f5f9;
+            color: #2A3F54;
+        }
+
+        .unit-option-item.selected {
+            background: #edf2f7;
+            color: #2A3F54;
+            font-weight: 600;
+        }
+
+        .unit-option-item .arrow-icon {
+            font-size: 10px;
+            color: #64748b;
+            width: 12px;
+        }
+
+        /* Auto-filled input field (Image 2) */
+        .autofilled-input {
+            background-color: #f8fafc !important;
+            font-weight: 600 !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow open" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" class="active" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV KSK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-stethoscope icon-left"></i>
+                        Cộng tác viên KSK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-ksk"></i>
+                </div>
+                <div class="level-2" id="menu-ksk" style="display:none;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công KSK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvksk.html" id="NAV_bangdulieucongctvksk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvksk.html" id="NAV_bangtonghopcongctvksk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="bangchotcongctvksk.html" id="NAV_bangchotcongctvksk">
+                                <i class="fa-solid fa-check-double"></i> Bảng chốt công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb" id="mainBreadcrumb">
+                    <i class="fa-regular fa-house"></i> <span>/</span> <strong>Bảng tổng hợp công</strong>
+                </div>
+                <div class="page-title" id="mainPageTitle">Bảng tổng hợp công</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary" id="btnBackToList" onclick="switchWorkspace('list')" style="display:none;">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- ========================================================================= -->
+            <!-- 1. VIEW: MASTER LIST OF PAYROLLS (EXACT LAYOUT FROM USER IMAGE)          -->
+            <!-- ========================================================================= -->
+            <div id="viewList" class="workspace-view active">
+                <!-- TOP TAB BAR -->
+                <div class="top-tabs-bar">
+                    <div class="top-tab-item active" onclick="switchTabList('tonghop')">
+                        <i class="fa-regular fa-user"></i> Bảng tổng hợp công
+                    </div>
+                    <a href="duyetbangtonghopcongctvbvpk.html" class="top-tab-item" style="text-decoration:none;">
+                        <i class="fa-regular fa-file-lines"></i> Duyệt bảng tổng hợp công
+                    </a>
+                    <div class="top-tab-item" onclick="switchTabList('chot')">
+                        <i class="fa-regular fa-file-lines"></i> Bảng chốt công
+                    </div>
+                </div>
+
+                <!-- 2-ROW FILTER CARD (EXACT LAYOUT FROM USER IMAGE) -->
+                <div class="filter-section-2row">
+                    <div class="filter-grid-layout">
+                        <!-- ROW 1 - LEFT: THỜI GIAN -->
+                        <div class="filter-control-group">
+                            <label>Thời gian</label>
+                            <div class="filter-control-input">
+                                <input type="text" id="filterFromMonth" value="01/2026" style="flex:1;">
+                                <span style="color:#94a3b8; font-size:13px;">→ Đến tháng</span>
+                                <input type="text" id="filterToMonth" placeholder="" style="flex:1;">
+                                <i class="fa-regular fa-calendar" style="position:absolute; right:10px; color:#94a3b8; pointer-events:none;"></i>
+                            </div>
+                        </div>
+
+                        <!-- ROW 1 - RIGHT: TRẠNG THÁI -->
+                        <div class="filter-control-group">
+                            <label>Trạng thái</label>
+                            <div class="filter-control-input">
+                                <select id="filterListStatus">
+                                    <option value="">Chọn trạng thái</option>
+                                    <option value="Tạo mới">Tạo mới</option>
+                                    <option value="Đã duyệt">Đã duyệt</option>
+                                    <option value="Chờ duyệt">Chờ duyệt</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ROW 2 - LEFT: ĐƠN VỊ / PHÒNG BAN -->
+                        <div class="filter-control-group">
+                            <label>Đơn vị / Phòng ban</label>
+                            <div class="filter-control-input">
+                                <select id="filterListDept">
+                                    <option value="">Chọn đơn vị</option>
+                                    <option value="Ba Đình - Phòng KHTH">Ba Đình - Phòng KHTH</option>
+                                    <option value="MED Thanh Xuân">MED Thanh Xuân</option>
+                                    <option value="MED Mê Linh">MED Mê Linh</option>
+                                    <option value="Phòng phân tích thiết kế và kiểm thử">Phòng phân tích thiết kế và kiểm thử</option>
+                                    <option value="MED Dịch vụ">MED Dịch vụ</option>
+                                    <option value="Nhóm lập trình & giải pháp">Nhóm lập trình & giải pháp</option>
+                                    <option value="Tây Hồ - Meddental">Tây Hồ - Meddental</option>
+                                    <option value="Mê Linh - Phòng Xét nghiệm">Mê Linh - Phòng Xét nghiệm</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ROW 2 - RIGHT: BUTTONS TÌM KIẾM & ĐẶT LẠI -->
+                        <div class="filter-control-group" style="justify-content: flex-end;">
+                            <div class="filter-buttons-right">
+                                <button class="btn btn-primary" onclick="searchMasterList()">
+                                    Tìm kiếm
+                                </button>
+                                <button class="btn btn-secondary" onclick="resetMasterListFilter()">
+                                    Đặt lại
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE TOOLBAR (EXACT LAYOUT FROM USER IMAGE) -->
+                <div class="table-toolbar-custom">
+                    <div class="table-page-size">
+                        Hiển thị
+                        <select id="pageSizeList" onchange="renderMasterListTable()">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        bản ghi.
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-create-main" onclick="switchWorkspace('create')">
+                            Tạo mới
+                        </button>
+                        <button class="btn-settings-gear" onclick="openSettingsModal()" title="Cài đặt">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MASTER LIST DATA TABLE (EXACT 8 ROWS FROM USER IMAGE) -->
+                <div class="table-container-list">
+                    <table class="list-table-exact">
+                        <thead>
+                            <tr>
+                                <th width="60" class="th-center">STT</th>
+                                <th width="120">Thời gian</th>
+                                <th width="280">Khoa / Phòng ban</th>
+                                <th>Tên bảng công</th>
+                                <th width="160">Trạng thái duyệt</th>
+                                <th width="120" class="th-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="masterListTableBody">
+                            <!-- Rendered dynamically matching image -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINATION (EXACT LAYOUT FROM USER IMAGE) -->
+                <div class="pagination-row" style="margin-top:14px;">
+                    <div id="listPaginationSummary">1 - 8 trong tổng 8</div>
+                    <div class="pagination-btns">
+                        <button class="page-btn"><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="page-btn"><i class="fa-solid fa-angle-left"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn"><i class="fa-solid fa-angle-right"></i></button>
+                        <button class="page-btn"><i class="fa-solid fa-angles-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================================= -->
+            <!-- 2. VIEW: WORKSPACE FOR CREATE / DETAIL / EDIT (IMAGES 1, 2, 3)             -->
+            <!-- ========================================================================= -->
+            <div id="viewWorkspace" class="workspace-view">
+                <!-- STEPPER (IMAGES 1, 2, 3) -->
+                <div class="wizard-stepper">
+                    <div class="wizard-step completed" id="stepIndicator1">
+                        <span class="wizard-circle"><i class="fa-solid fa-check"></i></span>
+                        <span>1. Tạo dữ liệu</span>
+                    </div>
+                    <div class="wizard-line active" id="stepLine1"></div>
+                    <div class="wizard-step active" id="stepIndicator2">
+                        <span class="wizard-circle">2</span>
+                        <span>2. Dữ liệu bảng công</span>
+                    </div>
+                    <div class="wizard-line" id="stepLine2"></div>
+                    <div class="wizard-step" id="stepIndicator3">
+                        <span class="wizard-circle">3</span>
+                        <span>3. Chốt bảng công</span>
+                    </div>
+                </div>
+
+                <!-- WORKSPACE HEADER & FILTER CARD (IMAGES 1, 2, 3) -->
+                <div class="workspace-info-card">
+                    <!-- ROW 1: TÊN BẢNG CÔNG (AUTO-FILL PREVIEW - IMAGE 2) -->
+                    <div class="info-card-top-row">
+                        <div class="filter-field">
+                            <label style="color:#64748b; font-size:12px;">Tên bảng công</label>
+                            <input type="text" id="wsPayrollNameInput" class="autofilled-input" value="Bảng công Ba Đình - Phòng KHTH 8/2026">
+                        </div>
+                    </div>
+
+                    <!-- ROW 2: THỜI GIAN, ĐƠN VỊ, CƠ SỞ & ACTION BUTTONS (IMAGE 1, 3) -->
+                    <div class="info-card-bottom-row">
+                        <div class="info-card-inputs">
+                            <!-- THỜI GIAN (MONTH PICKER - IMAGE 1) -->
+                            <div class="filter-field" style="width:160px;">
+                                <label>Thời gian</label>
+                                <div class="month-picker-wrapper">
+                                    <div class="month-picker-input-wrap" onclick="toggleMonthPicker(event)">
+                                        <input type="text" id="wsMonthInput" value="08/2026" readonly>
+                                        <i class="fa-regular fa-calendar calendar-icon"></i>
+                                    </div>
+                                    <!-- MONTH PICKER POPUP (IMAGE 1) -->
+                                    <div class="month-picker-popup" id="monthPickerPopup" onclick="event.stopPropagation()">
+                                        <div class="month-picker-header">
+                                            <button type="button" onclick="changePickerYear(-1)"><i class="fa-solid fa-angles-left"></i></button>
+                                            <span id="pickerYearDisplay">2026</span>
+                                            <button type="button" onclick="changePickerYear(1)"><i class="fa-solid fa-angles-right"></i></button>
+                                        </div>
+                                        <div class="month-picker-grid" id="monthPickerGrid">
+                                            <button type="button" class="month-item-btn" data-month="1" onclick="selectMonth(1)">Jan</button>
+                                            <button type="button" class="month-item-btn" data-month="2" onclick="selectMonth(2)">Feb</button>
+                                            <button type="button" class="month-item-btn" data-month="3" onclick="selectMonth(3)">Mar</button>
+                                            <button type="button" class="month-item-btn" data-month="4" onclick="selectMonth(4)">Apr</button>
+                                            <button type="button" class="month-item-btn" data-month="5" onclick="selectMonth(5)">May</button>
+                                            <button type="button" class="month-item-btn" data-month="6" onclick="selectMonth(6)">Jun</button>
+                                            <button type="button" class="month-item-btn" data-month="7" onclick="selectMonth(7)">Jul</button>
+                                            <button type="button" class="month-item-btn active" data-month="8" onclick="selectMonth(8)">Aug</button>
+                                            <button type="button" class="month-item-btn" data-month="9" onclick="selectMonth(9)">Sep</button>
+                                            <button type="button" class="month-item-btn" data-month="10" onclick="selectMonth(10)">Oct</button>
+                                            <button type="button" class="month-item-btn" data-month="11" onclick="selectMonth(11)">Nov</button>
+                                            <button type="button" class="month-item-btn" data-month="12" onclick="selectMonth(12)">Dec</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ĐƠN VỊ (SEARCHABLE DROPDOWN - IMAGE 3) -->
+                            <div class="filter-field" style="width:230px;" id="wsDeptFieldWrap">
+                                <label>Đơn vị</label>
+                                <div class="custom-unit-select-wrapper">
+                                    <div class="custom-unit-input-box" onclick="toggleUnitDropdown(event)">
+                                        <input type="text" id="wsDeptInput" value="Ba Đình - Phòng KHTH" readonly placeholder="Chọn đơn vị">
+                                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                    </div>
+                                    <!-- UNIT DROPDOWN (IMAGE 3) -->
+                                    <div class="custom-unit-dropdown" id="unitDropdownPopup" onclick="event.stopPropagation()">
+                                        <div class="unit-search-bar">
+                                            <input type="text" id="unitSearchInput" placeholder="Chọn đơn vị" oninput="filterUnitList()">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </div>
+                                        <div class="unit-options-list" id="unitOptionsContainer">
+                                            <div class="unit-option-item selected" onclick="selectUnit('Ba Đình - Phòng KHTH')">Ba Đình - Phòng KHTH</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Hội đồng thành viên')">Hội đồng thành viên</div>
+                                            <div class="unit-option-item" onclick="selectUnit('CTV - MEDLATEC HN')">CTV - MEDLATEC HN</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Nghỉ việc Medlatec')">Nghỉ việc Medlatec</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Ba Đình - Quản lý - Hành chính')">Ba Đình - Quản lý - Hành chính</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Phòng Kế toán')">Phòng Kế toán</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Ba Đình - BGĐ Bệnh viện')"><i class="fa-solid fa-caret-right arrow-icon"></i> Ba Đình - BGĐ Bệnh viện</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Phòng XLTC')">Phòng XLTC</div>
+                                            <div class="unit-option-item" onclick="selectUnit('MED Tây Hồ')"><i class="fa-solid fa-caret-right arrow-icon"></i> MED Tây Hồ</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Phòng TKĐB')">Phòng TKĐB</div>
+                                            <div class="unit-option-item" onclick="selectUnit('MED Thanh Xuân')">MED Thanh Xuân</div>
+                                            <div class="unit-option-item" onclick="selectUnit('MED Mê Linh')">MED Mê Linh</div>
+                                            <div class="unit-option-item" onclick="selectUnit('Khoa Xét nghiệm - BV Medlatec Ba Đình')">Khoa Xét nghiệm - BV Medlatec Ba Đình</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CƠ SỞ -->
+                            <div class="filter-field" style="width:200px;">
+                                <label>Cơ sở</label>
+                                <select id="wsFacilitySelect">
+                                    <option value="">Tất cả các đơn vị, cơ sở</option>
+                                    <option value="CS1">Cơ sở 1 - Nghĩa Dũng</option>
+                                    <option value="CS2">Cơ sở 2 - Trích Sài</option>
+                                    <option value="CS3">Cơ sở 3 - Thanh Xuân</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ACTION BUTTONS RIGHT -->
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <button class="btn btn-secondary" onclick="toggleExplanationCard()">
+                                <i class="fa-solid fa-circle-info"></i> Bảng giải thích công
+                            </button>
+                            
+                            <!-- Buttons for Detail mode -->
+                            <div id="btnGroupDetail" style="display:flex; gap:8px;">
+                                <button class="btn btn-secondary" onclick="printPayroll()">
+                                    <i class="fa-solid fa-print"></i> In
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportPayrollExcel()">
+                                    <i class="fa-solid fa-file-excel" style="color:#16a34a;"></i> Xuất Excel
+                                </button>
+                                <button class="btn btn-secondary" onclick="switchWorkspace('edit', currentActivePayroll ? currentActivePayroll.id : 1)">
+                                    <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa
+                                </button>
+                                <button class="btn btn-primary" onclick="submitApprovePayroll()">
+                                    <i class="fa-solid fa-paper-plane"></i> Gửi duyệt
+                                </button>
+                            </div>
+
+                            <!-- Buttons for Create mode -->
+                            <div id="btnGroupCreate" style="display:none; gap:8px;">
+                                <button class="btn btn-secondary" onclick="switchWorkspace('list')">
+                                    Hủy
+                                </button>
+                                <button class="btn btn-primary" onclick="submitSaveCreate()">
+                                    <i class="fa-solid fa-check"></i> Khởi tạo & Tải dữ liệu
+                                </button>
+                            </div>
+
+                            <!-- Buttons for Edit mode -->
+                            <div id="btnGroupEdit" style="display:none; gap:8px;">
+                                <button class="btn btn-secondary" onclick="switchWorkspace('detail', currentActivePayroll ? currentActivePayroll.id : 1)">
+                                    Hủy
+                                </button>
+                                <button class="btn btn-primary" onclick="submitSaveEdit()">
+                                    <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE TOOLBAR WITH LEGEND ICONS (IMAGE 2, 3) -->
+                <div class="table-toolbar-custom">
+                    <div class="table-page-size">
+                        Hiển thị
+                        <select id="pageSizeDetail" onchange="renderDetailTable()">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        bản ghi.
+                    </div>
+
+                    <div class="legend-actions">
+                        <button class="legend-btn" onclick="toggleFreezeColumns()"><i class="fa-solid fa-lock"></i> Khóa cột</button>
+                        <button class="legend-btn" onclick="openSettingsModal()"><i class="fa-solid fa-eye-slash"></i> Ẩn / hiện cột</button>
+                        <button class="legend-btn" onclick="toggleAdvancedFilter()"><i class="fa-solid fa-filter"></i> Lọc nâng cao</button>
+                        <button class="legend-btn" onclick="exportPayrollExcel()"><i class="fa-solid fa-file-export"></i> Xuất excel</button>
+                        <button class="legend-btn" onclick="printPayroll()"><i class="fa-solid fa-print"></i> In bảng công</button>
+                        <button class="legend-btn" onclick="toggleExplanationCard()"><i class="fa-solid fa-circle-question"></i> Bảng giải thích</button>
+                    </div>
+                </div>
+
+                <!-- MULTI-LEVEL MASTER TABLE (IMAGE 1, 2, 3) -->
+                <div class="master-table-container">
+                    <table class="master-table">
+                        <thead>
+                            <!-- LEVEL 1 HEADERS -->
+                            <tr>
+                                <th rowspan="2" class="col-sticky-1">STT</th>
+                                <th rowspan="2" class="col-sticky-2">Mã CTV</th>
+                                <th rowspan="2" class="col-sticky-3">Tên CTV</th>
+                                <th rowspan="2" class="col-sticky-4">Cơ sở</th>
+                                <th rowspan="2" class="col-sticky-5">Chuyên khoa</th>
+                                <th rowspan="2" style="min-width: 140px;">Chức vụ</th>
+                                <th rowspan="2" style="min-width: 110px;">Ngày vào công ty</th>
+                                <th rowspan="2" style="min-width: 110px;">Ngày chính thức</th>
+                                
+                                <!-- NHÓM 1: THỜI GIAN LÀM VIỆC THEO CA -->
+                                <th colspan="4" style="background:#233446 !important; border-bottom:1px solid #4a637d !important;">
+                                    Thời gian làm việc theo ca (giờ)
+                                </th>
+
+                                <!-- NHÓM 2: THỜI GIAN LÀM VIỆC NGOÀI CA -->
+                                <th colspan="4" style="background:#203040 !important; border-bottom:1px solid #4a637d !important;">
+                                    Thời gian làm việc ngoài ca (giờ)
+                                </th>
+
+                                <!-- NHÓM 3: CHỈ SỐ CHẤM CÔNG & NGHỈ -->
+                                <th rowspan="2" style="min-width: 110px;">Tổng TG làm việc (giờ)</th>
+                                <th rowspan="2" style="min-width: 120px;">Tổng TG đi muộn / về sớm (phút)</th>
+                                <th rowspan="2" style="min-width: 110px;">Tổng TG làm thêm (giờ)</th>
+                                <th rowspan="2" style="min-width: 90px;">Tổng ngày nghỉ</th>
+                                <th rowspan="2" style="min-width: 110px;">Nghỉ hưởng lương (100%)</th>
+                                <th rowspan="2" style="min-width: 100px;">Nghỉ không lương</th>
+                                <th rowspan="2" style="min-width: 90px;">Nghỉ khác</th>
+                                <th rowspan="2" style="min-width: 110px; background:#1b2836 !important;">Tổng công thực tế</th>
+
+                                <!-- NHÓM 4: TỔNG CÔNG TÍNH LƯƠNG & PHỤ CẤP -->
+                                <th colspan="9" style="background:#1a2735 !important; border-bottom:1px solid #4a637d !important;">
+                                    Tổng công tính lương & Phụ cấp (VNĐ)
+                                </th>
+
+                                <th rowspan="2" style="min-width: 80px; text-align:center;">Thao tác</th>
+                            </tr>
+
+                            <!-- LEVEL 2 SUB-HEADERS -->
+                            <tr>
+                                <!-- THEO CA -->
+                                <th style="min-width: 60px;">Sáng</th>
+                                <th style="min-width: 60px;">Chiều</th>
+                                <th style="min-width: 60px;">Tối</th>
+                                <th style="min-width: 60px;">Đêm</th>
+
+                                <!-- NGOÀI CA -->
+                                <th style="min-width: 60px;">Sáng</th>
+                                <th style="min-width: 60px;">Chiều</th>
+                                <th style="min-width: 60px;">Tối</th>
+                                <th style="min-width: 60px;">Đêm</th>
+
+                                <!-- TÍNH LƯƠNG CHI TIẾT -->
+                                <th style="min-width: 95px;">Công ngày thường</th>
+                                <th style="min-width: 95px;">Công nghỉ tuần</th>
+                                <th style="min-width: 95px;">Công lễ, Tết</th>
+                                <th style="min-width: 95px;">Trực ngày thường</th>
+                                <th style="min-width: 95px;">Trực nghỉ tuần</th>
+                                <th style="min-width: 95px;">Trực lễ, Tết</th>
+                                <th style="min-width: 100px; background:#2A3F54 !important;">Tổng công tính lương</th>
+                                <th style="min-width: 110px;">Tổng tiền phụ cấp</th>
+                                <th style="min-width: 125px; background:#1e2f3f !important;">Tổng thu nhập</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailTableBody">
+                            <!-- Rendered dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PAGINATION DETAIL -->
+                <div class="pagination-row">
+                    <div id="detailPaginationSummary">1 - 6 trong tổng 6</div>
+                    <div class="pagination-btns">
+                        <button class="page-btn"><i class="fa-solid fa-angles-left"></i></button>
+                        <button class="page-btn"><i class="fa-solid fa-angle-left"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn"><i class="fa-solid fa-angle-right"></i></button>
+                        <button class="page-btn"><i class="fa-solid fa-angles-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- BOTTOM EXPLANATION TABLE (IMAGE 3) -->
+                <div class="legend-explanation-card" id="explanationCard">
+                    <h4>
+                        <i class="fa-solid fa-circle-info" style="color:#2A3F54;"></i>
+                        <span>* Bảng giải thích ký hiệu & quy tắc tính công</span>
+                    </h4>
+                    <div style="overflow-x:auto;">
+                        <table class="legend-table">
+                            <thead>
+                                <tr>
+                                    <th width="80">Ký hiệu</th>
+                                    <th>Giải thích / Ý nghĩa</th>
+                                    <th width="120">Tính công</th>
+                                    <th width="100">Hệ số</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="legend-code">X</span></td>
+                                    <td>Làm việc ngày thường (theo ca đăng ký)</td>
+                                    <td>1 công</td>
+                                    <td>100%</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">OFF</span></td>
+                                    <td>Nghỉ tuần / Nghỉ ca theo lịch phân công</td>
+                                    <td>0 công</td>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">LE</span></td>
+                                    <td>Làm việc ngày nghỉ Lễ, Tết theo luật định</td>
+                                    <td>1 công</td>
+                                    <td>300%</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">TC</span></td>
+                                    <td>Tăng ca / Làm thêm giờ ngoài ca tiêu chuẩn</td>
+                                    <td>Tính theo giờ</td>
+                                    <td>150%</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">TRUC</span></td>
+                                    <td>Trực ca đêm / Trực đột xuất phòng khám</td>
+                                    <td>1 công trực</td>
+                                    <td>100% + Phụ cấp</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">OM</span></td>
+                                    <td>Nghỉ ốm hưởng chế độ BHXH</td>
+                                    <td>0 công lương</td>
+                                    <td>BHXH chi trả</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="legend-code">P</span></td>
+                                    <td>Nghỉ phép năm có hưởng lương</td>
+                                    <td>1 công</td>
+                                    <td>100%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: CHI TIẾT NHÂN VIÊN BV/PK                                           -->
+<!-- ========================================================================= -->
+<div class="modal" id="modalStaffDetail">
+    <div class="modal-content modal-lg">
+        <div class="modal-header">
+            <span id="staffModalTitle">Chi tiết chấm công & tổng hợp lương CTV BV/PK</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeStaffDetailModal()"></i>
+        </div>
+        <div class="modal-body" id="staffModalBody">
+            <!-- Rendered dynamically -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeStaffDetailModal()">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: CÀI ĐẶT CỘT HIỂN THỊ                                              -->
+<!-- ========================================================================= -->
+<div class="modal" id="modalSettings">
+    <div class="modal-content modal-sm">
+        <div class="modal-header">
+            <span>Cài đặt ẩn / hiện cột</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeSettingsModal()"></i>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <label><input type="checkbox" checked disabled> STT, Mã NV, Họ tên, Đơn vị (Cố định)</label>
+                <label><input type="checkbox" checked> Thời gian làm việc theo ca</label>
+                <label><input type="checkbox" checked> Thời gian làm việc ngoài ca</label>
+                <label><input type="checkbox" checked> Thời gian đi muộn / về sớm</label>
+                <label><input type="checkbox" checked> Chỉ số ngày nghỉ & nghỉ phép</label>
+                <label><input type="checkbox" checked> Chi tiết công tính lương</label>
+                <label><input type="checkbox" checked> Tổng phụ cấp & Tổng thu nhập</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeSettingsModal()">Hủy</button>
+            <button class="btn btn-primary" onclick="closeSettingsModal()">Lưu cấu hình</button>
+        </div>
+    </div>
+</div>
+
+<!-- PROTOTYPE JAVASCRIPT LOGIC -->
+<script>
+// =============================================================================
+// STATE & SELECTION VARIABLES
+// =============================================================================
+let currentMode = "list"; // 'list', 'create', 'detail', 'edit'
+let currentPickerYear = 2026;
+let currentPickerMonth = 8;
+let selectedDeptName = "Ba Đình - Phòng KHTH";
+
+// =============================================================================
+// MOCK DATA: MASTER LIST OF PAYROLL SHEETS (EXACT 8 ROWS FROM USER IMAGE)
+// =============================================================================
+let masterListData = [
+    {
+        stt: 1,
+        id: 1,
+        month: "Tháng 8",
+        yearMonth: "2026-08",
+        dept: "Ba Đình - Phòng KHTH",
+        name: "Bảng công Ba Đình - Phòng KHTH 8/2026",
+        status: "Tạo mới",
+        hasAlert: false,
+        canEdit: true,
+        canDelete: true
+    },
+    {
+        stt: 2,
+        id: 2,
+        month: "Tháng 7",
+        yearMonth: "2026-07",
+        dept: "MED Thanh Xuân",
+        name: "Bảng công MED Thanh Xuân 7/2026",
+        status: "Đã duyệt",
+        hasAlert: false,
+        canEdit: false,
+        canDelete: false
+    },
+    {
+        stt: 3,
+        id: 3,
+        month: "Tháng 6",
+        yearMonth: "2026-06",
+        dept: "MED Mê Linh",
+        name: "Bảng công MED Mê Linh 6/2026",
+        status: "Tạo mới",
+        hasAlert: true,
+        canEdit: true,
+        canDelete: true
+    },
+    {
+        stt: 4,
+        id: 4,
+        month: "Tháng 5",
+        yearMonth: "2026-05",
+        dept: "Phòng phân tích thiết kế và kiểm thử",
+        name: "Bảng công Phòng phân tích thiết kế và kiểm thử 5/2026",
+        status: "Đã duyệt",
+        hasAlert: false,
+        canEdit: false,
+        canDelete: false
+    },
+    {
+        stt: 5,
+        id: 5,
+        month: "Tháng 4",
+        yearMonth: "2026-04",
+        dept: "MED Dịch vụ",
+        name: "Bảng công MED Dịch vụ 4/2026",
+        status: "Tạo mới",
+        hasAlert: false,
+        canEdit: true,
+        canDelete: true
+    },
+    {
+        stt: 6,
+        id: 6,
+        month: "Tháng 2",
+        yearMonth: "2026-02",
+        dept: "Nhóm lập trình & giải pháp",
+        name: "Bảng công Nhóm lập trình & giải pháp 02/2026",
+        status: "Đã duyệt",
+        hasAlert: false,
+        canEdit: false,
+        canDelete: false
+    },
+    {
+        stt: 7,
+        id: 7,
+        month: "Tháng 1",
+        yearMonth: "2026-01",
+        dept: "Tây Hồ - Meddental",
+        name: "Bảng công Tây Hồ - Meddental 01/2026",
+        status: "Chờ duyệt",
+        hasAlert: false,
+        canEdit: false,
+        canDelete: false
+    },
+    {
+        stt: 8,
+        id: 8,
+        month: "Tháng 1",
+        yearMonth: "2026-01",
+        dept: "Mê Linh - Phòng Xét nghiệm",
+        name: "Bảng công Mê Linh - Phòng Xét nghiệm 01/2026",
+        status: "Đã duyệt",
+        hasAlert: false,
+        canEdit: false,
+        canDelete: false
+    }
+];
+
+// =============================================================================
+// MOCK DATA: DETAILED PAYROLL EMPLOYEES BV/PK (IMAGES 1, 2, 3)
+// =============================================================================
+let detailStaffData = [
+    {
+        stt: 1,
+        code: "CTV-PK01",
+        name: "BS. Nguyễn Văn Tuấn",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "Bác sĩ chuyên khoa",
+        startDate: "15/01/2024",
+        officialDate: "15/03/2024",
+        standardDays: 26,
+        shiftMorning: 48,
+        shiftAfternoon: 52,
+        shiftEvening: 40,
+        shiftNight: 16,
+        extraMorning: 4,
+        extraAfternoon: 6,
+        extraEvening: 2,
+        extraNight: 0,
+        totalHours: 168,
+        lateEarlyMinutes: 15,
+        overtimeHours: 12,
+        totalOffDays: 4,
+        paidOffDays: 1,
+        unpaidOffDays: 3,
+        otherOffDays: 0,
+        actualWorkDays: 26,
+        workNormalDays: 22,
+        workWeekendDays: 4,
+        workHolidayDays: 0,
+        dutyNormalDays: 2,
+        dutyWeekendDays: 1,
+        dutyHolidayDays: 0,
+        totalPayDays: 27,
+        totalAllowance: "2,500,000",
+        totalIncome: "18,850,000"
+    },
+    {
+        stt: 2,
+        code: "CTV-PK02",
+        name: "ĐD. Trần Văn Bình",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "Điều dưỡng viên",
+        startDate: "10/03/2024",
+        officialDate: "10/05/2024",
+        standardDays: 26,
+        shiftMorning: 50,
+        shiftAfternoon: 48,
+        shiftEvening: 36,
+        shiftNight: 20,
+        extraMorning: 2,
+        extraAfternoon: 4,
+        extraEvening: 0,
+        extraNight: 2,
+        totalHours: 162,
+        lateEarlyMinutes: 0,
+        overtimeHours: 8,
+        totalOffDays: 4,
+        paidOffDays: 2,
+        unpaidOffDays: 2,
+        otherOffDays: 0,
+        actualWorkDays: 25.5,
+        workNormalDays: 21.5,
+        workWeekendDays: 4,
+        workHolidayDays: 0,
+        dutyNormalDays: 3,
+        dutyWeekendDays: 1,
+        dutyHolidayDays: 0,
+        totalPayDays: 27.5,
+        totalAllowance: "1,450,000",
+        totalIncome: "12,200,000"
+    },
+    {
+        stt: 3,
+        code: "CTV-PK03",
+        name: "KTV. Lê Thị Hương",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "Kỹ thuật viên xét nghiệm",
+        startDate: "01/06/2024",
+        officialDate: "01/08/2024",
+        standardDays: 26,
+        shiftMorning: 44,
+        shiftAfternoon: 46,
+        shiftEvening: 48,
+        shiftNight: 12,
+        extraMorning: 0,
+        extraAfternoon: 2,
+        extraEvening: 4,
+        extraNight: 0,
+        totalHours: 156,
+        lateEarlyMinutes: 20,
+        overtimeHours: 6,
+        totalOffDays: 5,
+        paidOffDays: 1,
+        unpaidOffDays: 4,
+        otherOffDays: 0,
+        actualWorkDays: 24,
+        workNormalDays: 20,
+        workWeekendDays: 4,
+        workHolidayDays: 0,
+        dutyNormalDays: 1,
+        dutyWeekendDays: 1,
+        dutyHolidayDays: 0,
+        totalPayDays: 25,
+        totalAllowance: "1,150,000",
+        totalIncome: "10,950,000"
+    },
+    {
+        stt: 4,
+        code: "CTV-PK04",
+        name: "BS. Hoàng Văn Dũng",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "Bác sĩ lâm sàng",
+        startDate: "20/02/2025",
+        officialDate: "20/04/2025",
+        standardDays: 26,
+        shiftMorning: 52,
+        shiftAfternoon: 54,
+        shiftEvening: 32,
+        shiftNight: 24,
+        extraMorning: 6,
+        extraAfternoon: 4,
+        extraEvening: 2,
+        extraNight: 4,
+        totalHours: 178,
+        lateEarlyMinutes: 5,
+        overtimeHours: 16,
+        totalOffDays: 4,
+        paidOffDays: 0,
+        unpaidOffDays: 4,
+        otherOffDays: 0,
+        actualWorkDays: 26,
+        workNormalDays: 22,
+        workWeekendDays: 4,
+        workHolidayDays: 1,
+        dutyNormalDays: 4,
+        dutyWeekendDays: 2,
+        dutyHolidayDays: 0,
+        totalPayDays: 29,
+        totalAllowance: "3,200,000",
+        totalIncome: "22,600,000"
+    },
+    {
+        stt: 5,
+        code: "CTV-PK05",
+        name: "ĐD. Phạm Văn Em",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "Điều dưỡng phụ tá",
+        startDate: "12/05/2025",
+        officialDate: "12/07/2025",
+        standardDays: 26,
+        shiftMorning: 40,
+        shiftAfternoon: 42,
+        shiftEvening: 44,
+        shiftNight: 16,
+        extraMorning: 2,
+        extraAfternoon: 0,
+        extraEvening: 2,
+        extraNight: 0,
+        totalHours: 146,
+        lateEarlyMinutes: 30,
+        overtimeHours: 4,
+        totalOffDays: 6,
+        paidOffDays: 1,
+        unpaidOffDays: 5,
+        otherOffDays: 0,
+        actualWorkDays: 23,
+        workNormalDays: 19,
+        workWeekendDays: 4,
+        workHolidayDays: 0,
+        dutyNormalDays: 2,
+        dutyWeekendDays: 0,
+        dutyHolidayDays: 0,
+        totalPayDays: 24,
+        totalAllowance: "900,000",
+        totalIncome: "9,400,000"
+    },
+    {
+        stt: 6,
+        code: "CTV-PK06",
+        name: "KTV. Đỗ Quốc Hùng",
+        dept: "Ba Đình - Phòng KHTH",
+        position: "KTV Chẩn đoán hình ảnh",
+        startDate: "05/11/2025",
+        officialDate: "05/01/2026",
+        standardDays: 26,
+        shiftMorning: 48,
+        shiftAfternoon: 50,
+        shiftEvening: 42,
+        shiftNight: 18,
+        extraMorning: 4,
+        extraAfternoon: 4,
+        extraEvening: 0,
+        extraNight: 0,
+        totalHours: 166,
+        lateEarlyMinutes: 10,
+        overtimeHours: 8,
+        totalOffDays: 4,
+        paidOffDays: 0,
+        unpaidOffDays: 4,
+        otherOffDays: 0,
+        actualWorkDays: 26,
+        workNormalDays: 22,
+        workWeekendDays: 4,
+        workHolidayDays: 0,
+        dutyNormalDays: 2,
+        dutyWeekendDays: 1,
+        dutyHolidayDays: 0,
+        totalPayDays: 27,
+        totalAllowance: "1,550,000",
+        totalIncome: "13,600,000"
+    }
+];
+
+let currentActivePayroll = null;
+
+// =============================================================================
+// DOM ELEMENTS & INITIALIZATION
+// =============================================================================
+document.addEventListener('DOMContentLoaded', function() {
+    renderMasterListTable();
+
+    // Check URL search params for deep linking
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get('mode');
+    const idParam = parseInt(urlParams.get('id'), 10);
+
+    if (modeParam === 'create') {
+        switchWorkspace('create');
+    } else if (modeParam === 'edit' && idParam) {
+        switchWorkspace('edit', idParam);
+    } else if (modeParam === 'detail' && idParam) {
+        switchWorkspace('detail', idParam);
+    }
+
+    // Close popups when clicking outside
+    document.addEventListener('click', function(e) {
+        const mpPopup = document.getElementById("monthPickerPopup");
+        const uPopup = document.getElementById("unitDropdownPopup");
+        if (mpPopup && !e.target.closest('.month-picker-wrapper')) {
+            mpPopup.classList.remove('show');
+        }
+        if (uPopup && !e.target.closest('.custom-unit-select-wrapper')) {
+            uPopup.classList.remove('show');
+        }
+    });
+});
+
+// =============================================================================
+// WORKSPACE SWITCHER: LIST / CREATE / DETAIL / EDIT
+// =============================================================================
+function switchWorkspace(mode, id = null) {
+    currentMode = mode;
+    const vList = document.getElementById("viewList");
+    const vWorkspace = document.getElementById("viewWorkspace");
+    const btnBack = document.getElementById("btnBackToList");
+    const breadcrumb = document.getElementById("mainBreadcrumb");
+    const pageTitle = document.getElementById("mainPageTitle");
+
+    const btnGroupDetail = document.getElementById("btnGroupDetail");
+    const btnGroupCreate = document.getElementById("btnGroupCreate");
+    const btnGroupEdit = document.getElementById("btnGroupEdit");
+
+    const step1 = document.getElementById("stepIndicator1");
+    const step2 = document.getElementById("stepIndicator2");
+    const step3 = document.getElementById("stepIndicator3");
+    const line1 = document.getElementById("stepLine1");
+
+    if (mode === 'list') {
+        vWorkspace.classList.remove('active');
+        vList.classList.add('active');
+        btnBack.style.display = "none";
+        breadcrumb.innerHTML = `<i class="fa-regular fa-house"></i> <span>/</span> <strong>Bảng tổng hợp công</strong>`;
+        pageTitle.innerText = "Bảng tổng hợp công";
+        renderMasterListTable();
+        return;
+    }
+
+    // Entering Workspace View (Create, Detail, or Edit)
+    vList.classList.remove('active');
+    vWorkspace.classList.add('active');
+    btnBack.style.display = "inline-flex";
+
+    btnGroupDetail.style.display = "none";
+    btnGroupCreate.style.display = "none";
+    btnGroupEdit.style.display = "none";
+
+    if (mode === 'create') {
+        step1.className = "wizard-step active";
+        step2.className = "wizard-step";
+        step3.className = "wizard-step";
+        line1.className = "wizard-line";
+
+        btnGroupCreate.style.display = "flex";
+        currentPickerYear = 2026;
+        currentPickerMonth = 8;
+        selectedDeptName = "Ba Đình - Phòng KHTH";
+        
+        document.getElementById("pickerYearDisplay").innerText = currentPickerYear;
+        document.getElementById("wsMonthInput").value = "08/2026";
+        document.getElementById("wsDeptInput").value = selectedDeptName;
+        updateMonthGridSelection();
+        updatePayrollNameAutoFill();
+
+        breadcrumb.innerHTML = `<i class="fa-regular fa-house"></i> <span>/</span> <a href="javascript:void(0)" onclick="switchWorkspace('list')" style="color:#64748b; text-decoration:none;">Bảng tổng hợp công</a> <span>/</span> <strong>Tạo mới</strong>`;
+        pageTitle.innerText = "Bảng tổng hợp công / Tạo mới";
+
+        renderDetailTable();
+    } else if (mode === 'detail') {
+        const item = masterListData.find(x => x.id === (id || 1)) || masterListData[0];
+        currentActivePayroll = item;
+
+        step1.className = "wizard-step completed";
+        step2.className = "wizard-step active";
+        step3.className = "wizard-step";
+        line1.className = "wizard-line active";
+
+        btnGroupDetail.style.display = "flex";
+        document.getElementById("wsPayrollNameInput").value = item.name;
+        document.getElementById("wsMonthInput").value = "08/2026";
+        document.getElementById("wsDeptInput").value = item.dept;
+
+        breadcrumb.innerHTML = `<i class="fa-regular fa-house"></i> <span>/</span> <a href="javascript:void(0)" onclick="switchWorkspace('list')" style="color:#64748b; text-decoration:none;">Bảng tổng hợp công</a> <span>/</span> <strong>Chi tiết</strong>`;
+        pageTitle.innerText = `Bảng tổng hợp công / Chi tiết`;
+
+        renderDetailTable();
+    } else if (mode === 'edit') {
+        const item = masterListData.find(x => x.id === (id || 1)) || masterListData[0];
+        currentActivePayroll = item;
+
+        step1.className = "wizard-step completed";
+        step2.className = "wizard-step active";
+        step3.className = "wizard-step";
+        line1.className = "wizard-line active";
+
+        btnGroupEdit.style.display = "flex";
+        document.getElementById("wsPayrollNameInput").value = item.name;
+        document.getElementById("wsMonthInput").value = "08/2026";
+        document.getElementById("wsDeptInput").value = item.dept;
+
+        breadcrumb.innerHTML = `<i class="fa-regular fa-house"></i> <span>/</span> <a href="javascript:void(0)" onclick="switchWorkspace('list')" style="color:#64748b; text-decoration:none;">Bảng tổng hợp công</a> <span>/</span> <strong>Chỉnh sửa</strong>`;
+        pageTitle.innerText = `Bảng tổng hợp công / Chỉnh sửa`;
+
+        renderDetailTable(true);
+    }
+}
+
+// =============================================================================
+// RENDER MASTER LIST TABLE (EXACT 8 ROWS & ICONS FROM IMAGE)
+// =============================================================================
+function renderMasterListTable(filterData = null) {
+    const tbody = document.getElementById("masterListTableBody");
+    const data = filterData || masterListData;
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:#94a3b8;">Không tìm thấy bảng tổng hợp công phù hợp.</td></tr>`;
+        document.getElementById("listPaginationSummary").innerText = "0 - 0 trong tổng 0";
+        return;
+    }
+
+    data.forEach((item) => {
+        const tr = document.createElement("tr");
+        
+        let statusHtml = item.status;
+        if (item.hasAlert) {
+            statusHtml = `${item.status} <i class="fa-solid fa-circle-exclamation" style="color:#ef4444; font-size:12px; margin-left:3px;" title="Cần hoàn thiện"></i>`;
+        }
+
+        const editDisabledClass = item.canEdit ? "" : "disabled";
+        const deleteDisabledClass = item.canDelete ? "" : "disabled";
+
+        tr.innerHTML = `
+            <td class="td-center">${item.stt}</td>
+            <td>${item.month}</td>
+            <td>${item.dept}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="switchWorkspace('detail', ${item.id})" style="color:#2A3F54; text-decoration:none;">
+                    ${item.name}
+                </a>
+            </td>
+            <td>${statusHtml}</td>
+            <td class="td-center">
+                <div class="action-cell">
+                    <button class="icon-action-btn" onclick="switchWorkspace('detail', ${item.id})" title="Xem chi tiết">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="icon-action-btn ${editDisabledClass}" onclick="switchWorkspace('edit', ${item.id})" title="Chỉnh sửa">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button class="icon-action-btn ${deleteDisabledClass}" onclick="deletePayroll(${item.id})" title="Xóa">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("listPaginationSummary").innerText = `1 - ${data.length} trong tổng ${data.length}`;
+}
+
+function searchMasterList() {
+    const dept = document.getElementById("filterListDept").value;
+    const status = document.getElementById("filterListStatus").value;
+
+    let res = masterListData.filter(item => {
+        const matchDept = !dept || item.dept === dept;
+        const matchStatus = !status || item.status === status;
+        return matchDept && matchStatus;
+    });
+
+    renderMasterListTable(res);
+}
+
+function resetMasterListFilter() {
+    document.getElementById("filterListDept").value = "";
+    document.getElementById("filterListStatus").value = "";
+    renderMasterListTable();
+}
+
+function switchTabList(tabKey) {
+    const tabs = document.querySelectorAll(".top-tab-item");
+    tabs.forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    if (tabKey === 'tonghop') {
+        renderMasterListTable();
+    } else if (tabKey === 'duyet') {
+        const res = masterListData.filter(x => x.status === 'Chờ duyệt');
+        renderMasterListTable(res);
+    } else if (tabKey === 'chot') {
+        const res = masterListData.filter(x => x.status === 'Đã duyệt');
+        renderMasterListTable(res);
+    }
+}
+
+// =============================================================================
+// RENDER DETAILED PAYROLL TABLE (IMAGES 1, 2, 3)
+// =============================================================================
+function renderDetailTable(isEditable = false) {
+    const tbody = document.getElementById("detailTableBody");
+    tbody.innerHTML = "";
+
+    detailStaffData.forEach((staff) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="col-sticky-1">${staff.stt}</td>
+            <td class="col-sticky-2"><strong>${staff.code}</strong></td>
+            <td class="col-sticky-3">
+                <a href="javascript:void(0)" onclick="openStaffModal(${staff.stt})" style="color:#2A3F54; text-decoration:none;">
+                    ${staff.name}
+                </a>
+            </td>
+            <td class="col-sticky-4">${staff.dept}</td>
+            <td class="col-sticky-5">Chuyên khoa RHM</td>
+            <td>${staff.position}</td>
+            <td>${staff.startDate}</td>
+            <td>${staff.officialDate}</td>
+
+            <!-- THEO CA -->
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.shiftMorning}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.shiftAfternoon}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.shiftEvening}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.shiftNight}</td>
+
+            <!-- NGOÀI CA -->
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.extraMorning}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.extraAfternoon}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.extraEvening}</td>
+            <td class="${isEditable ? 'cell-editable' : ''}">${staff.extraNight}</td>
+
+            <!-- CHỈ SỐ TỔNG -->
+            <td class="val-num">${staff.totalHours}</td>
+            <td style="color:${staff.lateEarlyMinutes > 0 ? '#dc2626' : '#64748b'}; font-weight:600;">${staff.lateEarlyMinutes}</td>
+            <td class="val-num">${staff.overtimeHours}</td>
+            <td>${staff.totalOffDays}</td>
+            <td>${staff.paidOffDays}</td>
+            <td>${staff.unpaidOffDays}</td>
+            <td>${staff.otherOffDays}</td>
+            <td class="val-highlight">${staff.actualWorkDays}</td>
+
+            <!-- TÍNH LƯƠNG CHI TIẾT -->
+            <td>${staff.workNormalDays}</td>
+            <td>${staff.workWeekendDays}</td>
+            <td>${staff.workHolidayDays}</td>
+            <td>${staff.dutyNormalDays}</td>
+            <td>${staff.dutyWeekendDays}</td>
+            <td>${staff.dutyHolidayDays}</td>
+            <td class="val-highlight">${staff.totalPayDays}</td>
+            <td class="val-money">${staff.totalAllowance}</td>
+            <td class="val-money" style="color:#1e3a8a; font-size:12.5px;">${staff.totalIncome} đ</td>
+
+            <!-- ACTION -->
+            <td style="text-align:center;">
+                <button class="icon-action-btn" onclick="openStaffModal(${staff.stt})" title="Chi tiết từng ngày">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("detailPaginationSummary").innerText = `1 - ${detailStaffData.length} trong tổng ${detailStaffData.length}`;
+}
+
+// =============================================================================
+// INTERACTIVE MONTH PICKER (IMAGE 1)
+// =============================================================================
+function toggleMonthPicker(e) {
+    e.stopPropagation();
+    const popup = document.getElementById("monthPickerPopup");
+    const uPopup = document.getElementById("unitDropdownPopup");
+    if (uPopup) uPopup.classList.remove("show");
+    popup.classList.toggle("show");
+}
+
+function changePickerYear(offset) {
+    currentPickerYear += offset;
+    document.getElementById("pickerYearDisplay").innerText = currentPickerYear;
+    updateMonthGridSelection();
+    updatePayrollNameAutoFill();
+}
+
+function selectMonth(m) {
+    currentPickerMonth = m;
+    const formatted = `${String(m).padStart(2, '0')}/${currentPickerYear}`;
+    document.getElementById("wsMonthInput").value = formatted;
+    
+    updateMonthGridSelection();
+    updatePayrollNameAutoFill();
+    document.getElementById("monthPickerPopup").classList.remove("show");
+}
+
+function updateMonthGridSelection() {
+    document.querySelectorAll(".month-item-btn").forEach(btn => {
+        const m = parseInt(btn.getAttribute("data-month"), 10);
+        if (m === currentPickerMonth) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+}
+
+// =============================================================================
+// INTERACTIVE SEARCHABLE UNIT DROPDOWN (IMAGE 3)
+// =============================================================================
+function toggleUnitDropdown(e) {
+    e.stopPropagation();
+    const popup = document.getElementById("unitDropdownPopup");
+    const mPopup = document.getElementById("monthPickerPopup");
+    if (mPopup) mPopup.classList.remove("show");
+    popup.classList.toggle("show");
+    if (popup.classList.contains("show")) {
+        const input = document.getElementById("unitSearchInput");
+        input.value = "";
+        input.focus();
+        filterUnitList();
+    }
+}
+
+function selectUnit(unitName) {
+    selectedDeptName = unitName;
+    document.getElementById("wsDeptInput").value = unitName;
+
+    document.querySelectorAll(".unit-option-item").forEach(item => {
+        if (item.innerText.trim().endsWith(unitName)) {
+            item.classList.add("selected");
+        } else {
+            item.classList.remove("selected");
+        }
+    });
+
+    updatePayrollNameAutoFill();
+    document.getElementById("unitDropdownPopup").classList.remove("show");
+}
+
+function filterUnitList() {
+    const q = (document.getElementById("unitSearchInput").value || "").toLowerCase().trim();
+    document.querySelectorAll(".unit-option-item").forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if (!q || text.includes(q)) {
+            item.style.display = "flex";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+
+// =============================================================================
+// AUTO-FILL PAYROLL NAME (IMAGE 2)
+// =============================================================================
+function updatePayrollNameAutoFill() {
+    const nameInput = document.getElementById("wsPayrollNameInput");
+    if (nameInput) {
+        nameInput.value = `Bảng công ${selectedDeptName} ${currentPickerMonth}/${currentPickerYear}`;
+    }
+}
+
+// =============================================================================
+// ACTIONS: SAVE CREATE / SAVE EDIT / SUBMIT
+// =============================================================================
+function submitSaveCreate() {
+    const name = document.getElementById("wsPayrollNameInput").value.trim();
+    const dept = selectedDeptName;
+
+    if (!name) {
+        alert("Vui lòng nhập tên bảng công!");
+        return;
+    }
+
+    const newItem = {
+        stt: 1,
+        id: masterListData.length + 1,
+        month: `Tháng ${currentPickerMonth}`,
+        yearMonth: `${currentPickerYear}-${String(currentPickerMonth).padStart(2, '0')}`,
+        dept: dept,
+        name: name,
+        status: "Tạo mới",
+        hasAlert: false,
+        canEdit: true,
+        canDelete: true
+    };
+
+    masterListData.unshift(newItem);
+    // Re-index stt
+    masterListData.forEach((item, idx) => item.stt = idx + 1);
+
+    alert("Khởi tạo bảng công thành công!");
+    switchWorkspace('detail', newItem.id);
+}
+
+function submitSaveEdit() {
+    alert("Đã lưu các điều chỉnh bảng công thành công!");
+    switchWorkspace('detail', currentActivePayroll ? currentActivePayroll.id : 1);
+}
+
+function submitApprovePayroll() {
+    if (confirm("Bạn có chắc chắn muốn gửi duyệt bảng tổng hợp công này?")) {
+        alert("Đã gửi bảng tổng hợp công lên cấp trên phê duyệt thành công!");
+    }
+}
+
+function openStaffModal(stt) {
+    const staff = detailStaffData.find(x => x.stt === stt);
+    if (!staff) return;
+
+    document.getElementById("staffModalTitle").innerText = `Chi tiết bảng công: ${staff.name} (${staff.code})`;
+    const modalBody = document.getElementById("staffModalBody");
+    modalBody.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:16px; background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
+            <div><span style="color:#64748b;">Mã nhân viên:</span> <strong>${staff.code}</strong></div>
+            <div><span style="color:#64748b;">Họ và tên:</span> <strong>${staff.name}</strong></div>
+            <div><span style="color:#64748b;">Đơn vị:</span> <strong>${staff.dept}</strong></div>
+            <div><span style="color:#64748b;">Chức vụ:</span> <strong>${staff.position}</strong></div>
+            <div><span style="color:#64748b;">Ngày công chuẩn:</span> <strong>${staff.standardDays} công</strong></div>
+            <div><span style="color:#64748b;">Tổng thu nhập:</span> <strong style="color:#166534;">${staff.totalIncome} đ</strong></div>
+        </div>
+
+        <h4 style="margin-bottom:8px; font-size:13px; color:#1e293b;">Bảng phân rã chi tiết giờ làm & phụ cấp:</h4>
+        <table class="data-table" style="font-size:12px;">
+            <thead>
+                <tr>
+                    <th>Hạng mục</th>
+                    <th>Ca sáng</th>
+                    <th>Ca chiều</th>
+                    <th>Ca tối</th>
+                    <th>Ca đêm</th>
+                    <th>Tổng cộng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Thời gian làm việc theo ca (giờ)</strong></td>
+                    <td>${staff.shiftMorning}h</td>
+                    <td>${staff.shiftAfternoon}h</td>
+                    <td>${staff.shiftEvening}h</td>
+                    <td>${staff.shiftNight}h</td>
+                    <td><strong>${staff.shiftMorning + staff.shiftAfternoon + staff.shiftEvening + staff.shiftNight}h</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Thời gian làm việc ngoài ca (giờ)</strong></td>
+                    <td>${staff.extraMorning}h</td>
+                    <td>${staff.extraAfternoon}h</td>
+                    <td>${staff.extraEvening}h</td>
+                    <td>${staff.extraNight}h</td>
+                    <td><strong>${staff.extraMorning + staff.extraAfternoon + staff.extraEvening + staff.extraNight}h</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Phụ cấp ca & ngoài giờ (VNĐ)</strong></td>
+                    <td>500.000 đ</td>
+                    <td>600.000 đ</td>
+                    <td>500.000 đ</td>
+                    <td>400.000 đ</td>
+                    <td><strong style="color:#166534;">${staff.totalAllowance} đ</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+    document.getElementById("modalStaffDetail").classList.add("show");
+}
+
+function closeStaffDetailModal() {
+    document.getElementById("modalStaffDetail").classList.remove("show");
+}
+
+function openSettingsModal() {
+    document.getElementById("modalSettings").classList.add("show");
+}
+
+function closeSettingsModal() {
+    document.getElementById("modalSettings").classList.remove("show");
+}
+
+function toggleExplanationCard() {
+    const card = document.getElementById("explanationCard");
+    card.scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleFreezeColumns() {
+    alert("Đã cố định các cột STT, Mã NV, Họ tên, Đơn vị khi cuộn ngang đối soát dữ liệu!");
+}
+
+function toggleAdvancedFilter() {
+    alert("Chức năng lọc nâng cao theo khoảng giờ và phân loại ca làm việc!");
+}
+
+function exportPayrollExcel() {
+    alert("Đang xuất file Excel 'Bang_Tong_Hop_Cong_BVPK_2026.xlsx'...");
+}
+
+function printPayroll() {
+    window.print();
+}
+
+function deletePayroll(id) {
+    if (confirm("Bạn có chắc chắn muốn xóa bảng tổng hợp công này?")) {
+        masterListData = masterListData.filter(x => x.id !== id);
+        masterListData.forEach((item, idx) => item.stt = idx + 1);
+        renderMasterListTable();
+    }
+}
+</script>
+</body>
+</html>

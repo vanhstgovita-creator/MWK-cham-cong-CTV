@@ -1,0 +1,651 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo mới mẫu lịch làm việc – CTV VCM</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+.template-workspace {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .template-workspace {
+        grid-template-columns: 1fr;
+    }
+}
+
+.workspace-left, .workspace-right {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.quick-assign-bar {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.summary-badge {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #cbd5e1;
+}
+
+.summary-badge strong {
+    color: #0f172a;
+}
+
+.shift-filter-group {
+    display: flex;
+    gap: 4px;
+    margin: 8px 0;
+}
+
+.shift-filter-btn {
+    flex: 1;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.shift-filter-btn:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.shift-filter-btn.active {
+    background: #2A3F54;
+    color: #ffffff;
+    border-color: #2A3F54;
+}
+
+.route-list-container {
+    max-height: 520px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    padding-right: 4px;
+}
+
+.route-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.15s ease;
+}
+
+.route-card:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.route-code {
+    font-weight: 700;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.route-name {
+    font-size: 12.5px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+.route-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11.5px;
+    color: #64748b;
+    margin-top: 4px;
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Lịch làm việc VCM <span>/</span> <a href="taomaulichctvvcm.html">Tạo mẫu lịch</a> <span>/</span> <strong>Tạo mới mẫu lịch</strong></div>
+                <div class="page-title">Tạo mới mẫu lịch làm việc</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="taomaulichctvvcm.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
+                <button class="btn btn-primary" onclick="saveTemplate()"><i class="fa-solid fa-floppy-disk"></i> Lưu mẫu lịch</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- CARD 1: THÔNG TIN CHUNG MẪU LỊCH -->
+            <div class="card">
+                <div class="card-header">
+                    <span><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i>Thông tin chung mẫu lịch</span>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid" style="grid-template-columns: 180px 1.5fr 160px 1.5fr;">
+                        <div class="form-group">
+                            <label>Mã mẫu lịch <span style="color:#dc2626;">*</span></label>
+                            <input type="text" id="templateCode" value="ML-2026-003" placeholder="Ví dụ: ML001">
+                        </div>
+                        <div class="form-group">
+                            <label>Tên mẫu lịch <span style="color:#dc2626;">*</span></label>
+                            <input type="text" id="templateName" value="Mẫu lịch ca ngày nội thành Hà Nội" placeholder="Nhập tên mẫu lịch">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select id="templateStatus">
+                                <option value="active" selected>Hoạt động</option>
+                                <option value="inactive">Ngừng hoạt động</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ghi chú</label>
+                            <input type="text" id="templateNote" placeholder="Nhập ghi chú cho mẫu lịch này...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: WORKSPACE CHI TIẾT TUYẾN & PHÂN CTV -->
+            <div class="template-workspace">
+                <!-- CỘT TRÁI: DANH SÁCH TUYẾN TRONG MẪU LỊCH -->
+                <div class="workspace-left">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                        <span style="font-weight:700; color:#1e293b; font-size:14px;">
+                            <i class="fa-solid fa-list-check" style="margin-right:6px; color:#2A3F54;"></i>Các tuyến trong mẫu lịch
+                        </span>
+                        
+                        <div style="display:flex; gap:8px;">
+                            <span class="summary-badge">Tổng tuyến: <strong id="totalRoute">4</strong></span>
+                            <span class="summary-badge">Đã gán CTV: <strong id="totalCTV">4</strong></span>
+                            <span class="summary-badge">Tổng cước: <strong id="totalFee">480,000đ</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- PHÂN NHANH CTV TOOLBAR -->
+                    <div class="quick-assign-bar">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
+                            <span style="font-size:12.5px; font-weight:600; color:#475569;"><i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> Phân nhanh CTV:</span>
+                            <select id="globalCTVSelect" style="height:32px; font-size:12.5px; border:1px solid #cbd5e1; border-radius:4px; padding:0 8px; background:#fff;">
+                                <option value="">-- Chọn CTV --</option>
+                                <option value="Nguyễn Văn A">Nguyễn Văn A (CTV-001)</option>
+                                <option value="Trần Văn B">Trần Văn B (CTV-002)</option>
+                                <option value="Lê Văn C">Lê Văn C (CTV-003)</option>
+                                <option value="Hoàng Văn D">Hoàng Văn D (CTV-004)</option>
+                                <option value="Phạm Văn E">Phạm Văn E (CTV-005)</option>
+                            </select>
+                            
+                            <span style="font-size:12px; color:#64748b;">cho</span>
+                            
+                            <select id="assignScopeSelect" style="height:32px; font-size:12.5px; border:1px solid #cbd5e1; border-radius:4px; padding:0 8px; background:#fff;">
+                                <option value="full">Tất cả tuyến (Gán toàn bộ)</option>
+                                <option value="checked">Tuyến đang tích chọn</option>
+                                <option value="sang">Tất cả tuyến Ca Sáng</option>
+                                <option value="chieu">Tất cả tuyến Ca Chiều</option>
+                                <option value="toi">Tất cả tuyến Ca Tối</option>
+                            </select>
+                            
+                            <button class="btn btn-primary" onclick="quickAssignSelectedCTV()" style="height:32px; padding:0 12px; font-size:12.5px;">
+                                <i class="fa-solid fa-user-check"></i> Áp dụng
+                            </button>
+
+                            <button class="btn btn-secondary" onclick="deleteCheckedSelectedRoutes()" style="height:32px; padding:0 10px; font-size:12.5px; color:#dc2626;" title="Xóa toàn bộ tuyến đang được tích chọn">
+                                <i class="fa-solid fa-trash-can"></i> Xóa đã chọn
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BẢNG CÁC TUYẾN ĐÃ CHỌN -->
+                    <div class="tbl-wrap">
+                        <table class="med-table" id="tableSelectedRoutes">
+                            <thead>
+                                <tr>
+                                    <th width="40" style="text-align:center;"><input type="checkbox" id="selectAllSelectedCB" onchange="toggleSelectAllSelected(this)"></th>
+                                    <th width="45" style="text-align:center;">STT</th>
+                                    <th>Mã & Tên tuyến chạy</th>
+                                    <th width="140" style="text-align:center;">Ca / Giờ chạy</th>
+                                    <th width="200">CTV phụ trách *</th>
+                                    <th width="110" style="text-align:right;">Cước phí</th>
+                                    <th width="60" style="text-align:center;">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectedRoutesBody">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CỘT PHẢI: KHO TUYẾN CÓ SẴN -->
+                <div class="workspace-right">
+                    <div style="font-weight:700; color:#1e293b; font-size:14px; margin-bottom: 8px;">
+                        <i class="fa-solid fa-route" style="margin-right:6px; color:#2A3F54;"></i>Kho tuyến chạy có sẵn
+                    </div>
+                    
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="position:relative;">
+                            <input type="text" id="routeSearchInput" placeholder="Tìm kiếm theo mã hoặc tên tuyến..." oninput="filterAvailableRoutes()" style="height:36px; padding-left:32px;">
+                            <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:10px; top:11px; color:#94a3b8; font-size:13px;"></i>
+                        </div>
+                        
+                        <div class="shift-filter-group">
+                            <button class="shift-filter-btn active" id="filterBtnAll" onclick="setShiftFilter('all')">Tất cả</button>
+                            <button class="shift-filter-btn" id="filterBtnSang" onclick="setShiftFilter('sang')">Sáng</button>
+                            <button class="shift-filter-btn" id="filterBtnChieu" onclick="setShiftFilter('chieu')">Chiều</button>
+                            <button class="shift-filter-btn" id="filterBtnToi" onclick="setShiftFilter('toi')">Tối</button>
+                        </div>
+
+                        <div style="display:flex; align-items:center; justify-content:space-between; background:#f8fafc; padding:8px 10px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <span style="font-size:12px; color:#475569; font-weight:600;">Tự gán CTV khi thêm:</span>
+                            <select id="defaultCTVSelect" style="width:150px; height:28px; font-size:12px; border:1px solid #cbd5e1; border-radius:4px; padding:0 6px; background:#fff;">
+                                <option value="">-- Để trống --</option>
+                                <option value="Nguyễn Văn A">Nguyễn Văn A</option>
+                                <option value="Trần Văn B">Trần Văn B</option>
+                                <option value="Lê Văn C">Lê Văn C</option>
+                                <option value="Hoàng Văn D">Hoàng Văn D</option>
+                                <option value="Phạm Văn E">Phạm Văn E</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="route-list-container" id="availableRoutesContainer">
+                        <!-- Dynamic Available Route Cards -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER ACTION BUTTONS -->
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <a href="taomaulichctvvcm.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Hủy & Quay lại</a>
+                <button class="btn btn-primary" onclick="saveTemplate()"><i class="fa-solid fa-floppy-disk"></i> Lưu mẫu lịch</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+// Mock data for available routes
+const availableRoutes = [
+    { id: "T01", code: "T01", name: "Tuyến Ba Đình - Cầu Giấy", shift: "sang", shiftLabel: "Ca Sáng", time: "07:30 - 11:30", fee: 120000 },
+    { id: "T02", code: "T02", name: "Tuyến Đống Đa - Hoàn Kiếm", shift: "sang", shiftLabel: "Ca Sáng", time: "08:00 - 12:00", fee: 120000 },
+    { id: "T03", code: "T03", name: "Tuyến Thanh Xuân - Hà Đông", shift: "chieu", shiftLabel: "Ca Chiều", time: "13:30 - 17:30", fee: 120000 },
+    { id: "T04", code: "T04", name: "Tuyến Hai Bà Trưng - Hoàng Mai", shift: "chieu", shiftLabel: "Ca Chiều", time: "14:00 - 18:00", fee: 120000 },
+    { id: "T05", code: "T05", name: "Tuyến Trực đêm Ngoại thành", shift: "toi", shiftLabel: "Ca Tối", time: "18:00 - 22:00", fee: 150000 },
+    { id: "T06", code: "T06", name: "Tuyến Bệnh viện Bạch Mai - PK", shift: "sang", shiftLabel: "Ca Sáng", time: "06:30 - 10:30", fee: 130000 }
+];
+
+let selectedRoutes = [
+    { id: "T01", code: "T01", name: "Tuyến Ba Đình - Cầu Giấy", shift: "sang", shiftLabel: "Ca Sáng", time: "07:30 - 11:30", fee: 120000, ctv: "Nguyễn Văn A" },
+    { id: "T02", code: "T02", name: "Tuyến Đống Đa - Hoàn Kiếm", shift: "sang", shiftLabel: "Ca Sáng", time: "08:00 - 12:00", fee: 120000, ctv: "Trần Văn B" },
+    { id: "T03", code: "T03", name: "Tuyến Thanh Xuân - Hà Đông", shift: "chieu", shiftLabel: "Ca Chiều", time: "13:30 - 17:30", fee: 120000, ctv: "Lê Văn C" },
+    { id: "T04", code: "T04", name: "Tuyến Hai Bà Trưng - Hoàng Mai", shift: "chieu", shiftLabel: "Ca Chiều", time: "14:00 - 18:00", fee: 120000, ctv: "Hoàng Văn D" }
+];
+
+let currentShiftFilter = "all";
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderSelectedRoutes();
+    renderAvailableRoutes();
+});
+
+function renderSelectedRoutes() {
+    const tbody = document.getElementById("selectedRoutesBody");
+    tbody.innerHTML = "";
+
+    let totalFee = 0;
+    let assignedCount = 0;
+
+    selectedRoutes.forEach((r, idx) => {
+        totalFee += r.fee;
+        if (r.ctv) assignedCount++;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align:center;"><input type="checkbox" class="route-select-cb" data-idx="${idx}"></td>
+            <td style="text-align:center; color:#64748b;">${idx + 1}</td>
+            <td>
+                <strong>${r.code}</strong> - ${r.name}
+            </td>
+            <td style="text-align:center;">
+                <span class="badge ${r.shift === 'sang' ? 'badge-info' : r.shift === 'chieu' ? 'badge-warning' : 'badge-secondary'}">${r.shiftLabel}</span>
+                <div style="font-size:11px; color:#64748b; margin-top:2px;">${r.time}</div>
+            </td>
+            <td>
+                <select style="width:100%; height:32px; font-size:12.5px; border:1px solid #cbd5e1; border-radius:4px; padding:0 6px;" onchange="updateRowCTV(${idx}, this.value)">
+                    <option value="">-- Chưa gán CTV --</option>
+                    <option value="Nguyễn Văn A" ${r.ctv === 'Nguyễn Văn A' ? 'selected' : ''}>Nguyễn Văn A (CTV-001)</option>
+                    <option value="Trần Văn B" ${r.ctv === 'Trần Văn B' ? 'selected' : ''}>Trần Văn B (CTV-002)</option>
+                    <option value="Lê Văn C" ${r.ctv === 'Lê Văn C' ? 'selected' : ''}>Lê Văn C (CTV-003)</option>
+                    <option value="Hoàng Văn D" ${r.ctv === 'Hoàng Văn D' ? 'selected' : ''}>Hoàng Văn D (CTV-004)</option>
+                    <option value="Phạm Văn E" ${r.ctv === 'Phạm Văn E' ? 'selected' : ''}>Phạm Văn E (CTV-005)</option>
+                </select>
+            </td>
+            <td style="text-align:right; font-weight:600; color:#1e293b;">${r.fee.toLocaleString('vi-VN')}đ</td>
+            <td style="text-align:center;">
+                <button class="action-icon delete" title="Xóa khỏi mẫu lịch" onclick="removeRouteFromSelected(${idx})"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("totalRoute").textContent = selectedRoutes.length;
+    document.getElementById("totalCTV").textContent = assignedCount;
+    document.getElementById("totalFee").textContent = totalFee.toLocaleString('vi-VN') + "đ";
+}
+
+function renderAvailableRoutes() {
+    const container = document.getElementById("availableRoutesContainer");
+    container.innerHTML = "";
+
+    const keyword = (document.getElementById("routeSearchInput").value || "").toLowerCase().trim();
+
+    const filtered = availableRoutes.filter(r => {
+        const matchShift = (currentShiftFilter === "all" || r.shift === currentShiftFilter);
+        const matchKey = (r.code.toLowerCase().includes(keyword) || r.name.toLowerCase().includes(keyword));
+        return matchShift && matchKey;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8; font-size:12.5px;">Không tìm thấy tuyến phù hợp</div>`;
+        return;
+    }
+
+    filtered.forEach(r => {
+        const isAdded = selectedRoutes.some(sr => sr.id === r.id);
+        const div = document.createElement("div");
+        div.className = "route-card";
+        div.innerHTML = `
+            <div>
+                <div class="route-code">${r.code} <span class="badge ${r.shift === 'sang' ? 'badge-info' : r.shift === 'chieu' ? 'badge-warning' : 'badge-secondary'}" style="margin-left:4px;">${r.shiftLabel}</span></div>
+                <div class="route-name">${r.name}</div>
+                <div class="route-meta">
+                    <span><i class="fa-regular fa-clock"></i> ${r.time}</span>
+                    <span><i class="fa-solid fa-coins"></i> ${r.fee.toLocaleString('vi-VN')}đ</span>
+                </div>
+            </div>
+            <div>
+                ${isAdded 
+                    ? `<span style="font-size:11.5px; color:#16a34a; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã thêm</span>`
+                    : `<button class="btn btn-secondary" style="height:30px; font-size:12px; padding:0 8px;" onclick="addRouteToSelected('${r.id}')"><i class="fa-solid fa-plus"></i> Thêm</button>`
+                }
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function setShiftFilter(shift) {
+    currentShiftFilter = shift;
+    document.querySelectorAll(".shift-filter-btn").forEach(btn => btn.classList.remove("active"));
+    if (shift === 'all') document.getElementById("filterBtnAll").classList.add("active");
+    if (shift === 'sang') document.getElementById("filterBtnSang").classList.add("active");
+    if (shift === 'chieu') document.getElementById("filterBtnChieu").classList.add("active");
+    if (shift === 'toi') document.getElementById("filterBtnToi").classList.add("active");
+    renderAvailableRoutes();
+}
+
+function filterAvailableRoutes() {
+    renderAvailableRoutes();
+}
+
+function addRouteToSelected(routeId) {
+    const route = availableRoutes.find(r => r.id === routeId);
+    if (!route) return;
+
+    const defaultCTV = document.getElementById("defaultCTVSelect").value;
+    selectedRoutes.push({
+        ...route,
+        ctv: defaultCTV
+    });
+
+    renderSelectedRoutes();
+    renderAvailableRoutes();
+}
+
+function removeRouteFromSelected(idx) {
+    selectedRoutes.splice(idx, 1);
+    renderSelectedRoutes();
+    renderAvailableRoutes();
+}
+
+function updateRowCTV(idx, ctvVal) {
+    if (selectedRoutes[idx]) {
+        selectedRoutes[idx].ctv = ctvVal;
+        renderSelectedRoutes();
+    }
+}
+
+function toggleSelectAllSelected(cb) {
+    document.querySelectorAll(".route-select-cb").forEach(c => c.checked = cb.checked);
+}
+
+function quickAssignSelectedCTV() {
+    const ctv = document.getElementById("globalCTVSelect").value;
+    if (!ctv) {
+        alert("Vui lòng chọn Cộng tác viên cần phân nhanh!");
+        return;
+    }
+
+    const scope = document.getElementById("assignScopeSelect").value;
+
+    selectedRoutes.forEach((r, idx) => {
+        if (scope === "full") {
+            r.ctv = ctv;
+        } else if (scope === "checked") {
+            const cb = document.querySelector(`.route-select-cb[data-idx="${idx}"]`);
+            if (cb && cb.checked) r.ctv = ctv;
+        } else if (scope === r.shift) {
+            r.ctv = ctv;
+        }
+    });
+
+    renderSelectedRoutes();
+    alert(`Đã phân nhanh CTV "${ctv}" thành công!`);
+}
+
+function deleteCheckedSelectedRoutes() {
+    const checkedIndices = [];
+    document.querySelectorAll(".route-select-cb:checked").forEach(cb => {
+        checkedIndices.push(parseInt(cb.getAttribute("data-idx")));
+    });
+
+    if (checkedIndices.length === 0) {
+        alert("Vui lòng tích chọn các tuyến cần xóa!");
+        return;
+    }
+
+    selectedRoutes = selectedRoutes.filter((_, idx) => !checkedIndices.includes(idx));
+    renderSelectedRoutes();
+    renderAvailableRoutes();
+}
+
+function saveTemplate() {
+    const code = document.getElementById("templateCode").value.trim();
+    const name = document.getElementById("templateName").value.trim();
+
+    if (!code || !name) {
+        alert("Vui lòng điền đầy đủ Mã mẫu lịch và Tên mẫu lịch!");
+        return;
+    }
+
+    if (selectedRoutes.length === 0) {
+        alert("Mẫu lịch cần có ít nhất 1 tuyến vận chuyển!");
+        return;
+    }
+
+    alert(`Lưu mẫu lịch "${name}" (${code}) thành công với ${selectedRoutes.length} tuyến! Đang chuyển hướng về danh sách...`);
+    window.location.href = "taomaulichctvvcm.html";
+}
+</script>
+</body>
+</html>

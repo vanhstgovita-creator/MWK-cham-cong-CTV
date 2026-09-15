@@ -1,0 +1,1803 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cấu hình tuyến vận chuyển - Wireframe Prototype</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+/* ==========================
+RESET & BASE STYLES
+========================== */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+}
+
+.wrapper{
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:#fff;border-right:1px solid #e5e7eb;overflow:auto;flex-shrink:0;}
+.menu{padding:10px 0;}
+.level-1{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#334155;font-weight:500;font-size:14px;}
+.level-1:hover{background:#f5f8fc;}
+.level-2-item{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 12px 50px;color:#475569;font-size:13px;}
+.level-3 a{display:block;padding:10px 20px 10px 80px;color:#64748b;text-decoration:none;font-size:13px;}
+.level-3 a:hover{background:#f0f4f8;color:#2A3F54;}
+.level-3 a.active{background:#edf2f7;color:#2A3F54;border-left:3px solid #2A3F54;font-weight:600;}
+
+/* ==========================
+CONTENT AREA
+========================= */
+.content{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.page-header{
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
+    padding:16px 24px;
+}
+
+.breadcrumb{
+    color:#64748b;
+    font-size:13px;
+}
+
+.page-title{
+    margin-top:5px;
+    font-size:24px;
+    font-weight:600;
+    color:#1e293b;
+}
+
+.container{
+    padding:20px;
+}
+
+/* ==========================
+CARD CONTAINER
+========================== */
+.card{
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+}
+
+.card-header{
+    height: 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.card-body{
+    padding: 20px;
+}
+
+/* ==========================
+FORM CONTROLS
+========================== */
+.form-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.form-grid-2{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.form-grid-4{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
+    gap: 16px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.form-group label{
+    margin-bottom: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-group input,
+.form-group select{
+    width: 100%;
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0 10px;
+    font-size: 12.5px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    outline: none;
+    border-color: #475569;
+    box-shadow: 0 0 0 2px rgba(71, 85, 105, 0.08);
+}
+
+.form-group input[readonly]{
+    background-color: #f8fafc;
+    color: #64748b;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+}
+
+/* Suffix in input */
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-suffix input {
+    padding-right: 46px;
+}
+
+.input-suffix {
+    position: absolute;
+    right: 10px;
+    font-size: 11px;
+    color: #94a3b8;
+    pointer-events: none;
+    font-weight: 500;
+}
+
+/* ==========================
+BUTTONS
+========================== */
+.btn{
+    height: 36px;
+    border: none;
+    border-radius: 6px;
+    padding: 0 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.btn-primary{
+    background: #475569; /* Wireframe primary */
+    color: #ffffff;
+}
+
+.btn-primary:hover{
+    background: #334155;
+}
+
+.btn-secondary{
+    background: #ffffff;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover{
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.btn-danger{
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.btn-danger:hover{
+    background: #dc2626;
+}
+
+.btn-reset{
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+}
+
+.btn-reset:hover{
+    background: #e2e8f0;
+}
+
+.btn-sm {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 11.5px;
+    border-radius: 4px;
+}
+
+.form-actions{
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ==========================
+DATA TABLE
+========================== */
+.table-container {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.data-table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table thead th{
+    background: #f8fafc;
+    color: #475569;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 11.5px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.data-table tbody td{
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #334155;
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.status-active{
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    display: inline-block;
+    border: 1px solid #dcfce7;
+}
+
+.status-inactive{
+    background: #f1f5f9;
+    color: #64748b;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    display: inline-block;
+    border: 1px solid #e2e8f0;
+}
+
+.icon-btn{
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-right: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s;
+}
+
+.icon-btn:hover {
+    background-color: #f1f5f9;
+}
+
+.view{ color: #2A3F54; }
+.edit{color:#2A3F54;}
+.delete{ color: #ef4444; }
+
+/* ==========================
+MODAL (VERTICAL SCROLL WITH STICKY SUMMARY SIDEBAR)
+========================== */
+.modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(1.5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.show{
+    display: flex;
+}
+
+.modal-content{
+    width: 1200px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-height: 94vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header{
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 700;
+    font-size: 15px;
+    color: #0f172a;
+}
+
+.modal-header .fa-xmark {
+    cursor: pointer;
+    font-size: 18px;
+    color: #94a3b8;
+    transition: color 0.15s;
+}
+
+.modal-header .fa-xmark:hover {
+    color: #475569;
+}
+
+.modal-body{
+    padding: 24px;
+    overflow-y: auto; /* Cuộn dọc chính tại body modal */
+    flex: 1;
+    position: relative;
+}
+
+.modal-footer{
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background-color: #f8fafc;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* THÔNG TIN CHUNG PHÍA TRÊN */
+.modal-general-info {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* BỐ CỤC CUỘN DỌC SONG SONG VỚI BẢN TÓM TẮT DÍNH (STICKY SUMMARY) */
+.modal-scroll-layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start; /* Cho phép cột tóm tắt có chiều cao tự nhiên để stick */
+}
+
+/* Cột Trái chứa toàn bộ Form cuộn dọc */
+.modal-form-scroll {
+    flex: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 28px; /* Giãn cách thông thoáng giữa các phần */
+}
+
+/* Cột Phải chứa Bản tóm tắt "Sticky" luôn dính ở trên đầu khi cuộn trái */
+.modal-summary-sticky {
+    flex: 0.9;
+    position: sticky;
+    top: 16px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    max-height: calc(90vh - 200px);
+    overflow-y: auto;
+}
+
+/* Đè lại chiều rộng bảng trong modal để không bị tràn 1100px */
+#routeModal .table-container table {
+    min-width: unset !important;
+    width: 100% !important;
+}
+
+/* Hỗ trợ responsive cho modal */
+@media (max-width: 992px) {
+    .modal-scroll-layout {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 20px !important;
+    }
+    .modal-summary-sticky {
+        position: static !important;
+        max-height: none !important;
+        overflow-y: visible !important;
+    }
+}
+
+.modal-summary-sticky h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.summary-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.summary-value {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.summary-sub {
+    font-size: 11.5px;
+    color: #64748b;
+    padding-left: 10px;
+    position: relative;
+}
+
+.summary-sub::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #94a3b8;
+}
+
+/* Tiêu đề phân đoạn dọc */
+.group-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.group-title-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.group-title i {
+    color: #64748b;
+}
+
+/* Switch Toggle style for Tuyến Vận Chuyển Đồ Option */
+.switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+    margin-bottom: 4px;
+}
+
+.switch-label {
+    font-weight: 700;
+    font-size: 12.5px;
+    color: #334155;
+}
+
+.switch-toggle-group {
+    display: inline-flex;
+    background-color: #cbd5e1;
+    padding: 2px;
+    border-radius: 6px;
+}
+
+.switch-btn {
+    padding: 5px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.switch-btn.active {
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Làm mờ chiều về */
+.dimmed-section {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(40%);
+    transition: opacity 0.25s ease;
+}
+
+.info-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.info-box i {
+    color: #64748b;
+    font-size: 15px;
+    margin-top: 1px;
+}
+
+.info-box-text {
+    font-size: 12px;
+    color: #475569;
+}
+
+/* Tables in columns style */
+.transfer-table input,
+.transfer-table select {
+    width: 100%;
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 8px;
+    font-size: 12px;
+}
+
+.transfer-table input:focus,
+.transfer-table select:focus {
+    outline: none;
+    border-color: #475569;
+}
+
+/* Phân khúc chi phí & Tóm tắt */
+.fee-summary-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #475569;
+}
+
+.fee-row.total {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: #0f172a;
+}
+
+.fee-value {
+    font-family: monospace;
+    font-weight: 600;
+}
+
+/* DIALOG OVERLAY (CONFIRM DIALOG) */
+.dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(1.5px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.dialog-overlay.show {
+    display: flex;
+}
+.dialog-box {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+}
+.dialog-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+.dialog-desc {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+   WIREFRAME STYLES (SYNCHRONIZED & UNIFIED SIZING)
+   ========================================================================== */
+
+/* GLOBAL & BODY */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.menu-item {
+    width: 100% !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: default !important;
+}
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 20px 12px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: default !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a i {
+    margin-right: 6px !important;
+    color: #94a3b8 !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+.btn-secondary, .btn-add, .btn-info, .btn-search {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-secondary:hover, .btn-add:hover, .btn-info:hover, .btn-search:hover {
+    background: #f1f5f9 !important;
+}
+.btn-reset {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover {
+    background: #f1f5f9 !important;
+}
+.btn-danger {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-danger:hover {
+    background: #f1f5f9 !important;
+}
+.btn-success {
+    background: #475569 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+.btn-success:hover {
+    background: #334155 !important;
+}
+.btn-warning {
+    background: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+.btn-warning:hover {
+    background: #f1f5f9 !important;
+}
+
+/* FORM CONTROLS */
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea, 
+.filter-group input, .filter-group select, .date-range-picker input,
+.time-range-box input {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+    box-sizing: border-box !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus,
+.filter-group input:focus, .filter-group select:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.1) !important;
+}
+.ro, input[readonly], .readonly-field {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: not-allowed !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* CARDS & HEADERS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.card-header, .day-header, .route-header, .compare-side-header {
+    height: 50px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.day-header {
+    border-radius: 6px 6px 0 0 !important;
+}
+.compare-side-header.requester {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.compare-side-header.target {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+.card-body, .day-content, .route-body {
+    padding: 20px !important;
+}
+
+/* TABLES & SCROLLING */
+.table-container, .tbl-wrap {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 15px !important;
+    -webkit-overflow-scrolling: touch;
+}
+.table-container table, .tbl-wrap table {
+    min-width: 1100px !important; /* Force min-width ONLY inside a scroll container to enable scrollbar */
+}
+.data-table, .chotcong-summary, .sub-tbl {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th, .chotcong-summary thead th, .sub-tbl th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* DEMO BAR */
+.demo-bar {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.demo-bar label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.demo-bar select {
+    height: 32px !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 0 !important;
+}
+.main-tab-btn {
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    white-space: nowrap !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+.tab-bar {
+    display: flex !important;
+    gap: 4px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    margin-bottom: 16px !important;
+}
+.tab-btn {
+    background: none !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+.tab-btn:hover {
+    color: #0f172a !important;
+}
+.tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background: #2A3F54 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+
+/* BADGES & STATUSES (NEUTRAL WIREFRAME DESIGN) */
+.badge, .status-active, .status-inactive, .route-tag, .req-tag, .opt-tag, 
+.gs-pending, .gs-wait, .gs-approved, .gs-rejected, .badge-waiting, 
+.badge-waiting-ctv, .badge-waiting-mgr, .badge-approved, .badge-rejected, .badge-cancelled,
+.b-ok, .b-on, .b-late-in, .b-late-out, .b-no-in, .b-no-out, .b-wrong, .b-no-data, .b-img-miss {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.b-approved, .badge-approved, .status-active, .gs-approved, .b-ok, .b-on {
+    border-color: #94a3b8 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+.b-returned, .badge-rejected, .gs-rejected, .badge-cancelled, .b-no-in, .b-no-out, .b-wrong, .b-no-data {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+.b-sent, .badge-waiting, .badge-waiting-ctv, .badge-waiting-mgr, .gs-pending, .gs-wait, .b-late-in, .b-late-out, .b-img-miss {
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+
+/* NOTICES & BOXES (NEUTRAL LEFT-BORDER STYLE) */
+.nb-warn, .notice-warn, .nb-info, .notice-info, .nb-ok, .notice-success, .nb-purple, .notice-danger, .nb-err, .approval-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #64748b !important;
+    border-radius: 4px !important;
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+}
+.nb-ok, .notice-success {
+    border-left-color: #475569 !important;
+}
+.nb-warn, .notice-warn {
+    border-left-color: #94a3b8 !important;
+}
+.nb-info, .notice-info {
+    border-left-color: #64748b !important;
+}
+.notice-danger, .nb-err, .approval-box.reject-box {
+    border-left-color: #334155 !important;
+}
+
+/* OVERRIDE INLINE COLORS FOR STATUS TEXTS to be grayscale */
+span[style*="color:#16a34a" i], span[style*="color:#dc2626" i], span[style*="color:#f59e0b" i], span[style*="color:#2A3F54" i], span[style*="color:#5b21b6" i],
+span[style*="color:#166534" i], span[style*="color:#991b1b" i], span[style*="color:#6b7280" i],
+i[style*="color:#16a34a" i], i[style*="color:#dc2626" i], i[style*="color:#f59e0b" i], i[style*="color:#2A3F54" i], i[style*="color:#5b21b6" i],
+i[style*="color:#166534" i], i[style*="color:#991b1b" i], i[style*="color:#6b7280" i] {
+    color: #475569 !important;
+}
+
+/* STATS CARDS (NEUTRAL & FLAT WIREFRAME STYLE) */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+}
+.stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+.stat-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 4px !important;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+}
+.stat-num {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.stat-label, .stat-lbl {
+    font-size: 11.5px !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* MODALS RESPONSIVENESS & CENTERING */
+.modal {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 23, 42, 0.4) !important;
+    backdrop-filter: blur(1.5px) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1050 !important;
+    padding: 16px !important;
+}
+.modal.show {
+    display: flex !important;
+}
+.modal-content {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 1200px !important;
+    max-width: 95vw !important;
+    background: #ffffff !important;
+    max-height: 90vh !important;
+    overflow: hidden !important; /* Let modal-body handle scrolling */
+    border-radius: 12px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+}
+#modalDetail {
+    z-index: 1100 !important;
+}
+#modalRouteDetail {
+    z-index: 1200 !important;
+}
+
+.ig, .ig2, .ig4 {
+    display: grid !important;
+    gap: 10px 20px !important;
+}
+.ig {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+}
+.ig2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+.ig4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+}
+
+/* FLOATING ACTION BAR FOR BATCH ACTIONS */
+.floating-action-bar {
+    position: fixed !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 24px !important;
+    z-index: 999 !important;
+    width: 600px !important;
+    max-width: 90vw !important;
+    box-sizing: border-box !important;
+    animation: slideUp 0.2s ease-out !important;
+}
+.floating-action-bar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+.floating-action-bar-content span {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100%) !important;
+        opacity: 0 !important;
+    }
+    to {
+        transform: translate(-50%, 0) !important;
+        opacity: 1 !important;
+    }
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="page-header">
+            <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Cấu hình VCM <span>/</span> <strong>Cấu hình tuyến vận chuyển</strong></div>
+            <div class="page-title">Cấu hình tuyến vận chuyển</div>
+        </div>
+
+        <div class="container">
+
+            <!-- SEARCH CARD -->
+            <div class="card">
+                <div class="card-header">
+                    Điều kiện tìm kiếm
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Mã, tên hoặc ký hiệu cung</label>
+                            <input type="text" id="searchKeyword" placeholder="Nhập từ khóa tìm kiếm...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tuyến vận chuyển đồ</label>
+                            <select id="searchReverse">
+                                <option value="all">Tất cả</option>
+                                <option value="1">Có</option>
+                                <option value="0">Không</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select id="searchStatus">
+                                <option value="all">Tất cả</option>
+                                <option value="Hoạt động">Hoạt động</option>
+                                <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-search" id="btnSearch">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
+                        <button class="btn btn-reset" id="btnResetSearch">
+                            Đặt lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRID DATA CARD -->
+            <div class="card">
+                <div class="card-header">
+                    <span>Danh sách cung vận chuyển</span>
+                    <button class="btn btn-primary" id="btnAdd">
+                        <i class="fa-solid fa-plus"></i> Thêm mới
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th width="60">STT</th>
+                                    <th>Mã cung</th>
+                                    <th>Ký hiệu</th>
+                                    <th>Tên cung</th>
+                                    <th>Điểm đầu</th>
+                                    <th>Điểm cuối</th>
+                                    <th>Tuyến vận chuyển đồ</th>
+                                    <th>Trạng thái</th>
+                                    <th width="120" style="text-align:center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="routesTableBody">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PROTOTYPE CONFIRM DIALOG -->
+<div class="dialog-overlay" id="confirmDialog">
+    <div class="dialog-box">
+        <div class="dialog-title" id="dialogTitle">Xác nhận xóa</div>
+        <div class="dialog-desc" id="dialogDesc">Bạn có chắc chắn muốn xóa cấu hình tuyến vận chuyển này không? Hành động này không thể hoàn tác.</div>
+        <div class="dialog-actions">
+            <button class="btn btn-secondary" id="btnCancelConfirm">Hủy</button>
+            <button class="btn btn-danger" id="btnSubmitConfirm">Xác nhận</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==========================
+PROTOTYPE SCRIPT LOGIC
+========================== -->
+<script>
+// MOCK DATA BASE
+let routesData = [
+    {
+        id: 1,
+        code: "VCM001",
+        symbol: "HN01",
+        name: "Hồng Hà - MEDVN",
+        startPoint: "MED HỒNG HÀ",
+        endPoint: "PKĐK MEDVN",
+        distance: 10.5,
+        mainFee: 150000,
+        reverseFee: 100000,
+        fee: 250000,
+        startTime: "07:30",
+        endTime: "08:00",
+        earlyCheckin: 15,
+        lateCheckin: 15,
+        earlyCheckout: 15,
+        lateCheckout: 15,
+        hasReverse: 1,
+        reverseStartPoint: "PKĐK MEDVN",
+        reverseStartTime: "11:00",
+        reverseEarlyCheckin: 10,
+        reverseLateCheckin: 10,
+        status: "Hoạt động",
+        transfers: [
+            { name: "15D Hồng Hà", time: "07:45", early: 10, late: 10 }
+        ],
+        reverseDropoffs: [
+            { name: "MED HỒNG HÀ", time: "11:30", early: 10, late: 10 }
+        ]
+    },
+    {
+        id: 2,
+        code: "VCM002",
+        symbol: "HN02",
+        name: "Tây Hồ - MEDVN",
+        startPoint: "MED TÂY HỒ",
+        endPoint: "PKĐK MEDVN",
+        distance: 6.4,
+        mainFee: 64000,
+        reverseFee: 0,
+        fee: 64000,
+        startTime: "10:00",
+        endTime: "10:30",
+        earlyCheckin: 10,
+        lateCheckin: 10,
+        earlyCheckout: 10,
+        lateCheckout: 10,
+        hasReverse: 0,
+        reverseStartPoint: "",
+        reverseStartTime: "",
+        reverseEarlyCheckin: 0,
+        reverseLateCheckin: 0,
+        status: "Hoạt động",
+        transfers: [],
+        reverseDropoffs: []
+    },
+    {
+        id: 3,
+        code: "VCM003",
+        symbol: "HN03",
+        name: "Thanh Xuân - MEDVN (Ca Muộn)",
+        startPoint: "MED THANH XUÂN",
+        endPoint: "PKĐK MEDVN",
+        distance: 6.4,
+        mainFee: 64000,
+        reverseFee: 0,
+        fee: 94000,
+        startTime: "19:30",
+        endTime: "20:00",
+        earlyCheckin: 5,
+        lateCheckin: 5,
+        earlyCheckout: 5,
+        lateCheckout: 5,
+        hasReverse: 0,
+        reverseStartPoint: "",
+        reverseStartTime: "",
+        reverseEarlyCheckin: 0,
+        reverseLateCheckin: 0,
+        status: "Ngừng hoạt động",
+        transfers: [],
+        reverseDropoffs: []
+    }
+];
+
+let deleteTargetId = null;
+const routesTableBody = document.getElementById("routesTableBody");
+
+function renderRoutesTable(data) {
+    routesTableBody.innerHTML = "";
+    if (data.length === 0) {
+        routesTableBody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: #94a3b8; padding: 20px;">Không tìm thấy kết quả nào phù hợp.</td></tr>`;
+        return;
+    }
+    
+    data.forEach((route, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td><a href="taomoituyenvanchuyen.html?mode=view&id=${route.id}" style="color:#2A3F54; text-decoration:none; font-weight:700;">${route.code}</a></td>
+            <td>${route.symbol}</td>
+            <td>${route.name}</td>
+            <td>${route.startPoint}</td>
+            <td>${route.endPoint}</td>
+            <td>
+                <span style="font-weight: 500;">${route.hasReverse === 1 ? 'Có' : 'Không'}</span>
+            </td>
+            <td>
+                <span class="${route.status === 'Hoạt động' ? 'status-active' : 'status-inactive'}">
+                    ${route.status}
+                </span>
+            </td>
+            <td style="white-space: nowrap;">
+                <button class="action-icon view" onclick="handleView(${route.id})" title="Xem chi tiết">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button class="action-icon edit" onclick="handleEdit(${route.id})" title="Chỉnh sửa">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <button class="action-icon delete" onclick="handleDeleteClick(${route.id})" title="Xóa">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </td>
+        `;
+        routesTableBody.appendChild(tr);
+    });
+}
+
+// Redirect handlers
+document.getElementById("btnAdd").onclick = () => {
+    window.location.href = "taomoituyenvanchuyen.html?mode=add";
+};
+
+window.handleView = (id) => {
+    window.location.href = `taomoituyenvanchuyen.html?mode=view&id=${id}`;
+};
+
+window.handleEdit = (id) => {
+    window.location.href = `taomoituyenvanchuyen.html?mode=edit&id=${id}`;
+};
+
+// Khởi chạy kết xuất bảng
+renderRoutesTable(routesData);
+
+// ==========================
+// TÌM KIẾM VÀ LỌC DANH SÁCH
+// ==========================
+const searchKeyword = document.getElementById("searchKeyword");
+const searchReverse = document.getElementById("searchReverse");
+const searchStatus = document.getElementById("searchStatus");
+
+document.getElementById("btnSearch").onclick = () => {
+    const kw = searchKeyword.value.toLowerCase().trim();
+    const rev = searchReverse.value;
+    const st = searchStatus.value;
+    
+    const filtered = routesData.filter(route => {
+        const matchKw = !kw || 
+            route.code.toLowerCase().includes(kw) || 
+            route.symbol.toLowerCase().includes(kw) || 
+            route.name.toLowerCase().includes(kw);
+            
+        let matchRev = true;
+        if (rev === "1") matchRev = route.hasReverse === 1;
+        if (rev === "0") matchRev = route.hasReverse === 0;
+        
+        const matchSt = st === "all" || route.status === st;
+        
+        return matchKw && matchRev && matchSt;
+    });
+    
+    renderRoutesTable(filtered);
+    showToast(`Đã tìm thấy ${filtered.length} kết quả.`, "info");
+};
+
+document.getElementById("btnResetSearch").onclick = () => {
+    searchKeyword.value = "";
+    searchReverse.value = "all";
+    searchStatus.value = "all";
+    renderRoutesTable(routesData);
+    showToast("Đã thiết lập lại bộ lọc", "info");
+};
+
+// ==========================
+// XÓA TUYẾN ĐƯỜNG (CONFIRM DIALOG)
+// ==========================
+const confirmDialog = document.getElementById("confirmDialog");
+const btnCancelConfirm = document.getElementById("btnCancelConfirm");
+const btnSubmitConfirm = document.getElementById("btnSubmitConfirm");
+
+window.handleDeleteClick = (id) => {
+    const route = routesData.find(r => r.id === id);
+    if (!route) return;
+    
+    deleteTargetId = id;
+    document.getElementById("dialogTitle").innerText = "Xác nhận xóa cấu hình";
+    document.getElementById("dialogDesc").innerText = `Bạn có chắc muốn xóa tuyến "${route.code} - ${route.name}" không?`;
+    confirmDialog.classList.add("show");
+};
+
+btnCancelConfirm.onclick = () => {
+    confirmDialog.classList.remove("show");
+    deleteTargetId = null;
+};
+
+btnSubmitConfirm.onclick = () => {
+    if (deleteTargetId !== null) {
+        routesData = routesData.filter(r => r.id !== deleteTargetId);
+        showToast("Đã xóa cấu hình tuyến vận chuyển!", "success");
+        confirmDialog.classList.remove("show");
+        deleteTargetId = null;
+        renderRoutesTable(routesData);
+    }
+};
+
+// ==========================
+// TOAST UTILITY
+// ==========================
+function showToast(message, type = 'success') {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    
+    const icon = type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-info';
+    toast.innerHTML = `
+        <i class="${icon}"></i>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 10);
+    
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 250);
+    }, 3000);
+}
+</script>
+
+
+
+
+<script>
+// Utility to handle table cell text overflow and show full text on hover
+(function() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .auto-ellipsis {
+      max-width: 220px;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      cursor: default;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function applyEllipsis() {
+    const cells = document.querySelectorAll('.data-table tbody td, .chotcong-summary tbody td, .sub-tbl td, .table-container td');
+    cells.forEach(cell => {
+      // Ignore interactive cells, status badges, dropdowns, and button containers
+      if (cell.querySelector('input, select, button, a, .img-cell, .badge, .icon-btn, .action-btn, .status-active, .status-inactive, .route-tag')) {
+        return;
+      }
+      
+      const text = cell.innerText.trim();
+      if (text.length > 25) {
+        if (!cell.classList.contains('auto-ellipsis')) {
+          cell.classList.add('auto-ellipsis');
+        }
+        if (!cell.getAttribute('title')) {
+          cell.setAttribute('title', text);
+        }
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEllipsis);
+  } else {
+    applyEllipsis();
+  }
+
+  // Observe dynamic rendering (e.g., search filtering, pagination, modal tables)
+  const observer = new MutationObserver((mutations) => {
+    applyEllipsis();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+</body>
+</html>

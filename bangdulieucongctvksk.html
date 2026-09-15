@@ -1,0 +1,974 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng dữ liệu công – CTV BV/PK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Flatpickr Date Picker CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+<!-- Common Design System & Sidebar Script -->
+<style>
+/* ==========================================================================
+   PAGE STYLES - BẢNG DỮ LIỆU CÔNG (MATCHING SCREENSHOTS EXACTLY)
+   ========================================================================== */
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+/* TOP NAVBAR & SUB TABS */
+.top-subnav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+}
+
+.subnav-tab {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #64748b;
+    padding: 8px 4px 12px 4px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.subnav-tab:hover {
+    color: #1e293b;
+}
+
+.subnav-tab.active {
+    color: #1e293b;
+    border-bottom: 2px solid #1e293b;
+}
+
+/* FILTER CARD FORM */
+.filter-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.filter-grid-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.filter-field input,
+.filter-field select {
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #1e293b;
+    background: #ffffff;
+    outline: none;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+    border-color: #2A3F54;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* TABLE TOOLBAR */
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.table-page-size {
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.table-page-size select {
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.table-right-btns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* DATA TABLE DESIGN (MATCHING SCREENSHOT DARK HEADER) */
+.tbl-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+table.med-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    min-width: 1800px;
+}
+
+table.med-table thead th {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    padding: 10px 10px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border: 1px solid #334155;
+}
+
+table.med-table tbody td {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+table.med-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.date-link {
+    color: #2A3F54;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.date-link:hover {
+    text-decoration: underline;
+}
+
+.action-icon {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.action-icon:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+/* PAGINATION BAR */
+.pag-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.pag-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pag-btn {
+    height: 30px;
+    min-width: 30px;
+    padding: 0 8px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: #475569;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pag-btn:hover {
+    background: #f8fafc;
+}
+
+.pag-btn.active {
+    border-color: #1e293b;
+    background: #1e293b;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* MODAL OVERLAYS */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    height: 52px;
+    padding: 0 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+.modal-header .close-icon {
+    font-size: 18px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: #fafbfc;
+}
+
+/* STEPPER PROGRESS TIMELINE (FOR CHI TIẾT TIẾN TRÌNH MODAL) */
+.stepper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.step-item {
+    display: flex;
+    gap: 14px;
+    position: relative;
+}
+
+.step-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 15px;
+    bottom: -16px;
+    width: 2px;
+    background: #e2e8f0;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.step-circle.completed {
+    border-color: #334155;
+    color: #334155;
+}
+
+.step-circle.active {
+    border-color: #334155;
+    background: #ffffff;
+    color: #334155;
+}
+
+.step-content {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: #ffffff;
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: #0f172a;
+}
+
+.step-subtext {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV KSK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-stethoscope icon-left"></i>
+                        Cộng tác viên KSK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-ksk"></i>
+                </div>
+                <div class="level-2" id="menu-ksk" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công KSK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvksk.html" id="NAV_bangdulieucongctvksk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvksk.html" id="NAV_bangtonghopcongctvksk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="bangchotcongctvksk.html" id="NAV_bangchotcongctvksk">
+                                <i class="fa-solid fa-check-double"></i> Bảng chốt công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb">
+                    <i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên KSK <span>/</span> Chấm công KSK <span>/</span> <strong>Bảng dữ liệu chấm công</strong>
+                </div>
+                <div class="page-title">Bảng dữ liệu chấm công làm việc – CTV KSK</div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- TOP SUB NAVIGATION TABS -->
+            <div class="top-subnav">
+                <a href="bangdulieucongctvbvpk.html" class="subnav-tab active">
+                    <i class="fa-solid fa-user-check"></i> Dữ liệu chấm công
+                </a>
+                <a href="duyetgiaitrinhcongctvbvpk.html" class="subnav-tab">
+                    <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                </a>
+            </div>
+
+            <!-- SEARCH FILTER CARD -->
+            <div class="filter-card">
+                <div class="filter-grid">
+                    <div class="filter-field">
+                        <label>Tìm kiếm</label>
+                        <input type="text" placeholder="Nhập tìm kiếm theo tên, mã CTV">
+                    </div>
+                    <div class="filter-field">
+                        <label>Trạng thái chấm công</label>
+                        <select id="filterAttStatus">
+                            <option value="">- Tất cả -</option>
+                            <option value="Bình thường">Bình thường</option>
+                            <option value="Không có dữ liệu chấm công" selected>Không có dữ liệu chấm công</option>
+                            <option value="Đi muộn">Đi muộn</option>
+                            <option value="Về sớm">Về sớm</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Trạng thái</label>
+                        <select id="filterStatus">
+                            <option value="">- Tất cả -</option>
+                            <option value="Bình thường">Bình thường</option>
+                            <option value="Khóa">Khóa</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Thời gian</label>
+                        <input type="text" id="filterDateRange" value="01/08/2026 - 31/08/2026">
+                    </div>
+                </div>
+
+                <div class="filter-grid-row2">
+                    <div class="filter-field">
+                        <label>Đơn vị (đến khám)</label>
+                        <select id="filterDept">
+                            <option value="">- Tất cả -</option>
+                            <option value="Công ty TNHH ABC">Công ty TNHH ABC</option>
+                            <option value="Trường THPT XYZ">Trường THPT XYZ</option>
+                            <option value="Ngân hàng Vietcombank">Ngân hàng Vietcombank</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label>Cán bộ phụ trách</label>
+                        <input type="text" id="filterLeader" placeholder="Tên trưởng đoàn">
+                    </div>
+                    <div class="filter-field">
+                        <label>Ca làm việc</label>
+                        <select id="filterShift">
+                            <option value="">- Tất cả -</option>
+                            <option value="Ca 121">Ca 121</option>
+                            <option value="05:00 - 17:00">05:00 - 17:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="applySearch()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                    <button class="btn btn-secondary" onclick="resetSearch()"><i class="fa-solid fa-arrow-rotate-left"></i> Đặt lại</button>
+                </div>
+            </div>
+
+            <!-- TABLE CONTROLS TOOLBAR -->
+            <div class="table-toolbar">
+                <div class="table-page-size">
+                    Hiển thị 
+                    <select id="pageSizeSelect" onchange="changePageSize()">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    bản ghi.
+                </div>
+                <div class="table-right-btns">
+                    <button class="btn btn-primary" onclick="exportData()"><i class="fa-solid fa-download"></i> Xuất dữ liệu</button>
+                    <button class="btn btn-secondary" onclick="batchExcuse()"><i class="fa-solid fa-list-check"></i> Giải trình hàng loạt</button>
+                    <button class="btn btn-secondary" style="padding: 0 10px;" title="Tùy chỉnh cột hiển thị"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+
+            <!-- DATA TABLE -->
+            <div class="tbl-wrap">
+                <table class="med-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAll"></th>
+                            <th style="width: 50px; text-align: center;">STT</th>
+                            <th>Ngày</th>
+                            <th>Mã CTV</th>
+                            <th>Thứ</th>
+                            <th>Tên CTV</th>
+                            <th>Ca làm việc</th>
+                            <th>Đơn vị (đến khám)</th>
+                            <th>Phụ trách</th>
+                            <th>Địa điểm</th>
+                            <th style="text-align: center;">Giờ vào</th>
+                            <th style="text-align: center;">Giờ ra</th>
+                            <th style="text-align: center;">Nghỉ giữa ca</th>
+                            <th style="text-align: center;">Giờ chấm vào</th>
+                            <th style="text-align: center;">Giờ chấm ra</th>
+                            <th>Vị trí làm việc theo lịch</th>
+                            <th>Vị trí chấm vào</th>
+                            <th>Vị trí chấm ra</th>
+                            <th style="text-align: center;">Thời gian đi sớm</th>
+                            <th style="text-align: center;">Thời gian về muộn</th>
+                            <th style="text-align: center;">Thời gian đi muộn</th>
+                            <th style="text-align: center;">Thời gian về sớm</th>
+                            <th style="text-align: center;">Công chấm</th>
+                            <th style="text-align: center;">Công ghi nhận</th>
+                            <th>Giải trình công</th>
+                            <th>Trạng thái chấm công</th>
+                            <th>Trạng thái duyệt GTC</th>
+                            <th style="width: 100px; text-align: center;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="med-table-body">
+                        <!-- Rendered by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION BAR -->
+            <div class="pag-bar">
+                <div id="pag-info">1 - 20 trong tổng 5457</div>
+                <div class="pag-buttons">
+                    <button class="pag-btn">«</button>
+                    <button class="pag-btn">‹</button>
+                    <button class="pag-btn active">1</button>
+                    <button class="pag-btn">2</button>
+                    <button class="pag-btn">3</button>
+                    <button class="pag-btn">4</button>
+                    <button class="pag-btn">5</button>
+                    <span style="margin: 0 4px;">...</span>
+                    <button class="pag-btn">273</button>
+                    <button class="pag-btn">›</button>
+                    <button class="pag-btn">»</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL 1: GIẢI TRÌNH CÔNG (MATCHING SCREENSHOT 2)
+     ========================================================================== -->
+<div class="modal-overlay" id="modalGiaiTrinh">
+    <div class="modal-box" style="max-width: 580px;">
+        <div class="modal-header">
+            <span>Giải trình công</span>
+            <i class="fa-solid fa-xmark close-icon" onclick="closeModal('modalGiaiTrinh')"></i>
+        </div>
+        <div class="modal-body">
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; gap: 24px; font-size: 13px;">
+                    <span style="color: #64748b; width: 140px;">Ngày giải trình</span>
+                    <strong id="modalDate" style="color: #0f172a;">04/08/2026</strong>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; font-weight: 600; color: #475569;">Công chấm</label>
+                    <input type="text" id="modalCongCham" readonly style="height: 36px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 12px; background: #f8fafc; font-size: 13px;">
+                </div>
+
+                <div style="display: flex; gap: 24px; font-size: 13px; align-items: center;">
+                    <span style="color: #64748b; width: 140px;">Trạng thái chấm công</span>
+                    <span id="modalAttStatus" style="color: #475569; font-weight: 500;">Không có dữ liệu chấm công</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; font-weight: 600; color: #475569;">Lý do giải trình <span style="color: #dc2626;">*</span></label>
+                    <textarea id="modalReason" placeholder="Nhập lý do giải trình" style="height: 70px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; font-size: 13px; resize: none; outline: none;"></textarea>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; font-weight: 600; color: #475569;">Công đề xuất <span style="color: #dc2626;">*</span></label>
+                    <select id="modalProposedWork" style="height: 36px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 12px; font-size: 13px; outline: none;">
+                        <option value="">Chọn công đề xuất</option>
+                        <option value="Ca 121 (8.0h)">Ca 121 (8.0h)</option>
+                        <option value="Ca kíp thường (8.0h)">Ca kíp thường (8.0h)</option>
+                        <option value="Ca trực 24h (24.0h)">Ca trực 24h (24.0h)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="submitExcuse()"><i class="fa-solid fa-paper-plane"></i> Gửi giải trình</button>
+            <button class="btn btn-secondary" onclick="closeModal('modalGiaiTrinh')">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL 2: CHI TIẾT TIẾN TRÌNH (MATCHING SCREENSHOT 1 & 3)
+     ========================================================================== -->
+<div class="modal-overlay" id="modalTienTrinh">
+    <div class="modal-box" style="max-width: 580px;">
+        <div class="modal-header">
+            <span>Chi tiết tiến trình</span>
+            <i class="fa-solid fa-xmark close-icon" onclick="closeModal('modalTienTrinh')"></i>
+        </div>
+        <div class="modal-body">
+            <div class="stepper">
+                <!-- STEP 1 -->
+                <div class="step-item">
+                    <div class="step-circle completed">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span>1. Giải trình công</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="step-item">
+                    <div class="step-circle active">
+                        2
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span>Hạnh test duyệt 1</span>
+                            <i class="fa-solid fa-chevron-up" style="font-size: 12px; color: #64748b; cursor: pointer;"></i>
+                        </div>
+                        <div class="step-subtext">
+                            <i class="fa-solid fa-building" style="color: #64748b;"></i>
+                            <span>Phòng phân tích thiết kế và kiểm thử</span>
+                        </div>
+                        <div style="margin-top: 8px; display: flex; justify-content: flex-end;">
+                            <span class="badge badge-warning" style="display: inline-flex; align-items: center; gap: 4px;">
+                                Chờ duyệt <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="step-item">
+                    <div class="step-circle">
+                        3
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span>Hạnh test duyệt 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="submitExcuse()"><i class="fa-solid fa-paper-plane"></i> Gửi giải trình</button>
+            <button class="btn btn-secondary" onclick="closeModal('modalTienTrinh')">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+// Mock Data matching screenshots exactly
+const mockTableData = [
+    { stt: 1, date: "04/08/2026", empId: "200851", dayOfWeek: "Thứ Ba", name: "Trương Thanh Tùng", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 2, date: "04/08/2026", empId: "200846", dayOfWeek: "Thứ Ba", name: "Nguyễn Văn Hùng", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 3, date: "04/08/2026", empId: "200843", dayOfWeek: "Thứ Ba", name: "Phạm Minh Hoàng", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 4, date: "04/08/2026", empId: "200845", dayOfWeek: "Thứ Ba", name: "Đỗ Thành Long", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 5, date: "04/08/2026", empId: "200853", dayOfWeek: "Thứ Ba", name: "Lê Ngọc Anh", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 6, date: "04/08/2026", empId: "200857", dayOfWeek: "Thứ Ba", name: "Vũ Thị Hương", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" },
+    { stt: 7, date: "04/08/2026", empId: "200850", dayOfWeek: "Thứ Ba", name: "Trần Bảo Nam", shift: "Ca 121", shiftCode: "X", schedIn: "05:00:00", schedOut: "17:00:00", breakTime: "13:00:00 - 14:00:00", dept: "MED Dental", clockIn: "--:--:--", clockOut: "--:--:--", compShift: "0", locIn: "", locOut: "", workClock: "", lateMin: 0, earlyMin: 0, attStatus: "Không có dữ liệu chấm công", excuseText: "", proposedWork: "", approveStatus: "Chờ giải trình", recWork: "" }
+];
+
+let selectedRowIndex = 0;
+
+document.addEventListener("DOMContentLoaded", function() {
+    flatpickr("#filterDateRange", {
+        mode: "range",
+        dateFormat: "d/m/Y",
+        defaultDate: ["01/08/2026", "31/08/2026"],
+        locale: "vn"
+    });
+
+    renderTableData(mockTableData);
+});
+
+function renderTableData(data) {
+    const tbody = document.getElementById("med-table-body");
+    tbody.innerHTML = "";
+
+    data.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align: center;"><input type="checkbox" class="row-check"></td>
+            <td style="text-align: center; color: #64748b;">${row.stt}</td>
+            <td><a class="date-link" onclick="openProgressModal(${idx})">${row.date}</a></td>
+            <td>${row.empId}</td>
+            <td>${row.dayOfWeek}</td>
+            <td><strong>${row.name}</strong></td>
+            <td>${row.shift}</td>
+            <td>Công ty ABC</td>
+            <td>Nguyễn Văn A</td>
+            <td>Ngoại thành</td>
+            <td style="text-align: center;">${row.schedIn}</td>
+            <td style="text-align: center;">${row.schedOut}</td>
+            <td style="text-align: center;">${row.breakTime}</td>
+            <td style="text-align: center; color: #94a3b8;">${row.clockIn}</td>
+            <td style="text-align: center; color: #94a3b8;">${row.clockOut}</td>
+            <td>MED Dental HN</td>
+            <td>${row.locIn}</td>
+            <td>${row.locOut}</td>
+            <td style="text-align: center;">0</td>
+            <td style="text-align: center;">0</td>
+            <td style="text-align: center;">${row.lateMin}</td>
+            <td style="text-align: center;">${row.earlyMin}</td>
+            <td style="text-align: center;">${row.workClock}</td>
+            <td style="text-align: center;">${row.recWork}</td>
+            <td>${row.excuseText}</td>
+            <td><span class="badge badge-secondary">${row.attStatus}</span></td>
+            <td><span class="badge badge-warning" style="cursor: pointer;" onclick="openProgressModal(${idx})">${row.approveStatus} <i class="fa-solid fa-chevron-down" style="font-size: 9px; margin-left: 2px;"></i></span></td>
+            <td style="text-align: center; white-space: nowrap;">
+                <button class="action-icon" title="Xem tiến trình" onclick="openProgressModal(${idx})"><i class="fa-regular fa-eye"></i></button>
+                <button class="action-icon" title="Giải trình công" onclick="openExcuseModal(${idx})"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="action-icon" title="Khác"><i class="fa-solid fa-circle-plus"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function openExcuseModal(idx) {
+    selectedRowIndex = idx;
+    const row = mockTableData[idx];
+    document.getElementById("modalDate").textContent = row.date;
+    document.getElementById("modalCongCham").value = row.workClock || "";
+    document.getElementById("modalAttStatus").textContent = row.attStatus;
+    document.getElementById("modalReason").value = "";
+    document.getElementById("modalProposedWork").value = "";
+    document.getElementById("modalGiaiTrinh").classList.add("active");
+}
+
+function openProgressModal(idx) {
+    selectedRowIndex = idx;
+    document.getElementById("modalTienTrinh").classList.add("active");
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove("active");
+}
+
+function submitExcuse() {
+    const reason = document.getElementById("modalReason").value;
+    const propWork = document.getElementById("modalProposedWork").value;
+    
+    if (document.getElementById("modalGiaiTrinh").classList.contains("active") && !reason) {
+        alert("Vui lòng nhập lý do giải trình!");
+        return;
+    }
+    
+    if (mockTableData[selectedRowIndex]) {
+        mockTableData[selectedRowIndex].approveStatus = "Chờ duyệt";
+        if (reason) mockTableData[selectedRowIndex].excuseText = reason;
+        if (propWork) mockTableData[selectedRowIndex].proposedWork = propWork;
+    }
+    
+    closeModal('modalGiaiTrinh');
+    closeModal('modalTienTrinh');
+    renderTableData(mockTableData);
+    
+    alert("Gửi giải trình công thành công! Đơn giải trình chuyển sang trạng thái Chờ duyệt.");
+}
+
+function applySearch() {
+    renderTableData(mockTableData);
+}
+
+function resetSearch() {
+    document.getElementById("filterAttStatus").value = "";
+    document.getElementById("filterStatus").value = "";
+    document.getElementById("filterDept").value = "";
+    document.getElementById("filterShift").value = "";
+    renderTableData(mockTableData);
+}
+
+function exportData() {
+    alert("Đang xuất dữ liệu bảng công CTV BV/PK ra tệp Excel...");
+}
+
+function batchExcuse() {
+    alert("Vui lòng chọn các dòng bản ghi cần giải trình hàng loạt.");
+}
+
+function changePageSize() {
+    const size = document.getElementById("pageSizeSelect").value;
+    document.getElementById("pag-info").textContent = `1 - ${size} trong tổng 5457`;
+}
+</script>
+</body>
+</html>

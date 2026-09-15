@@ -1,0 +1,800 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng tổng hợp công – CTV Vận chuyển mẫu (VCM)</title>
+    <!-- FontAwesome 6.5.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Flatpickr Date Picker CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+    
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar Script -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+
+    <style>
+        /* Specific Styles for VCM Payroll & Trip Summary */
+        body {
+            background-color: #f8fafc !important;
+        }
+
+        .summary-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card-vcm {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .stat-card-vcm .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            background: #f0f4f8;
+            color: #2A3F54;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-card-vcm .stat-value {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .stat-card-vcm .stat-title {
+            font-size: 11.5px;
+            font-weight: 500;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Filter layout */
+        .filter-card-vcm {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-grid-vcm {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .filter-field input, .filter-field select {
+            height: 36px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 0 12px;
+            font-size: 13px;
+            color: #1e293b;
+            background: #ffffff;
+            outline: none;
+        }
+
+        .filter-field input:focus, .filter-field select:focus {
+            border-color: #2A3F54;
+            box-shadow: 0 0 0 2px rgba(42, 63, 84, 0.12);
+        }
+
+        /* Sub tabs */
+        .route-subtabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .route-subtab-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .route-subtab-btn.active {
+            background: #2A3F54;
+            border-color: #2A3F54;
+            color: #ffffff;
+        }
+
+        .tab-pane-content {
+            display: none;
+        }
+
+        .tab-pane-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow open" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" class="active" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV KSK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-stethoscope icon-left"></i>
+                        Cộng tác viên KSK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-ksk"></i>
+                </div>
+                <div class="level-2" id="menu-ksk" style="display:none;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công KSK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvksk.html" id="NAV_bangdulieucongctvksk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvksk.html" id="NAV_bangtonghopcongctvksk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="bangchotcongctvksk.html" id="NAV_bangchotcongctvksk">
+                                <i class="fa-solid fa-check-double"></i> Bảng chốt công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb">
+                    <i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên VCM <span>/</span> Chấm công VCM <span>/</span> <strong>Tổng hợp công</strong>
+                </div>
+                <div class="page-title">Tổng hợp & Chốt công – CTV Vận chuyển mẫu</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary" onclick="exportVCMExcel()">
+                    <i class="fa-solid fa-file-excel" style="color:#16a34a;"></i> Xuất Excel
+                </button>
+                <button class="btn btn-primary" onclick="openFinalizeModal()">
+                    <i class="fa-solid fa-lock"></i> Chốt sổ công kỳ này
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- TOP METRIC CARDS -->
+            <div class="summary-stats-grid">
+                <div class="stat-card-vcm">
+                    <div class="icon-box"><i class="fa-solid fa-route"></i></div>
+                    <div>
+                        <div class="stat-value" id="statTotalTrips">148</div>
+                        <div class="stat-title">Tổng số lượt chạy</div>
+                    </div>
+                </div>
+                <div class="stat-card-vcm">
+                    <div class="icon-box"><i class="fa-solid fa-gauge-high"></i></div>
+                    <div>
+                        <div class="stat-value" id="statTotalKm">1.250 km</div>
+                        <div class="stat-title">Tổng quãng đường</div>
+                    </div>
+                </div>
+                <div class="stat-card-vcm">
+                    <div class="icon-box"><i class="fa-solid fa-vial-virus"></i></div>
+                    <div>
+                        <div class="stat-value" id="statMainFee">32.450.000 đ</div>
+                        <div class="stat-title">Cước vận chuyển mẫu</div>
+                    </div>
+                </div>
+                <div class="stat-card-vcm">
+                    <div class="icon-box"><i class="fa-solid fa-box-open"></i></div>
+                    <div>
+                        <div class="stat-value" id="statReverseFee">14.200.000 đ</div>
+                        <div class="stat-title">Cước vận chuyển đồ</div>
+                    </div>
+                </div>
+                <div class="stat-card-vcm">
+                    <div class="icon-box"><i class="fa-solid fa-moon"></i></div>
+                    <div>
+                        <div class="stat-value" id="statAllowance">4.800.000 đ</div>
+                        <div class="stat-title">Phụ cấp ca muộn</div>
+                    </div>
+                </div>
+                <div class="stat-card-vcm" style="background:#f0fdf4; border-color:#bbf7d0;">
+                    <div class="icon-box" style="background:#dcfce7; color:#166534;"><i class="fa-solid fa-money-check-dollar"></i></div>
+                    <div>
+                        <div class="stat-value" style="color:#166534;" id="statTotalIncome">51.450.000 đ</div>
+                        <div class="stat-title" style="color:#166534;">Tổng thu nhập chi trả</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN TABS (TỔNG HỢP / CHỐT CÔNG) -->
+            <div class="top-subnav">
+                <div class="subnav-tab active" onclick="switchMainTab('tabTongHop')">
+                    <i class="fa-solid fa-table-list"></i> 1. Tổng hợp công theo chuyến chạy
+                </div>
+                <div class="subnav-tab" onclick="switchMainTab('tabChotCong')">
+                    <i class="fa-solid fa-user-check"></i> 2. Bảng chốt công & Phiếu thanh toán CTV
+                </div>
+            </div>
+
+            <!-- TAB 1: TỔNG HỢP CÔNG THEO CHUYẾN CHẠY -->
+            <div id="tabTongHop" class="tab-pane-content active">
+                <!-- SEARCH FILTER FORM -->
+                <div class="filter-card-vcm">
+                    <div class="filter-grid-vcm">
+                        <div class="filter-field">
+                            <label>Khoảng thời gian</label>
+                            <input type="text" id="vcmDateRange" value="01/08/2026 - 31/08/2026">
+                        </div>
+                        <div class="filter-field">
+                            <label>Cộng tác viên</label>
+                            <select id="filterCTV" onchange="filterVCMTrips()">
+                                <option value="">- Tất cả CTV -</option>
+                                <option value="Nguyễn Văn Tuấn">Nguyễn Văn Tuấn (CTV001)</option>
+                                <option value="Trần Văn Bình">Trần Văn Bình (CTV002)</option>
+                                <option value="Lê Thị Hương">Lê Thị Hương (CTV003)</option>
+                                <option value="Hoàng Văn Dũng">Hoàng Văn Dũng (CTV004)</option>
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <label>Tuyến vận chuyển</label>
+                            <select id="filterRoute" onchange="filterVCMTrips()">
+                                <option value="">- Tất cả tuyến -</option>
+                                <option value="VCM001">VCM001: Hồng Hà - MEDVN</option>
+                                <option value="VCM002">VCM002: Tây Hồ - MEDVN</option>
+                                <option value="VCM003">VCM003: Thanh Xuân - MEDVN (Ca Muộn)</option>
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <label>Trạng thái</label>
+                            <select id="filterStatus" onchange="filterVCMTrips()">
+                                <option value="">- Tất cả -</option>
+                                <option value="Đã duyệt">Đã duyệt</option>
+                                <option value="Chờ duyệt">Chờ duyệt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" onclick="filterVCMTrips()">
+                                <i class="fa-solid fa-magnifying-glass"></i> Lọc dữ liệu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB TABS FOR OUTBOUND / INBOUND -->
+                <div class="route-subtabs">
+                    <button class="route-subtab-btn active" onclick="switchRouteSubtab('outbound')">
+                        <i class="fa-solid fa-vial-virus"></i> Công vận chuyển mẫu (86)
+                    </button>
+                    <button class="route-subtab-btn" onclick="switchRouteSubtab('inbound')">
+                        <i class="fa-solid fa-box-open"></i> Công vận chuyển đồ (62)
+                    </button>
+                </div>
+
+                <!-- TABLE DATA CARD -->
+                <div class="card">
+                    <div class="card-header">
+                        <span id="tableNameTitle">Danh sách chuyến chạy vận chuyển mẫu</span>
+                        <div class="table-page-size">
+                            Hiển thị
+                            <select id="pageSizeTrips">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                            bản ghi.
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <div class="table-container" style="border:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="100">Thứ / Ngày</th>
+                                        <th width="50" style="text-align:center;">STT</th>
+                                        <th width="90">Mã CTV</th>
+                                        <th>Tên CTV</th>
+                                        <th>Tên cung</th>
+                                        <th>Ký hiệu cung</th>
+                                        <th>Điểm đầu</th>
+                                        <th>Điểm cuối</th>
+                                        <th width="100" style="text-align:right;">Giá cước</th>
+                                        <th width="100" style="text-align:center;">Thời gian</th>
+                                        <th width="100" style="text-align:right;">Tổng số chuyến</th>
+                                        <th width="120" style="text-align:right;">Thành tiền</th>
+                                        <th width="80" style="text-align:center;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vcmTripsTableBody">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: BẢNG CHỐT CÔNG & THANH TOÁN THEO CTV -->
+            <div id="tabChotCong" class="tab-pane-content">
+                <div class="wizard-stepper">
+                    <div class="wizard-step completed">
+                        <span class="wizard-circle"><i class="fa-solid fa-check"></i></span>
+                        <span>1. Rà soát dữ liệu lượt chạy</span>
+                    </div>
+                    <div class="wizard-line active"></div>
+                    <div class="wizard-step active">
+                        <span class="wizard-circle">2</span>
+                        <span>2. Xác nhận tổng hợp thanh toán</span>
+                    </div>
+                    <div class="wizard-line"></div>
+                    <div class="wizard-step">
+                        <span class="wizard-circle">3</span>
+                        <span>3. Khóa sổ công kỳ 08/2026</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span>Bảng tổng hợp thanh toán thù lao CTV VCM kỳ 08/2026</span>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-secondary" onclick="exportVCMExcel()">
+                                <i class="fa-solid fa-print"></i> In phiếu tổng hợp
+                            </button>
+                            <button class="btn btn-primary" onclick="alert('Đã duyệt toàn bộ danh sách chi trả!')">
+                                <i class="fa-solid fa-check-double"></i> Duyệt chi toàn bộ
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <div class="table-container" style="border:none;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="50" style="text-align:center;">STT</th>
+                                        <th width="90">Mã CTV</th>
+                                        <th>Họ và tên CTV</th>
+                                        <th>Số điện thoại</th>
+                                        <th width="90" style="text-align:center;">Tổng lượt chạy</th>
+                                        <th width="100" style="text-align:right;">Tổng km</th>
+                                        <th width="110" style="text-align:right;">Tiền cước mẫu</th>
+                                        <th width="110" style="text-align:right;">Tiền cước đồ</th>
+                                        <th width="100" style="text-align:right;">Tổng phụ cấp</th>
+                                        <th width="90" style="text-align:right;">Giảm trừ</th>
+                                        <th width="120" style="text-align:right; color:#2A3F54;">Thực lĩnh (VNĐ)</th>
+                                        <th width="110">Trạng thái chốt</th>
+                                        <th width="100" style="text-align:center;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vcmPayrollSummaryBody">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: CHI TIẾT CHUYẾN CHẠY VCM                                           -->
+<!-- ========================================================================= -->
+<div class="modal" id="modalTripDetail">
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <span id="tripModalTitle">Chi tiết chuyến chạy vận chuyển mẫu</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeTripModal()"></i>
+        </div>
+        <div class="modal-body" id="tripModalBody">
+            <!-- Dynamic Content -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeTripModal()">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: CHỐT SỔ CÔNG KỲ NÀY                                                -->
+<!-- ========================================================================= -->
+<div class="modal" id="modalFinalizePayroll">
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <span>Xác nhận khóa sổ công CTV VCM</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeFinalizeModal()"></i>
+        </div>
+        <div class="modal-body">
+            <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:4px; padding:12px; font-size:13px; color:#92400e; margin-bottom:14px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> <strong>Lưu ý quan trọng:</strong> Sau khi khóa sổ công kỳ 08/2026, toàn bộ dữ liệu lượt chạy và cước phí sẽ được đóng băng để chuyển sang bộ phận kế toán chi trả lương.
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Kỳ công chốt</label>
+                    <input type="text" value="Tháng 08/2026 (01/08/2026 - 31/08/2026)" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tổng số CTV chi trả</label>
+                    <input type="text" value="6 Cộng tác viên" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tổng số tiền thực lĩnh</label>
+                    <input type="text" value="51.450.000 VNĐ" style="font-weight:700; color:#166534;" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú chốt sổ</label>
+                    <textarea rows="2" placeholder="Ghi chú xác nhận..."></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeFinalizeModal()">Hủy</button>
+            <button class="btn btn-primary" onclick="confirmFinalize()">
+                <i class="fa-solid fa-lock"></i> Xác nhận khóa sổ công
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// MOCK DATA: VCM TRIPS
+let vcmTripsData = [
+    { id: 1, ctvCode: "CTV001", ctvName: "Nguyễn Văn Tuấn", routeCode: "VCM001", routeName: "Hồng Hà - MEDVN", date: "26/08/2026", shift: "Ca Sáng", distance: 10.5, startTime: "07:30", endTime: "08:15", mainFee: 150000, reverseFee: 100000, allowance: 0, total: 250000, status: "Đã duyệt", type: "outbound" },
+    { id: 2, ctvCode: "CTV001", ctvName: "Nguyễn Văn Tuấn", routeCode: "VCM003", routeName: "Thanh Xuân - MEDVN", date: "26/08/2026", shift: "Ca Tối", distance: 6.4, startTime: "19:30", endTime: "20:10", mainFee: 64000, reverseFee: 0, allowance: 30000, total: 94000, status: "Đã duyệt", type: "outbound" },
+    { id: 3, ctvCode: "CTV002", ctvName: "Trần Văn Bình", routeCode: "VCM002", routeName: "Tây Hồ - MEDVN", date: "26/08/2026", shift: "Ca Chiều", distance: 8.2, startTime: "13:30", endTime: "14:15", mainFee: 82000, reverseFee: 50000, allowance: 0, total: 132000, status: "Đã duyệt", type: "outbound" },
+    { id: 4, ctvCode: "CTV003", ctvName: "Lê Thị Hương", routeCode: "VCM001", routeName: "Hồng Hà - MEDVN", date: "25/08/2026", shift: "Ca Sáng", distance: 10.5, startTime: "07:30", endTime: "08:20", mainFee: 150000, reverseFee: 100000, allowance: 0, total: 250000, status: "Đã duyệt", type: "inbound" },
+    { id: 5, ctvCode: "CTV004", ctvName: "Hoàng Văn Dũng", routeCode: "VCM003", routeName: "Thanh Xuân - MEDVN", date: "25/08/2026", shift: "Ca Tối", distance: 6.4, startTime: "20:00", endTime: "20:45", mainFee: 64000, reverseFee: 0, allowance: 30000, total: 94000, status: "Chờ duyệt", type: "outbound" },
+    { id: 6, ctvCode: "CTV002", ctvName: "Trần Văn Bình", routeCode: "VCM001", routeName: "Hồng Hà - MEDVN", date: "24/08/2026", shift: "Ca Sáng", distance: 10.5, startTime: "07:30", endTime: "08:15", mainFee: 150000, reverseFee: 100000, allowance: 0, total: 250000, status: "Đã duyệt", type: "inbound" }
+];
+
+// MOCK DATA: VCM PAYROLL SUMMARY
+let vcmPayrollSummary = [
+    { stt: 1, ctvCode: "CTV001", name: "Nguyễn Văn Tuấn", phone: "0912.345.678", totalTrips: 38, totalKm: 340.5, mainFee: 5700000, reverseFee: 3100000, allowance: 1200000, deduction: 0, netIncome: 10000000, status: "Đã chốt" },
+    { stt: 2, ctvCode: "CTV002", name: "Trần Văn Bình", phone: "0988.765.432", totalTrips: 32, totalKm: 280.0, mainFee: 4800000, reverseFee: 2400000, allowance: 950000, deduction: 0, netIncome: 8150000, status: "Đã chốt" },
+    { stt: 3, ctvCode: "CTV003", name: "Lê Thị Hương", phone: "0977.112.233", totalTrips: 28, totalKm: 245.2, mainFee: 4200000, reverseFee: 2100000, allowance: 800000, deduction: 0, netIncome: 7100000, status: "Chờ chốt" },
+    { stt: 4, ctvCode: "CTV004", name: "Hoàng Văn Dũng", phone: "0904.556.677", totalTrips: 42, totalKm: 380.0, mainFee: 6300000, reverseFee: 3500000, allowance: 1450000, deduction: 0, netIncome: 11250000, status: "Đã chốt" },
+    { stt: 5, ctvCode: "CTV005", name: "Phạm Văn Em", phone: "0936.889.900", totalTrips: 26, totalKm: 210.0, mainFee: 3900000, reverseFee: 1800000, allowance: 600000, deduction: 0, netIncome: 6300000, status: "Chờ chốt" },
+    { stt: 6, ctvCode: "CTV006", name: "Đỗ Quốc Hùng", phone: "0915.223.344", totalTrips: 34, totalKm: 302.5, mainFee: 5100000, reverseFee: 2500000, allowance: 1050000, deduction: 0, netIncome: 8650000, status: "Đã chốt" }
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderTripsTable(vcmTripsData.filter(x => x.type === 'outbound'));
+    renderPayrollSummaryTable(vcmPayrollSummary);
+});
+
+function switchMainTab(tabId) {
+    const tabs = document.querySelectorAll(".subnav-tab");
+    tabs.forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    document.querySelectorAll(".tab-pane-content").forEach(p => p.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+}
+
+function renderTripsTable(data) {
+    const tbody = document.getElementById("vcmTripsTableBody");
+    tbody.innerHTML = "";
+
+    data.forEach((trip, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${trip.date}</td>
+            <td style="text-align:center;">${index + 1}</td>
+            <td><strong>${trip.ctvCode}</strong></td>
+            <td>${trip.ctvName}</td>
+            <td>${trip.routeName}</td>
+            <td><span style="font-weight:600; color:#2A3F54;">${trip.routeCode}</span></td>
+            <td>Hồng Hà</td>
+            <td>MEDVN</td>
+            <td style="text-align:right; font-weight:600;">${(trip.type === 'outbound' ? trip.mainFee : trip.reverseFee).toLocaleString('vi-VN')} đ</td>
+            <td style="text-align:center;">${trip.startTime} - ${trip.endTime}</td>
+            <td style="text-align:right;">1</td>
+            <td style="text-align:right; font-weight:700; color:#2A3F54;">${(trip.type === 'outbound' ? trip.mainFee : trip.reverseFee).toLocaleString('vi-VN')} đ</td>
+            <td style="text-align:center;">
+                <button class="action-icon view" onclick="openTripDetail(${trip.id})" title="Xem chi tiết">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function renderPayrollSummaryTable(data) {
+    const tbody = document.getElementById("vcmPayrollSummaryBody");
+    tbody.innerHTML = "";
+
+    data.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align:center;">${index + 1}</td>
+            <td><strong>${item.ctvCode}</strong></td>
+            <td><strong style="color:#2A3F54;">${item.name}</strong></td>
+            <td>${item.phone}</td>
+            <td style="text-align:center; font-weight:700;">${item.totalTrips}</td>
+            <td style="text-align:right;">${item.totalKm} km</td>
+            <td style="text-align:right;">${item.mainFee.toLocaleString('vi-VN')} đ</td>
+            <td style="text-align:right;">${item.reverseFee.toLocaleString('vi-VN')} đ</td>
+            <td style="text-align:right; color:#d97706;">${item.allowance.toLocaleString('vi-VN')} đ</td>
+            <td style="text-align:right; color:#dc2626;">${item.deduction} đ</td>
+            <td style="text-align:right; font-weight:800; color:#166534; font-size:13.5px;">${item.netIncome.toLocaleString('vi-VN')} đ</td>
+            <td>
+                <span class="${item.status === 'Đã chốt' ? 'badge badge-success' : 'badge badge-warning'}">
+                    ${item.status}
+                </span>
+            </td>
+            <td style="text-align:center; white-space:nowrap;">
+                <button class="action-icon view" onclick="alert('Xem phiếu chi trả lương của ${item.name}')" title="Xem phiếu lương">
+                    <i class="fa-regular fa-file-lines"></i>
+                </button>
+                <button class="action-icon edit" onclick="alert('Khóa / Cập nhật trạng thái ${item.name}')" title="Cập nhật">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function switchRouteSubtab(type) {
+    document.querySelectorAll(".route-subtab-btn").forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    document.getElementById("tableNameTitle").innerText = type === 'outbound' ? "Danh sách chuyến chạy vận chuyển mẫu" : "Danh sách chuyến chạy vận chuyển đồ";
+
+    const filtered = vcmTripsData.filter(x => x.type === type);
+    renderTripsTable(filtered);
+}
+
+function filterVCMTrips() {
+    const ctv = document.getElementById("filterCTV").value;
+    const route = document.getElementById("filterRoute").value;
+    const status = document.getElementById("filterStatus").value;
+
+    let res = vcmTripsData.filter(t => {
+        const matchCTV = !ctv || t.ctvName === ctv;
+        const matchRoute = !route || t.routeCode === route;
+        const matchStatus = !status || t.status === status;
+        return matchCTV && matchRoute && matchStatus;
+    });
+
+    renderTripsTable(res);
+}
+
+function openTripDetail(id) {
+    const trip = vcmTripsData.find(x => x.id === id);
+    if (!trip) return;
+
+    document.getElementById("tripModalTitle").innerText = `Chi tiết chuyến chạy: ${trip.routeCode} - ${trip.ctvName}`;
+    document.getElementById("tripModalBody").innerHTML = `
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0; margin-bottom:14px;">
+            <div><span style="color:#64748b;">Mã CTV:</span> <strong>${trip.ctvCode}</strong></div>
+            <div><span style="color:#64748b;">Họ tên:</span> <strong>${trip.ctvName}</strong></div>
+            <div><span style="color:#64748b;">Mã tuyến:</span> <strong>${trip.routeCode}</strong></div>
+            <div><span style="color:#64748b;">Tên tuyến:</span> <strong>${trip.routeName}</strong></div>
+            <div><span style="color:#64748b;">Ngày chạy:</span> <strong>${trip.date} (${trip.shift})</strong></div>
+            <div><span style="color:#64748b;">Thời gian:</span> <strong>${trip.startTime} - ${trip.endTime}</strong></div>
+            <div><span style="color:#64748b;">Cự ly chuẩn:</span> <strong>${trip.distance} km</strong></div>
+            <div><span style="color:#64748b;">Trạng thái:</span> <strong style="color:#16a34a;">${trip.status}</strong></div>
+        </div>
+
+        <h4 style="font-size:13px; color:#1e293b; margin-bottom:8px;">Chi tiết cước phí & Phụ cấp:</h4>
+        <table class="data-table" style="font-size:12.5px;">
+            <tbody>
+                <tr>
+                    <td>Cước vận chuyển mẫu (Chiều đi):</td>
+                    <td style="text-align:right; font-weight:700;">${trip.mainFee.toLocaleString('vi-VN')} VNĐ</td>
+                </tr>
+                <tr>
+                    <td>Cước vận chuyển đồ (Chiều về):</td>
+                    <td style="text-align:right; font-weight:700;">${trip.reverseFee.toLocaleString('vi-VN')} VNĐ</td>
+                </tr>
+                <tr>
+                    <td>Phụ cấp ca muộn (chạy sau 19h):</td>
+                    <td style="text-align:right; font-weight:700; color:#d97706;">${trip.allowance.toLocaleString('vi-VN')} VNĐ</td>
+                </tr>
+                <tr style="background:#f1f5f9; font-weight:700;">
+                    <td>Tổng cước chi trả:</td>
+                    <td style="text-align:right; font-weight:800; color:#166534; font-size:14px;">${trip.total.toLocaleString('vi-VN')} VNĐ</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+    document.getElementById("modalTripDetail").classList.add("show");
+}
+
+function closeTripModal() {
+    document.getElementById("modalTripDetail").classList.remove("show");
+}
+
+function openFinalizeModal() {
+    document.getElementById("modalFinalizePayroll").classList.add("show");
+}
+
+function closeFinalizeModal() {
+    document.getElementById("modalFinalizePayroll").classList.remove("show");
+}
+
+function confirmFinalize() {
+    alert("Đã khóa sổ công CTV VCM kỳ 08/2026 thành công!");
+    closeFinalizeModal();
+}
+
+function exportVCMExcel() {
+    alert("Đang xuất file Excel 'Bang_Tong_Hop_Cong_VCM_T08_2026.xlsx'...");
+}
+</script>
+</body>
+</html>

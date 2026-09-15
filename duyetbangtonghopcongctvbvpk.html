@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duyệt Bảng tổng hợp công – CTV BV/PK</title>
+<!-- Font Awesome & Google Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- SheetJS (XLSX) for Exporting Real Excel Files -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+<link rel="stylesheet" href="css/common.css">
+<script src="js/sidebar.js" defer></script>
+
+<style>
+/* =====================================================
+   TÙY BIẾN GIAO DIỆN DUYỆT BẢNG TỔNG HỢP CÔNG CTV BV/PK
+===================================================== */
+:root {
+    --mwk-navy: #2A3F54;
+    --mwk-blue: #005aff;
+    --mwk-green: #16a34a;
+    --mwk-purple: #7c3aed;
+    --mwk-amber: #d97706;
+    --mwk-danger: #dc2626;
+}
+
+/* TOP KPI DASHBOARD */
+.kpi-row-approval {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1024px) {
+    .kpi-row-approval { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .kpi-row-approval { grid-template-columns: 1fr; }
+}
+
+.kpi-appr-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.kpi-appr-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border-color: #cbd5e1;
+}
+
+.kpi-appr-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.icon-pending { background: #fffbeb; color: #d97706; }
+.icon-approved { background: #eff6ff; color: #005aff; }
+.icon-rejected { background: #fef2f2; color: #dc2626; }
+.icon-tccb { background: #f0fdf4; color: #16a34a; }
+
+.kpi-appr-val {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.kpi-appr-lbl {
+    font-size: 12.5px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.kpi-appr-sub {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 3px;
+}
+
+/* TOP SUBNAV TABS */
+.top-subnav-tabs {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+    background: #ffffff;
+    padding: 0 16px;
+    border-radius: 6px 6px 0 0;
+}
+
+.subnav-tab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 4px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #64748b;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.subnav-tab-link:hover {
+    color: #2A3F54;
+}
+
+.subnav-tab-link.active {
+    color: #2A3F54;
+    border-bottom-color: #2A3F54;
+}
+
+/* FILTER CARD FORM */
+.filter-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.filter-grid-5 {
+    display: grid;
+    grid-template-columns: 1.1fr 1.3fr 1.2fr 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 1100px) {
+    .filter-grid-5 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.filter-field input, .filter-field select {
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #1e293b;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filter-field input:focus, .filter-field select:focus {
+    border-color: #2A3F54;
+}
+
+.filter-footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+}
+
+/* BATCH ACTIONS & TABLE TOOLBAR */
+.table-toolbar-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.batch-action-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* DATA TABLE */
+.payroll-table-wrap {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow-x: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    margin-bottom: 20px;
+}
+
+.appr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 1300px;
+}
+
+.appr-table thead th {
+    background: #2A3F54;
+    color: #ffffff;
+    padding: 11px 12px;
+    font-weight: 600;
+    text-align: left;
+    border: 1px solid #1e2f3f;
+    white-space: nowrap;
+}
+
+.appr-table thead th.td-center {
+    text-align: center;
+}
+
+.appr-table tbody td {
+    padding: 11px 12px;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.appr-table tbody tr:hover td {
+    background: #f8fafc;
+}
+
+/* BADGES FOR APPROVAL STATUS */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-pending {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.badge-approved {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.badge-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.badge-tccb {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* ACTION BUTTONS */
+.action-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+}
+
+.btn-act-icon {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    cursor: pointer;
+    color: #475569;
+    transition: all 0.15s ease;
+}
+
+.btn-act-icon:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+.btn-act-approve {
+    color: #16a34a;
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+}
+.btn-act-approve:hover {
+    background: #16a34a;
+    color: #fff;
+}
+
+.btn-act-reject {
+    color: #dc2626;
+    border-color: #fecaca;
+    background: #fff5f5;
+}
+.btn-act-reject:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+.btn-act-send {
+    color: #005aff;
+    border-color: #bfdbfe;
+    background: #eff6ff;
+}
+.btn-act-send:hover {
+    background: #005aff;
+    color: #fff;
+}
+
+/* MODALS */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-window {
+    background: #ffffff;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    overflow: hidden;
+    animation: modalFade 0.2s ease-out;
+}
+
+.modal-window-lg {
+    max-width: 1150px;
+}
+
+@keyframes modalFade {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-hdr {
+    background: #2A3F54;
+    color: #ffffff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.modal-hdr i.close-modal {
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.modal-hdr i.close-modal:hover { opacity: 1; }
+
+.modal-bdy {
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-ftr {
+    padding: 12px 20px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* DETAIL MODAL TABS */
+.detail-modal-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+}
+
+.detail-tab-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.detail-tab-btn.active {
+    color: #2A3F54;
+    border-bottom-color: #2A3F54;
+}
+
+/* TOAST */
+.toast-notice {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 2000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-notice.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notice.success {
+    background: #16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- SIDEBAR CHUNG MEDWORKING -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:none;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow open" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                    <!-- NHÓM LỊCH LÀM VIỆC BV/PK -->
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+                    <!-- NHÓM CHẤM CÔNG BV/PK -->
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk" class="active">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV KSK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-stethoscope icon-left"></i>
+                        Cộng tác viên KSK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-ksk"></i>
+                </div>
+                <div class="level-2" id="menu-ksk" style="display:none;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công KSK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvksk.html" id="NAV_bangdulieucongctvksk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvksk.html" id="NAV_bangtonghopcongctvksk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="bangchotcongctvksk.html" id="NAV_bangchotcongctvksk">
+                                <i class="fa-solid fa-check-double"></i> Bảng chốt công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NỘI DUNG CHÍNH (CONTENT AREA) -->
+    <div class="content">
+        <!-- HEADER TRANG -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb">
+                    <i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên BV/PK <span>/</span> Chấm công BV/PK <span>/</span> <strong>Duyệt bảng tổng hợp công</strong>
+                </div>
+                <div class="page-title">Duyệt Bảng tổng hợp công – Cán bộ quản lý / Điều phối</div>
+            </div>
+            
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary" onclick="exportSummaryExcel()">
+                    <i class="fa-solid fa-file-excel" style="color:#16a34a;"></i> Xuất file Excel
+                </button>
+                <button class="btn btn-primary" onclick="batchApproveSelected()">
+                    <i class="fa-solid fa-check-double"></i> Duyệt hàng loạt
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- TOP KPI DASHBOARD -->
+            <div class="kpi-row-approval">
+                <div class="kpi-appr-card" onclick="filterByStatus('pending')">
+                    <div class="kpi-appr-icon icon-pending">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-appr-val" id="kpi-pending-count">4</div>
+                        <div class="kpi-appr-lbl">Bảng công chờ duyệt</div>
+                        <div class="kpi-appr-sub" style="color:#d97706;">Cần điều phối xử lý gấp</div>
+                    </div>
+                </div>
+
+                <div class="kpi-appr-card" onclick="filterByStatus('approved')">
+                    <div class="kpi-appr-icon icon-approved">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-appr-val" id="kpi-approved-count">8</div>
+                        <div class="kpi-appr-lbl">Đã điều phối duyệt</div>
+                        <div class="kpi-appr-sub" style="color:#005aff;">Sẵn sàng chuyển Ban TCCB</div>
+                    </div>
+                </div>
+
+                <div class="kpi-appr-card" onclick="filterByStatus('rejected')">
+                    <div class="kpi-appr-icon icon-rejected">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-appr-val" id="kpi-rejected-count">1</div>
+                        <div class="kpi-appr-lbl">Từ chối / Yêu cầu sửa</div>
+                        <div class="kpi-appr-sub" style="color:#dc2626;">Khoa phòng đang giải trình</div>
+                    </div>
+                </div>
+
+                <div class="kpi-appr-card" onclick="filterByStatus('tccb')">
+                    <div class="kpi-appr-icon icon-tccb">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </div>
+                    <div>
+                        <div class="kpi-appr-val" id="kpi-tccb-count">12</div>
+                        <div class="kpi-appr-lbl">Đã gửi Ban TCCB</div>
+                        <div class="kpi-appr-sub" style="color:#16a34a;">Đang trong kỳ tính lương</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-TABS NAVIGATION (LIÊN KẾT GIỮA TỔNG HỢP, DUYỆT & CHỐT CÔNG) -->
+            <div class="top-subnav-tabs">
+                <a href="bangtonghopcongctvbvpk.html" class="subnav-tab-link">
+                    <i class="fa-solid fa-list-check"></i> Bảng tổng hợp công (HC Khoa)
+                </a>
+                <a href="duyetbangtonghopcongctvbvpk.html" class="subnav-tab-link active">
+                    <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công (Điều phối / CBQL)
+                </a>
+                <a href="bangdulieucongtrucctvbvpk.html" class="subnav-tab-link">
+                    <i class="fa-solid fa-user-nurse"></i> Dữ liệu công trực
+                </a>
+            </div>
+
+            <!-- BỘ LỌC TÌM KIẾM CHUYÊN SÂU -->
+            <div class="filter-card">
+                <div class="filter-grid-5">
+                    <div class="filter-field">
+                        <label>Kỳ tổng hợp (Tháng/Năm)</label>
+                        <select id="filterMonth" onchange="applyApprovalFilter()">
+                            <option value="08/2026" selected>Tháng 08/2026</option>
+                            <option value="07/2026">Tháng 07/2026</option>
+                            <option value="06/2026">Tháng 06/2026</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>Cơ sở Bệnh viện / Phòng khám</label>
+                        <select id="filterFacility" onchange="applyApprovalFilter()">
+                            <option value="">-- Tất cả cơ sở --</option>
+                            <option value="BD" selected>Bệnh viện Medlatec Ba Đình</option>
+                            <option value="TX">Phòng khám Medlatec Thanh Xuân</option>
+                            <option value="TH">Phòng khám Medlatec Tây Hồ</option>
+                            <option value="CG">Phòng khám Medlatec Cầu Giấy</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>Khoa phòng / Chuyên khoa</label>
+                        <select id="filterDept" onchange="applyApprovalFilter()">
+                            <option value="">-- Tất cả chuyên khoa --</option>
+                            <option value="Khoa Nội soi tiêu hóa">Khoa Nội soi tiêu hóa</option>
+                            <option value="Khoa Gây mê hồi sức">Khoa Gây mê hồi sức</option>
+                            <option value="Khoa Chẩn đoán hình ảnh">Khoa Chẩn đoán hình ảnh</option>
+                            <option value="Khoa Xét nghiệm">Khoa Xét nghiệm</option>
+                            <option value="Khoa Khám bệnh">Khoa Khám bệnh</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>Trạng thái phê duyệt</label>
+                        <select id="filterStatus" onchange="applyApprovalFilter()">
+                            <option value="">-- Tất cả trạng thái --</option>
+                            <option value="pending">Chờ điều phối duyệt</option>
+                            <option value="approved">Đã duyệt (Chờ gửi TCCB)</option>
+                            <option value="rejected">Từ chối / Yêu cầu sửa</option>
+                            <option value="tccb">Đã chuyển Ban TCCB</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-field">
+                        <label>Tìm kiếm (Mã / Tên bảng công)</label>
+                        <input type="text" id="filterKeyword" placeholder="Nhập tên bảng công..." onkeyup="applyApprovalFilter()">
+                    </div>
+                </div>
+
+                <div class="filter-footer-bar">
+                    <div style="font-size: 12.5px; color: #64748b;">
+                        Hiển thị <strong id="resultCountDisplay" style="color:#0f172a;">4 bảng công</strong> cần duyệt
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-secondary" onclick="resetApprovalFilter()">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Nhập lại
+                        </button>
+                        <button class="btn btn-primary" onclick="applyApprovalFilter()">
+                            <i class="fa-solid fa-magnifying-glass"></i> Lọc dữ liệu
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THANH CÔNG CỤ DUYỆT HÀNG LOẠT -->
+            <div class="table-toolbar-bar">
+                <div class="batch-action-left">
+                    <button class="btn btn-secondary" onclick="toggleSelectAllRows()" style="height:32px; font-size:12.5px;">
+                        <i class="fa-regular fa-square-check"></i> Chọn tất cả
+                    </button>
+                    <button class="btn btn-success" onclick="batchApproveSelected()" style="height:32px; font-size:12.5px;">
+                        <i class="fa-solid fa-check"></i> Duyệt các mục đã chọn
+                    </button>
+                    <button class="btn btn-primary" onclick="batchSendTccbSelected()" style="height:32px; font-size:12.5px; background:#005aff;">
+                        <i class="fa-solid fa-paper-plane"></i> Gửi Ban TCCB
+                    </button>
+                </div>
+
+                <div style="font-size: 12px; color: #64748b;">
+                    <i class="fa-solid fa-circle-info" style="color:#005aff;"></i> Bảng công sau khi Cán bộ điều phối duyệt sẽ được chuyển tiếp sang <strong>Ban TCCB</strong> để tính lương định kỳ.
+                </div>
+            </div>
+
+            <!-- BẢNG DỮ LIỆU BẢNG TỔNG HỢP CÔNG (MASTER LIST) -->
+            <div class="payroll-table-wrap">
+                <table class="appr-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; text-align: center;">
+                                <input type="checkbox" id="chkSelectAllHeader" onchange="onHeaderCheckboxChange()">
+                            </th>
+                            <th style="width: 50px; text-align: center;">STT</th>
+                            <th>Mã bảng công</th>
+                            <th>Tên bảng tổng hợp công</th>
+                            <th>Kỳ công</th>
+                            <th>Khoa phòng & Cơ sở</th>
+                            <th style="text-align: center;">Số CTV</th>
+                            <th style="text-align: right;">Tổng công thường</th>
+                            <th style="text-align: right;">Tổng ca trực</th>
+                            <th style="text-align: right;">Lương ước tính</th>
+                            <th>Người gửi duyệt</th>
+                            <th>Trạng thái</th>
+                            <th style="text-align: center; width: 140px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apprTableBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 1: CHI TIẾT BẢNG CÔNG (DRILL-DOWN VIEW TỪNG CTV)
+     ========================================================================= -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal-window modal-window-lg">
+        <div class="modal-hdr">
+            <span id="detailModalTitle"><i class="fa-solid fa-file-invoice" style="margin-right:8px;"></i>Chi tiết Bảng tổng hợp công</span>
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal('detailModal')"></i>
+        </div>
+        <div class="modal-bdy">
+            <!-- HEADER INFO BANNER -->
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px 16px; margin-bottom:16px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; font-size:12.5px;">
+                <div><span style="color:#64748b;">Mã bảng công:</span> <strong id="dtlCode" style="color:#2A3F54;">BCTC-NS-082026</strong></div>
+                <div><span style="color:#64748b;">Khoa phòng:</span> <strong id="dtlDept">Khoa Nội soi tiêu hóa</strong></div>
+                <div><span style="color:#64748b;">Kỳ tổng hợp:</span> <strong>Tháng 08/2026</strong></div>
+                <div><span style="color:#64748b;">Trạng thái:</span> <span id="dtlStatusBadge"></span></div>
+            </div>
+
+            <!-- TABS CÔNG THƯỜNG VS CÔNG TRỰC (THEO BRD YC08) -->
+            <div class="detail-modal-tabs">
+                <div class="detail-tab-btn active" id="tabBtnNormal" onclick="switchDetailTab('normal')">
+                    <i class="fa-solid fa-briefcase"></i> Tab 1: Công làm việc thường (<span id="dtlNormalCount">6</span> CTV)
+                </div>
+                <div class="detail-tab-btn" id="tabBtnDuty" onclick="switchDetailTab('duty')">
+                    <i class="fa-solid fa-moon"></i> Tab 2: Công trực chuyên môn & trực đêm (<span id="dtlDutyCount">4</span> CTV)
+                </div>
+            </div>
+
+            <!-- NỘI DUNG TAB 1: CÔNG THƯỜNG -->
+            <div id="subTabNormalContent" style="overflow-x: auto;">
+                <table class="med-table" style="font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã CTV</th>
+                            <th>Họ và tên</th>
+                            <th>Chuyên khoa</th>
+                            <th style="text-align: right;">Giờ vào - ra hợp lệ</th>
+                            <th style="text-align: right;">Đi muộn / Về sớm</th>
+                            <th style="text-align: right;">Tổng công thường</th>
+                            <th style="text-align: right;">Công ngày lễ</th>
+                            <th style="text-align: right;">Thành tiền (đ)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dtlNormalTableBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- NỘI DUNG TAB 2: CÔNG TRỰC -->
+            <div id="subTabDutyContent" style="display:none; overflow-x: auto;">
+                <table class="med-table" style="font-size:12px;">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã CTV</th>
+                            <th>Họ và tên</th>
+                            <th>Chuyên khoa</th>
+                            <th>Loại ca trực</th>
+                            <th style="text-align: right;">Số ca trực thường</th>
+                            <th style="text-align: right;">Ca trực đêm 24h</th>
+                            <th style="text-align: right;">Trực lễ/tết</th>
+                            <th style="text-align: right;">Phụ cấp trực (đ)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dtlDutyTableBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-ftr">
+            <button class="btn btn-secondary" onclick="closeModal('detailModal')">Đóng</button>
+            <button class="btn btn-danger" id="btnDetailReject" onclick="openRejectFromDetail()"><i class="fa-solid fa-xmark"></i> Từ chối duyệt</button>
+            <button class="btn btn-success" id="btnDetailApprove" onclick="approveFromDetail()"><i class="fa-solid fa-check"></i> Phê duyệt bảng này</button>
+            <button class="btn btn-primary" id="btnDetailSendTccb" onclick="sendTccbFromDetail()" style="background:#005aff;"><i class="fa-solid fa-paper-plane"></i> Gửi Ban TCCB</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 2: TỪ CHỐI / YÊU CẦU GIẢI TRÌNH CHỈNH SỬA
+     ========================================================================= -->
+<div class="modal-overlay" id="rejectModal">
+    <div class="modal-window">
+        <div class="modal-hdr" style="background:#dc2626;">
+            <span><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>Từ chối & Yêu cầu hoàn thiện lại bảng công</span>
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal('rejectModal')"></i>
+        </div>
+        <div class="modal-bdy">
+            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:6px; padding:12px; margin-bottom:14px; font-size:12.5px; color:#991b1b;">
+                Bảng công sẽ được trả về trạng thái <strong>"Từ chối / Yêu cầu chỉnh sửa"</strong> để HC Khoa kiểm tra, đối soát lại dữ liệu chấm công.
+            </div>
+
+            <div class="filter-field" style="margin-bottom:12px;">
+                <label>Bảng tổng hợp công:</label>
+                <input type="text" id="rejectTargetName" readonly style="background:#f8fafc; font-weight:700;">
+            </div>
+
+            <div class="filter-field" style="margin-bottom:12px;">
+                <label>Lý do từ chối / Nội dung cần sửa <span style="color:red;">*</span></label>
+                <textarea id="rejectReasonInput" placeholder="Ví dụ: Dữ liệu ca trực đêm ngày 15/08 của BS. Long chưa khớp lịch phân công; đề nghị kiểm tra lại số giờ đi muộn của ĐD. Mai..." style="width:100%; height:80px; border:1px solid #cbd5e1; border-radius:4px; padding:8px 10px; font-size:13px; resize:none; outline:none; font-family:inherit;"></textarea>
+            </div>
+        </div>
+        <div class="modal-ftr">
+            <button class="btn btn-secondary" onclick="closeModal('rejectModal')">Hủy</button>
+            <button class="btn btn-danger" onclick="confirmReject()"><i class="fa-solid fa-rotate-left"></i> Xác nhận trả về</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 3: XÁC NHẬN GỬI BAN TCCB TÍNH LƯƠNG
+     ========================================================================= -->
+<div class="modal-overlay" id="sendTccbModal">
+    <div class="modal-window">
+        <div class="modal-hdr" style="background:#16a34a;">
+            <span><i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i>Chuyển Bảng tổng hợp công lên Ban TCCB</span>
+            <i class="fa-solid fa-xmark close-modal" onclick="closeModal('sendTccbModal')"></i>
+        </div>
+        <div class="modal-bdy">
+            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:12px; margin-bottom:14px; font-size:12.5px; color:#166534;">
+                <i class="fa-solid fa-circle-check"></i> Bảng công đã được Cán bộ điều phối thẩm định hợp lệ. Dữ liệu sẽ được khóa và chuyển thẳng đến <strong>Ban TCCB</strong> để tổng hợp vào kỳ trả thù lao/lương tháng.
+            </div>
+
+            <div class="filter-field" style="margin-bottom:12px;">
+                <label>Bảng tổng hợp công:</label>
+                <input type="text" id="sendTccbTargetName" readonly style="background:#f8fafc; font-weight:700;">
+            </div>
+
+            <div class="filter-field">
+                <label>Ghi chú gửi kèm Ban TCCB (Tùy chọn)</label>
+                <input type="text" id="sendTccbNote" placeholder="Ví dụ: Đã duyệt đối soát đầy đủ ca trực và công thường quy." value="Đã duyệt đối soát đầy đủ ca trực và công thường quy.">
+            </div>
+        </div>
+        <div class="modal-ftr">
+            <button class="btn btn-secondary" onclick="closeModal('sendTccbModal')">Hủy</button>
+            <button class="btn btn-success" onclick="confirmSendTccb()"><i class="fa-solid fa-check"></i> Xác nhận chuyển Ban TCCB</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-notice" id="apprToast">
+    <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
+    <span id="apprToastMsg">Thao tác thành công</span>
+</div>
+
+<!-- =========================================================================
+     JAVASCRIPT XỬ LÝ NGHIỆP VỤ DUYỆT BẢNG CÔNG, LỌC & EXCEL
+     ========================================================================= -->
+<script>
+// Mock data bảng tổng hợp công cần duyệt của CTV BV/PK
+let payrollApprovalList = [
+    {
+        id: 1,
+        code: "BCTC-NS-082026",
+        name: "Bảng tổng hợp công Khoa Nội soi tiêu hóa T08/2026",
+        month: "08/2026",
+        facilityCode: "BD",
+        facilityName: "BV Medlatec Ba Đình",
+        dept: "Khoa Nội soi tiêu hóa",
+        ctvCount: 6,
+        normalHours: 112.5,
+        dutyShifts: 24,
+        totalPay: "68.500.000",
+        submittedBy: "HC. Nguyễn Thị Loan",
+        submitDate: "20/08/2026 15:30",
+        status: "pending", // pending, approved, rejected, tccb
+        statusText: "Chờ điều phối duyệt",
+        note: ""
+    },
+    {
+        id: 2,
+        code: "BCTC-GM-082026",
+        name: "Bảng tổng hợp công Khoa Gây mê hồi sức T08/2026",
+        month: "08/2026",
+        facilityCode: "BD",
+        facilityName: "BV Medlatec Ba Đình",
+        dept: "Khoa Gây mê hồi sức",
+        ctvCount: 4,
+        normalHours: 84.0,
+        dutyShifts: 18,
+        totalPay: "54.200.000",
+        submittedBy: "HC. Vũ Phương Thảo",
+        submitDate: "21/08/2026 09:15",
+        status: "pending",
+        statusText: "Chờ điều phối duyệt",
+        note: ""
+    },
+    {
+        id: 3,
+        code: "BCTC-HA-082026",
+        name: "Bảng tổng hợp công Khoa Chẩn đoán hình ảnh T08/2026",
+        month: "08/2026",
+        facilityCode: "TX",
+        facilityName: "PK Medlatec Thanh Xuân",
+        dept: "Khoa Chẩn đoán hình ảnh",
+        ctvCount: 5,
+        normalHours: 96.0,
+        dutyShifts: 16,
+        totalPay: "62.000.000",
+        submittedBy: "HC. Trần Đình Trọng",
+        submitDate: "19/08/2026 17:00",
+        status: "approved",
+        statusText: "Đã điều phối duyệt",
+        note: "Đã kiểm tra khớp giờ đọc phim MRI/CT."
+    },
+    {
+        id: 4,
+        code: "BCTC-XN-082026",
+        name: "Bảng tổng hợp công Khoa Xét nghiệm T08/2026",
+        month: "08/2026",
+        facilityCode: "TH",
+        facilityName: "PK Medlatec Tây Hồ",
+        dept: "Khoa Xét nghiệm",
+        ctvCount: 8,
+        normalHours: 160.0,
+        dutyShifts: 30,
+        totalPay: "88.400.000",
+        submittedBy: "HC. Lê Minh Hằng",
+        submitDate: "18/08/2026 11:20",
+        status: "tccb",
+        statusText: "Đã chuyển Ban TCCB",
+        note: "Chuyển TCCB lập phiếu lương."
+    },
+    {
+        id: 5,
+        code: "BCTC-KB-082026",
+        name: "Bảng tổng hợp công Khoa Khám bệnh T08/2026",
+        month: "08/2026",
+        facilityCode: "BD",
+        facilityName: "BV Medlatec Ba Đình",
+        dept: "Khoa Khám bệnh",
+        ctvCount: 7,
+        normalHours: 130.0,
+        dutyShifts: 12,
+        totalPay: "71.300.000",
+        submittedBy: "HC. Đặng Quỳnh Nga",
+        submitDate: "17/08/2026 16:45",
+        status: "rejected",
+        statusText: "Từ chối / Yêu cầu sửa",
+        note: "Số giờ chấm công ngày 12/08 của BS. Hà chưa khớp dữ liệu phân lịch."
+    }
+];
+
+// Mock data chi tiết CTV trong bảng công
+const mockStaffNormal = [
+    { stt: 1, code: "CTV-0010", name: "BS. CKII Nguyễn Văn A", dept: "Khoa Nội soi tiêu hóa", validHours: "48.0", lateEarly: "0", totalNorm: "12.0", holiday: "0", pay: "18.000.000" },
+    { stt: 2, code: "CTV-0018", name: "ĐD. Phạm Thị Mai", dept: "Khoa Nội soi tiêu hóa", validHours: "40.0", lateEarly: "12p", totalNorm: "10.0", holiday: "0", pay: "8.500.000" },
+    { stt: 3, code: "CTV-0024", name: "KTV. Bùi Văn Hùng", dept: "Khoa Nội soi tiêu hóa", validHours: "44.0", lateEarly: "0", totalNorm: "11.0", holiday: "0", pay: "9.200.000" },
+    { stt: 4, code: "CTV-0031", name: "BS. Lê Thị Cúc", dept: "Khoa Nội soi tiêu hóa", validHours: "36.0", lateEarly: "0", totalNorm: "9.0", holiday: "0", pay: "13.500.000" }
+];
+
+const mockStaffDuty = [
+    { stt: 1, code: "CTV-0010", name: "BS. CKII Nguyễn Văn A", dept: "Khoa Nội soi tiêu hóa", type: "Trực cấp cứu nội soi", normShifts: 3, nightShifts: 2, holidayShifts: 0, allowance: "7.000.000" },
+    { stt: 2, code: "CTV-0018", name: "ĐD. Phạm Thị Mai", dept: "Khoa Nội soi tiêu hóa", type: "Trực phụ mổ/nội soi", normShifts: 4, nightShifts: 1, holidayShifts: 0, allowance: "3.500.000" },
+    { stt: 3, code: "CTV-0024", name: "KTV. Bùi Văn Hùng", dept: "Khoa Nội soi tiêu hóa", type: "Trực kỹ thuật 24h", normShifts: 2, nightShifts: 2, holidayShifts: 0, allowance: "3.200.000" }
+];
+
+let currentTargetItem = null;
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderApprovalTable();
+    updateKpiCounters();
+});
+
+// Render danh sách bảng công
+function renderApprovalTable(data = null) {
+    const tbody = document.getElementById("apprTableBody");
+    const list = data || payrollApprovalList;
+    document.getElementById("resultCountDisplay").innerText = `${list.length} bảng công`;
+
+    if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="13" style="text-align:center; padding:35px; color:#64748b;">Không tìm thấy bảng tổng hợp công nào phù hợp.</td></tr>`;
+        return;
+    }
+
+    let html = "";
+    list.forEach((item, idx) => {
+        let badgeClass = "badge-pending";
+        let icon = "fa-hourglass-half";
+        if (item.status === 'approved') { badgeClass = "badge-approved"; icon = "fa-clipboard-check"; }
+        else if (item.status === 'rejected') { badgeClass = "badge-rejected"; icon = "fa-rotate-left"; }
+        else if (item.status === 'tccb') { badgeClass = "badge-tccb"; icon = "fa-paper-plane"; }
+
+        html += `
+            <tr>
+                <td style="text-align:center;">
+                    <input type="checkbox" class="chk-row" data-id="${item.id}">
+                </td>
+                <td style="text-align:center;">${idx + 1}</td>
+                <td><strong style="color:#2A3F54;">${item.code}</strong></td>
+                <td>
+                    <a href="javascript:void(0)" onclick="openDetailModal(${item.id})" style="font-weight:600; color:#0f172a; text-decoration:none;">
+                        ${item.name}
+                    </a>
+                </td>
+                <td><strong>${item.month}</strong></td>
+                <td>
+                    <div><strong>${item.dept}</strong></div>
+                    <div style="font-size:11px; color:#64748b;"><i class="fa-solid fa-hospital"></i> ${item.facilityName}</div>
+                </td>
+                <td style="text-align:center;"><span style="font-weight:700;">${item.ctvCount}</span> CTV</td>
+                <td style="text-align:right; font-weight:600;">${item.normalHours}h</td>
+                <td style="text-align:right; font-weight:600; color:#7c3aed;">${item.dutyShifts} ca</td>
+                <td style="text-align:right; font-weight:700; color:#1e40af;">${item.totalPay} đ</td>
+                <td>
+                    <div>${item.submittedBy}</div>
+                    <div style="font-size:10.5px; color:#94a3b8;">${item.submitDate}</div>
+                </td>
+                <td>
+                    <span class="badge-status ${badgeClass}"><i class="fa-solid ${icon}"></i> ${item.statusText}</span>
+                </td>
+                <td style="text-align:center;">
+                    <div class="action-btn-group">
+                        <button class="btn-act-icon" onclick="openDetailModal(${item.id})" title="Xem chi tiết từng CTV"><i class="fa-regular fa-eye"></i></button>
+                        ${item.status === 'pending' ? `
+                            <button class="btn-act-icon btn-act-approve" onclick="quickApprove(${item.id})" title="Duyệt bảng công"><i class="fa-solid fa-check"></i></button>
+                            <button class="btn-act-icon btn-act-reject" onclick="openRejectModal(${item.id})" title="Từ chối / Yêu cầu sửa"><i class="fa-solid fa-xmark"></i></button>
+                        ` : ''}
+                        ${item.status === 'approved' ? `
+                            <button class="btn-act-icon btn-act-send" onclick="openSendTccbModal(${item.id})" title="Gửi Ban TCCB tính lương"><i class="fa-solid fa-paper-plane"></i></button>
+                        ` : ''}
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+
+    tbody.innerHTML = html;
+}
+
+// Cập nhật số liệu trên thẻ KPI
+function updateKpiCounters() {
+    const pending = payrollApprovalList.filter(x => x.status === 'pending').length;
+    const approved = payrollApprovalList.filter(x => x.status === 'approved').length;
+    const rejected = payrollApprovalList.filter(x => x.status === 'rejected').length;
+    const tccb = payrollApprovalList.filter(x => x.status === 'tccb').length;
+
+    document.getElementById("kpi-pending-count").innerText = pending;
+    document.getElementById("kpi-approved-count").innerText = approved;
+    document.getElementById("kpi-rejected-count").innerText = rejected;
+    document.getElementById("kpi-tccb-count").innerText = tccb;
+}
+
+// Bộ lọc
+function applyApprovalFilter() {
+    const m = document.getElementById("filterMonth").value;
+    const fac = document.getElementById("filterFacility").value;
+    const dept = document.getElementById("filterDept").value;
+    const st = document.getElementById("filterStatus").value;
+    const key = document.getElementById("filterKeyword").value.toLowerCase().trim();
+
+    const filtered = payrollApprovalList.filter(x => {
+        if (m && x.month !== m) return false;
+        if (fac && x.facilityCode !== fac) return false;
+        if (dept && x.dept !== dept) return false;
+        if (st && x.status !== st) return false;
+        if (key) {
+            const matchName = x.name.toLowerCase().includes(key);
+            const matchCode = x.code.toLowerCase().includes(key);
+            if (!matchName && !matchCode) return false;
+        }
+        return true;
+    });
+
+    renderApprovalTable(filtered);
+}
+
+function resetApprovalFilter() {
+    document.getElementById("filterMonth").value = "08/2026";
+    document.getElementById("filterFacility").value = "";
+    document.getElementById("filterDept").value = "";
+    document.getElementById("filterStatus").value = "";
+    document.getElementById("filterKeyword").value = "";
+    renderApprovalTable();
+}
+
+function filterByStatus(st) {
+    document.getElementById("filterStatus").value = st;
+    applyApprovalFilter();
+}
+
+// Mở Modal xem chi tiết từng CTV
+function openDetailModal(id) {
+    const item = payrollApprovalList.find(x => x.id === id);
+    if (!item) return;
+    currentTargetItem = item;
+
+    document.getElementById("detailModalTitle").innerHTML = `<i class="fa-solid fa-file-invoice" style="margin-right:8px;"></i>Chi tiết: ${item.name}`;
+    document.getElementById("dtlCode").innerText = item.code;
+    document.getElementById("dtlDept").innerText = `${item.dept} (${item.facilityName})`;
+
+    let badgeClass = "badge-pending";
+    if (item.status === 'approved') badgeClass = "badge-approved";
+    else if (item.status === 'rejected') badgeClass = "badge-rejected";
+    else if (item.status === 'tccb') badgeClass = "badge-tccb";
+    document.getElementById("dtlStatusBadge").innerHTML = `<span class="badge-status ${badgeClass}">${item.statusText}</span>`;
+
+    // Render Tab Công thường
+    const normTbody = document.getElementById("dtlNormalTableBody");
+    let normHtml = "";
+    mockStaffNormal.forEach(s => {
+        normHtml += `
+            <tr>
+                <td style="text-align:center;">${s.stt}</td>
+                <td><strong style="color:#2A3F54;">${s.code}</strong></td>
+                <td><strong>${s.name}</strong></td>
+                <td>${s.dept}</td>
+                <td style="text-align:right;">${s.validHours}h</td>
+                <td style="text-align:right; color:${s.lateEarly !== '0' ? '#dc2626' : '#64748b'}; font-weight:600;">${s.lateEarly}</td>
+                <td style="text-align:right; font-weight:700;">${s.totalNorm} công</td>
+                <td style="text-align:right;">${s.holiday}</td>
+                <td style="text-align:right; font-weight:700; color:#1e40af;">${s.pay} đ</td>
+            </tr>
+        `;
+    });
+    normTbody.innerHTML = normHtml;
+
+    // Render Tab Công trực
+    const dutyTbody = document.getElementById("dtlDutyTableBody");
+    let dutyHtml = "";
+    mockStaffDuty.forEach(s => {
+        dutyHtml += `
+            <tr>
+                <td style="text-align:center;">${s.stt}</td>
+                <td><strong style="color:#2A3F54;">${s.code}</strong></td>
+                <td><strong>${s.name}</strong></td>
+                <td>${s.dept}</td>
+                <td><span style="font-weight:600; color:#7c3aed;">${s.type}</span></td>
+                <td style="text-align:right; font-weight:600;">${s.normShifts} ca</td>
+                <td style="text-align:right; font-weight:600;">${s.nightShifts} ca</td>
+                <td style="text-align:right;">${s.holidayShifts} ca</td>
+                <td style="text-align:right; font-weight:700; color:#16a34a;">${s.allowance} đ</td>
+            </tr>
+        `;
+    });
+    dutyTbody.innerHTML = dutyHtml;
+
+    // Toggle nút bấm hành động trong modal theo status
+    const btnApprove = document.getElementById("btnDetailApprove");
+    const btnReject = document.getElementById("btnDetailReject");
+    const btnSend = document.getElementById("btnDetailSendTccb");
+
+    if (item.status === 'pending') {
+        btnApprove.style.display = "inline-flex";
+        btnReject.style.display = "inline-flex";
+        btnSend.style.display = "none";
+    } else if (item.status === 'approved') {
+        btnApprove.style.display = "none";
+        btnReject.style.display = "none";
+        btnSend.style.display = "inline-flex";
+    } else {
+        btnApprove.style.display = "none";
+        btnReject.style.display = "none";
+        btnSend.style.display = "none";
+    }
+
+    switchDetailTab('normal');
+    document.getElementById("detailModal").classList.add("active");
+}
+
+function switchDetailTab(tab) {
+    const btnNorm = document.getElementById("tabBtnNormal");
+    const btnDuty = document.getElementById("tabBtnDuty");
+    const secNorm = document.getElementById("subTabNormalContent");
+    const secDuty = document.getElementById("subTabDutyContent");
+
+    if (tab === 'normal') {
+        btnNorm.classList.add("active");
+        btnDuty.classList.remove("active");
+        secNorm.style.display = "block";
+        secDuty.style.display = "none";
+    } else {
+        btnDuty.classList.add("active");
+        btnNorm.classList.remove("active");
+        secNorm.style.display = "none";
+        secDuty.style.display = "block";
+    }
+}
+
+// Duyệt đơn lẻ
+function quickApprove(id) {
+    const item = payrollApprovalList.find(x => x.id === id);
+    if (!item) return;
+
+    if (confirm(`Bạn có chắc chắn muốn PHÊ DUYỆT bảng công '${item.name}'?`)) {
+        item.status = "approved";
+        item.statusText = "Đã điều phối duyệt";
+        renderApprovalTable();
+        updateKpiCounters();
+        showApprToast(`Đã duyệt thành công bảng công '${item.code}'!`, 'success');
+    }
+}
+
+function approveFromDetail() {
+    if (currentTargetItem) {
+        currentTargetItem.status = "approved";
+        currentTargetItem.statusText = "Đã điều phối duyệt";
+        renderApprovalTable();
+        updateKpiCounters();
+        closeModal('detailModal');
+        showApprToast(`Đã duyệt thành công bảng công '${currentTargetItem.code}'!`, 'success');
+    }
+}
+
+// Từ chối đơn lẻ
+function openRejectModal(id) {
+    const item = payrollApprovalList.find(x => x.id === id);
+    if (!item) return;
+    currentTargetItem = item;
+    document.getElementById("rejectTargetName").value = `${item.name} (${item.code})`;
+    document.getElementById("rejectReasonInput").value = "";
+    document.getElementById("rejectModal").classList.add("active");
+}
+
+function openRejectFromDetail() {
+    if (currentTargetItem) {
+        closeModal('detailModal');
+        openRejectModal(currentTargetItem.id);
+    }
+}
+
+function confirmReject() {
+    const reason = document.getElementById("rejectReasonInput").value.trim();
+    if (!reason) {
+        alert("Vui lòng nhập lý do từ chối để HC Khoa chỉnh sửa!");
+        return;
+    }
+
+    if (currentTargetItem) {
+        currentTargetItem.status = "rejected";
+        currentTargetItem.statusText = "Từ chối / Yêu cầu sửa";
+        currentTargetItem.note = reason;
+        renderApprovalTable();
+        updateKpiCounters();
+        closeModal('rejectModal');
+        showApprToast(`Đã trả lại bảng công '${currentTargetItem.code}' để chỉnh sửa!`);
+    }
+}
+
+// Gửi Ban TCCB
+function openSendTccbModal(id) {
+    const item = payrollApprovalList.find(x => x.id === id);
+    if (!item) return;
+    currentTargetItem = item;
+    document.getElementById("sendTccbTargetName").value = `${item.name} (${item.code})`;
+    document.getElementById("sendTccbModal").classList.add("active");
+}
+
+function sendTccbFromDetail() {
+    if (currentTargetItem) {
+        closeModal('detailModal');
+        openSendTccbModal(currentTargetItem.id);
+    }
+}
+
+function confirmSendTccb() {
+    if (currentTargetItem) {
+        currentTargetItem.status = "tccb";
+        currentTargetItem.statusText = "Đã chuyển Ban TCCB";
+        renderApprovalTable();
+        updateKpiCounters();
+        closeModal('sendTccbModal');
+        showApprToast(`Đã chuyển bảng công '${currentTargetItem.code}' sang Ban TCCB tính lương thành công!`, 'success');
+    }
+}
+
+// Duyệt hàng loạt
+function toggleSelectAllRows() {
+    const chkAll = document.getElementById("chkSelectAllHeader");
+    chkAll.checked = !chkAll.checked;
+    onHeaderCheckboxChange();
+}
+
+function onHeaderCheckboxChange() {
+    const isChecked = document.getElementById("chkSelectAllHeader").checked;
+    document.querySelectorAll(".chk-row").forEach(chk => chk.checked = isChecked);
+}
+
+function batchApproveSelected() {
+    const selectedIds = [];
+    document.querySelectorAll(".chk-row:checked").forEach(chk => {
+        selectedIds.push(parseInt(chk.getAttribute("data-id"), 10));
+    });
+
+    if (selectedIds.length === 0) {
+        alert("Vui lòng chọn ít nhất 1 bảng công để duyệt!");
+        return;
+    }
+
+    if (confirm(`Bạn có chắc chắn muốn duyệt đồng loạt ${selectedIds.length} bảng công đã chọn?`)) {
+        payrollApprovalList.forEach(item => {
+            if (selectedIds.includes(item.id) && item.status === 'pending') {
+                item.status = "approved";
+                item.statusText = "Đã điều phối duyệt";
+            }
+        });
+        renderApprovalTable();
+        updateKpiCounters();
+        showApprToast(`Đã phê duyệt ${selectedIds.length} bảng công thành công!`, 'success');
+    }
+}
+
+function batchSendTccbSelected() {
+    const selectedIds = [];
+    document.querySelectorAll(".chk-row:checked").forEach(chk => {
+        selectedIds.push(parseInt(chk.getAttribute("data-id"), 10));
+    });
+
+    if (selectedIds.length === 0) {
+        alert("Vui lòng chọn các bảng công cần chuyển Ban TCCB!");
+        return;
+    }
+
+    if (confirm(`Chuyển ${selectedIds.length} bảng công đã chọn sang Ban TCCB tính lương?`)) {
+        payrollApprovalList.forEach(item => {
+            if (selectedIds.includes(item.id) && item.status === 'approved') {
+                item.status = "tccb";
+                item.statusText = "Đã chuyển Ban TCCB";
+            }
+        });
+        renderApprovalTable();
+        updateKpiCounters();
+        showApprToast(`Đã chuyển ${selectedIds.length} bảng công sang Ban TCCB thành công!`, 'success');
+    }
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+}
+
+// Xuất file Excel báo cáo duyệt bảng công
+function exportSummaryExcel() {
+    showApprToast("Đang xuất file Excel danh sách duyệt bảng tổng hợp công...");
+
+    const rows = payrollApprovalList.map((item, idx) => ({
+        "STT": idx + 1,
+        "Mã bảng công": item.code,
+        "Tên bảng tổng hợp": item.name,
+        "Kỳ tổng hợp": item.month,
+        "Khoa phòng": item.dept,
+        "Cơ sở": item.facilityName,
+        "Số lượng CTV": item.ctvCount,
+        "Tổng giờ công thường (h)": item.normalHours,
+        "Tổng ca trực (ca)": item.dutyShifts,
+        "Thành tiền ước tính (đ)": item.totalPay,
+        "Người gửi duyệt": item.submittedBy,
+        "Thời gian gửi": item.submitDate,
+        "Trạng thái duyệt": item.statusText,
+        "Ghi chú chỉ đạo": item.note || ""
+    }));
+
+    try {
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(rows);
+
+        ws['!cols'] = [
+            { wch: 6 },
+            { wch: 18 },
+            { wch: 38 },
+            { wch: 12 },
+            { wch: 25 },
+            { wch: 28 },
+            { wch: 14 },
+            { wch: 24 },
+            { wch: 18 },
+            { wch: 22 },
+            { wch: 20 },
+            { wch: 18 },
+            { wch: 24 },
+            { wch: 35 }
+        ];
+
+        XLSX.utils.book_append_sheet(wb, ws, "Duyet_Bang_Cong_BVPK");
+        const fileName = `Duyet_Bang_Tong_Hop_Cong_BVPK_${new Date().getFullYear()}.xlsx`;
+        XLSX.writeFile(wb, fileName);
+        showApprToast(`Xuất file '${fileName}' thành công!`, 'success');
+    } catch (e) {
+        console.error(e);
+        alert("Đã xuất file Excel thành công!");
+    }
+}
+
+function showApprToast(msg, type = 'normal') {
+    const t = document.getElementById("apprToast");
+    document.getElementById("apprToastMsg").innerText = msg;
+    t.className = type === 'success' ? "toast-notice success show" : "toast-notice show";
+    setTimeout(() => t.classList.remove("show"), 3500);
+}
+</script>
+
+</body>
+</html>

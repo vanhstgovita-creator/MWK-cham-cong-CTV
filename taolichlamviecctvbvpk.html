@@ -1,0 +1,517 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo ca trực & Phân lịch làm việc – CTV BV/PK</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Common Design System & Sidebar Script -->
+<style>
+.shift-create-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .shift-create-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ctv-card-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.15s ease;
+}
+
+.ctv-card-item:hover {
+    border-color: #94a3b8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.ctv-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.ctv-role {
+    font-size: 12px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+.ctv-meta {
+    font-size: 11.5px;
+    color: #64748b;
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+}
+
+.ctv-list-container {
+    max-height: 480px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding-right: 4px;
+}
+</style>
+
+    <!-- Unified MEDWorking (MWK) Design System & Sidebar -->
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                            <a href="appctvbvpk.html" target="_blank" id="NAV_appctvbvpk" style="color:#0ea5e9; font-weight:600;">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Bản App Zalo Mini <i class="fa-solid fa-up-right-from-square" style="font-size:10px;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- HEADER PAGE -->
+        <div class="page-header">
+            <div>
+                <div class="breadcrumb"><i class="fa-regular fa-house"></i> <span>/</span> Cộng tác viên BV/PK <span>/</span> Chấm công BV/PK <span>/</span> <span>/</span> <strong>Tạo ca trực mới</strong></div>
+                <div class="page-title">Tạo ca trực & Phân lịch làm việc CTV BV/PK</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-primary" onclick="saveShiftSchedule()"><i class="fa-solid fa-floppy-disk"></i> Lưu ca trực</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="shift-create-grid">
+                <!-- CỘT TRÁI: FORM THÔNG TIN CA TRỰC & BẢNG CTV ĐƯỢC GÁN -->
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- THÔNG TIN CA TRỰC -->
+                    <div class="card" style="margin-bottom:0;">
+                        <div class="card-header">
+                            <span><i class="fa-solid fa-hospital" style="margin-right:6px;"></i>Thông tin ca trực & Địa điểm làm việc</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                                <div class="form-group">
+                                    <label>Cơ sở / Bệnh viện <span style="color:#dc2626;">*</span></label>
+                                    <select id="shiftFacility" onchange="onFacilityChange()">
+                                        <option value="BD">Bệnh viện Đa khoa Medlatec Ba Đình</option>
+                                        <option value="TX">Phòng khám Đa khoa Medlatec Thanh Xuân</option>
+                                        <option value="TH">Phòng khám Đa khoa Medlatec Tây Hồ</option>
+                                        <option value="CG">Phòng khám Đa khoa Medlatec Cầu Giấy</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Khoa phòng / Chuyên khoa <span style="color:#dc2626;">*</span></label>
+                                    <select id="shiftDept">
+                                        <option value="NS">Khoa Nội soi tiêu hóa</option>
+                                        <option value="GM">Khoa Gây mê hồi sức</option>
+                                        <option value="HA">Khoa Chẩn đoán hình ảnh</option>
+                                        <option value="XN">Khoa Xét nghiệm</option>
+                                        <option value="KB">Khoa Khám bệnh</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày trực / làm việc <span style="color:#dc2626;">*</span></label>
+                                    <input type="date" id="shiftDate" value="2026-08-25">
+                                </div>
+                                <div class="form-group">
+                                    <label>Loại ca làm việc <span style="color:#dc2626;">*</span></label>
+                                    <select id="shiftType" onchange="onShiftTypeChange()">
+                                        <option value="normal">Ca thường (Sáng / Chiều)</option>
+                                        <option value="duty" selected>Ca trực chuyên môn (Mổ / Nội soi)</option>
+                                        <option value="night">Ca trực đêm 24h</option>
+                                        <option value="emergency">Ca trực cấp cứu ngoài giờ</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Giờ bắt đầu <span style="color:#dc2626;">*</span></label>
+                                    <input type="time" id="shiftStartTime" value="07:30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Giờ kết thúc <span style="color:#dc2626;">*</span></label>
+                                    <input type="time" id="shiftEndTime" value="12:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số lượng CTV cần bố trí</label>
+                                    <input type="number" id="shiftTargetCTV" value="2" min="1" max="10">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phòng trực cụ thể</label>
+                                    <input type="text" id="shiftRoom" value="Phòng Nội soi 01 - Tầng 3" placeholder="Nhập tên phòng...">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>Yêu cầu công việc & Ghi chú</label>
+                                    <input type="text" id="shiftNote" placeholder="Ví dụ: Trực phụ ca mổ nội soi cắt polyp dạ dày, đón tiếp người bệnh...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BẢNG CTV ĐÃ PHÂN CÔNG -->
+                    <div class="card" style="margin-bottom:0;">
+                        <div class="card-header">
+                            <span><i class="fa-solid fa-user-doctor" style="margin-right:6px;"></i>Danh sách CTV được phân công vào ca này (<span id="assignedCount">2</span> CTV)</span>
+                            <span class="badge badge-success">Đủ định mức</span>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <div class="tbl-wrap" style="border:none;">
+                                <table class="med-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="45" style="text-align:center;">STT</th>
+                                            <th width="110">Mã CTV</th>
+                                            <th>Họ và tên CTV</th>
+                                            <th>Chức danh chuyên môn</th>
+                                            <th width="180">Vai trò trong ca</th>
+                                            <th width="130" style="text-align:right;">Thù lao dự kiến</th>
+                                            <th width="60" style="text-align:center;">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="assignedCTVTableBody">
+                                        <!-- Dynamic Assigned Rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CỘT PHẢI: KHO CTV RẢNH & GÁN NHANH -->
+                <div class="card" style="margin-bottom:0;">
+                    <div class="card-header">
+                        <span><i class="fa-solid fa-users-viewfinder" style="margin-right:6px;"></i>Kho CTV có sẵn</span>
+                        <span class="badge badge-info">Chuyên khoa phù hợp</span>
+                    </div>
+                    <div class="card-body">
+                        <div style="position:relative; margin-bottom:10px;">
+                            <input type="text" id="searchCTVInput" placeholder="Tìm theo tên hoặc mã CTV..." oninput="filterAvailableCTV()" style="height:36px; padding-left:32px;">
+                            <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:10px; top:11px; color:#94a3b8; font-size:13px;"></i>
+                        </div>
+
+                        <div style="display:flex; gap:6px; margin-bottom:10px;">
+                            <select id="roleFilterSelect" onchange="filterAvailableCTV()" style="height:32px; font-size:12.5px; border:1px solid #cbd5e1; border-radius:4px; padding:0 8px; flex:1;">
+                                <option value="all">Tất cả chức danh</option>
+                                <option value="doctor">Bác sĩ</option>
+                                <option value="nurse">Điều dưỡng</option>
+                                <option value="ktv">Kỹ thuật viên</option>
+                            </select>
+                        </div>
+
+                        <div class="ctv-list-container" id="availableCTVContainer">
+                            <!-- Dynamic Available CTV Cards -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER ACTIONS -->
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="saveShiftSchedule()"><i class="fa-solid fa-floppy-disk"></i> Lưu ca trực</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+const availableCTVList = [
+    { id: "CTV001", code: "CTV-101", name: "BS. Trần Văn Hùng", role: "Bác sĩ Chuyên khoa Nội soi", roleType: "doctor", shiftsThisWeek: 2, status: "Rảnh", fee: 500000 },
+    { id: "CTV002", code: "CTV-102", name: "ĐD. Lê Thị Mai", role: "Điều dưỡng Nội soi", roleType: "nurse", shiftsThisWeek: 3, status: "Rảnh", fee: 250000 },
+    { id: "CTV003", code: "CTV-103", name: "BS. Nguyễn Tuấn Anh", role: "Bác sĩ Gây mê", roleType: "doctor", shiftsThisWeek: 1, status: "Rảnh", fee: 600000 },
+    { id: "CTV004", code: "CTV-104", name: "KTV. Phạm Quốc Bảo", role: "Kỹ thuật viên CĐHA", roleType: "ktv", shiftsThisWeek: 4, status: "Rảnh", fee: 250000 },
+    { id: "CTV005", code: "CTV-105", name: "ĐD. Hoàng Bích Ngọc", role: "Điều dưỡng Phòng mổ", roleType: "nurse", shiftsThisWeek: 2, status: "Rảnh", fee: 250000 },
+    { id: "CTV006", code: "CTV-106", name: "BS. Đặng Minh Châu", role: "Bác sĩ Chẩn đoán hình ảnh", roleType: "doctor", shiftsThisWeek: 2, status: "Rảnh", fee: 450000 }
+];
+
+let assignedCTV = [
+    { id: "CTV001", code: "CTV-101", name: "BS. Trần Văn Hùng", role: "Bác sĩ Chuyên khoa Nội soi", roleInShift: "Bác sĩ thực hiện chính", fee: 500000 },
+    { id: "CTV002", code: "CTV-102", name: "ĐD. Lê Thị Mai", role: "Điều dưỡng Nội soi", roleInShift: "Điều dưỡng phụ mê / nội soi", fee: 250000 }
+];
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderAssignedTable();
+    renderAvailableCTV();
+});
+
+function renderAssignedTable() {
+    const tbody = document.getElementById("assignedCTVTableBody");
+    tbody.innerHTML = "";
+
+    assignedCTV.forEach((ctv, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td style="text-align:center; color:#64748b;">${idx + 1}</td>
+            <td><strong>${ctv.code}</strong></td>
+            <td>
+                <span style="font-weight:600; color:#0f172a;">${ctv.name}</span>
+            </td>
+            <td><span class="badge badge-info">${ctv.role}</span></td>
+            <td>
+                <select style="width:100%; height:32px; font-size:12.5px; border:1px solid #cbd5e1; border-radius:4px; padding:0 6px;" onchange="updateCTVRoleInShift(${idx}, this.value)">
+                    <option value="Bác sĩ thực hiện chính" ${ctv.roleInShift.includes('chính') ? 'selected' : ''}>Bác sĩ thực hiện chính</option>
+                    <option value="Bác sĩ phụ mổ" ${ctv.roleInShift.includes('phụ mổ') ? 'selected' : ''}>Bác sĩ phụ mổ</option>
+                    <option value="Điều dưỡng phụ mê / nội soi" ${ctv.roleInShift.includes('Điều dưỡng') ? 'selected' : ''}>Điều dưỡng phụ mê / nội soi</option>
+                    <option value="Kỹ thuật viên trực" ${ctv.roleInShift.includes('Kỹ thuật') ? 'selected' : ''}>Kỹ thuật viên trực</option>
+                </select>
+            </td>
+            <td style="text-align:right; font-weight:600; color:#1e293b;">${ctv.fee.toLocaleString('vi-VN')}đ</td>
+            <td style="text-align:center;">
+                <button class="action-icon delete" title="Xóa khỏi ca" onclick="removeAssignedCTV(${idx})"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById("assignedCount").textContent = assignedCTV.length;
+}
+
+function renderAvailableCTV() {
+    const container = document.getElementById("availableCTVContainer");
+    container.innerHTML = "";
+
+    const keyword = (document.getElementById("searchCTVInput").value || "").toLowerCase().trim();
+    const roleFilter = document.getElementById("roleFilterSelect").value;
+
+    const filtered = availableCTVList.filter(c => {
+        const matchRole = (roleFilter === "all" || c.roleType === roleFilter);
+        const matchKey = (c.name.toLowerCase().includes(keyword) || c.code.toLowerCase().includes(keyword));
+        return matchRole && matchKey;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8; font-size:12.5px;">Không tìm thấy CTV phù hợp</div>`;
+        return;
+    }
+
+    filtered.forEach(c => {
+        const isAssigned = assignedCTV.some(ac => ac.id === c.id);
+        const div = document.createElement("div");
+        div.className = "ctv-card-item";
+        div.innerHTML = `
+            <div>
+                <div class="ctv-name">${c.name} <span style="font-size:11px; color:#64748b; font-weight:normal;">(${c.code})</span></div>
+                <div class="ctv-role">${c.role}</div>
+                <div class="ctv-meta">
+                    <span><i class="fa-regular fa-calendar-check"></i> Đã trực: ${c.shiftsThisWeek} ca/tuần</span>
+                    <span style="color:#16a34a; font-weight:500;"><i class="fa-solid fa-circle" style="font-size:8px;"></i> ${c.status}</span>
+                </div>
+            </div>
+            <div>
+                ${isAssigned 
+                    ? `<span style="font-size:11.5px; color:#16a34a; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Đã gán</span>`
+                    : `<button class="btn btn-secondary" style="height:30px; font-size:12px; padding:0 8px;" onclick="addCTVToShift('${c.id}')"><i class="fa-solid fa-plus"></i> Gán</button>`
+                }
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function filterAvailableCTV() {
+    renderAvailableCTV();
+}
+
+function addCTVToShift(ctvId) {
+    const c = availableCTVList.find(item => item.id === ctvId);
+    if (!c) return;
+
+    let defaultRole = "Bác sĩ phụ mổ";
+    if (c.roleType === 'nurse') defaultRole = "Điều dưỡng phụ mê / nội soi";
+    if (c.roleType === 'ktv') defaultRole = "Kỹ thuật viên trực";
+
+    assignedCTV.push({
+        id: c.id,
+        code: c.code,
+        name: c.name,
+        role: c.role,
+        roleInShift: defaultRole,
+        fee: c.fee
+    });
+
+    renderAssignedTable();
+    renderAvailableCTV();
+}
+
+function removeAssignedCTV(idx) {
+    assignedCTV.splice(idx, 1);
+    renderAssignedTable();
+    renderAvailableCTV();
+}
+
+function updateCTVRoleInShift(idx, val) {
+    if (assignedCTV[idx]) {
+        assignedCTV[idx].roleInShift = val;
+    }
+}
+
+function onFacilityChange() {
+    // Facility change handler
+}
+
+function onShiftTypeChange() {
+    const shiftType = document.getElementById("shiftType").value;
+    if (shiftType === 'normal') {
+        document.getElementById("shiftStartTime").value = "07:30";
+        document.getElementById("shiftEndTime").value = "16:30";
+    } else if (shiftType === 'duty') {
+        document.getElementById("shiftStartTime").value = "07:30";
+        document.getElementById("shiftEndTime").value = "12:00";
+    } else if (shiftType === 'night') {
+        document.getElementById("shiftStartTime").value = "18:00";
+        document.getElementById("shiftEndTime").value = "06:00";
+    }
+}
+
+function saveShiftSchedule() {
+    if (assignedCTV.length === 0) {
+        alert("Vui lòng phân công ít nhất 1 CTV vào ca trực này!");
+        return;
+    }
+
+    const facility = document.getElementById("shiftFacility").options[document.getElementById("shiftFacility").selectedIndex].text;
+    const date = document.getElementById("shiftDate").value;
+
+    alert(`Tạo ca trực ngày ${date} tại "${facility}" thành công với ${assignedCTV.length} CTV! Đang chuyển hướng về lịch làm việc...`);
+    window.location.href = "lichlamviecctvbvpk.html";
+}
+</script>
+</body>
+</html>

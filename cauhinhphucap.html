@@ -1,0 +1,1914 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cấu hình phụ cấp - MEDWORKING</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f8fafc !important;
+    color: #1e293b !important;
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.sidebar-header {
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    background: #f8fafc !important;
+}
+.sidebar-header i {
+    font-size: 18px !important;
+    color: #64748b !important;
+}
+.menu {
+    padding: 10px 0 !important;
+    flex: 1 !important;
+}
+.level-1 {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+}
+.level-1:hover { background: #f8fafc !important; }
+.level-1 i.icon-left {
+    margin-right: 8px !important;
+    color: #64748b !important;
+}
+.level-2-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px 10px 40px !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+.level-3 a {
+    display: block !important;
+    padding: 10px 20px 10px 60px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: all 0.15s ease !important;
+}
+.level-3 a:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.level-3 a.active {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left: 3px solid #334155 !important;
+    font-weight: 600 !important;
+}
+.level-3 a.active i {
+    color: #334155 !important;
+}
+
+/* CONTENT & HEADER */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px 24px;
+}
+
+.breadcrumb {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.breadcrumb span { color: #cbd5e1; }
+
+.page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.container {
+    padding: 20px 24px;
+    flex: 1;
+}
+
+/* MAIN TABS */
+.main-tab-bar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    gap: 4px !important;
+}
+.main-tab-btn {
+    padding: 14px 24px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.15s ease !important;
+}
+.main-tab-btn:hover {
+    color: #0f172a !important;
+}
+.main-tab-btn.active {
+    color: #2A3F54 !important;
+    font-weight: 600 !important;
+}
+.main-tab-btn.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 3px !important;
+    background: #2A3F54 !important;
+    border-radius: 3px 3px 0 0 !important;
+}
+
+/* BUTTONS */
+.btn {
+    height: 36px !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 0 16px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+}
+.btn-primary {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.btn-primary:hover {
+    background: #1e293b !important;
+}
+.btn-reset, .btn-secondary {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;
+}
+.btn-reset:hover, .btn-secondary:hover {
+    background: #f1f5f9 !important;
+}
+
+/* CARDS */
+.card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+.card-header {
+    height: 52px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+.card-body {
+    padding: 20px !important;
+}
+
+/* FORMS */
+.form-grid {
+    display: grid !important;
+    gap: 16px !important;
+}
+.form-group label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100% !important;
+    height: 36px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    font-size: 13.5px !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+.form-group textarea {
+    height: 80px !important;
+    padding: 8px 12px !important;
+    resize: vertical !important;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.12) !important;
+}
+
+/* TABLE */
+.table-container {
+    overflow-x: auto !important;
+    width: 100% !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+}
+.data-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+.data-table thead th {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+    white-space: nowrap !important;
+}
+.data-table tbody td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 11px 14px !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+.data-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* BADGES */
+.badge {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #475569 !important;
+}
+.b-ok {
+    border-color: #bbf7d0 !important;
+    background: #f0fdf4 !important;
+    color: #166534 !important;
+    font-weight: 600 !important;
+}
+.b-no-in {
+    border-color: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+}
+
+/* ACTION BUTTONS */
+.action-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 6px;
+    color: #64748b;
+    transition: color 0.15s;
+}
+.action-icon:hover { color: #0f172a; }
+.action-icon.edit:hover { color: #2A3F54; }
+.action-icon.delete:hover { color: #dc2626; }
+
+/* MODAL STANDARD (FOR VCM) */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    padding: 16px;
+}
+.modal.show { display: flex; }
+.modal-content {
+    background: #ffffff;
+    max-height: 90vh;
+    border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+}
+.modal-header {
+    height: 56px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 15px;
+    font-weight: 600;
+}
+.modal-body { padding: 20px; }
+.modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* DRAWER SLIDE-OVER MODAL (FOR KSK - HIGH FIDELITY TO USER SCREENSHOTS) */
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: none;
+    justify-content: flex-end;
+    align-items: stretch;
+    z-index: 1200;
+}
+.drawer-backdrop.show { display: flex; }
+.drawer-panel {
+    width: 480px;
+    max-width: 95vw;
+    background: #ffffff;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 35px rgba(0, 0, 0, 0.18);
+    animation: slideLeft 0.22s ease-out;
+}
+@keyframes slideLeft {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+.drawer-head {
+    height: 56px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+.drawer-head span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.drawer-head i {
+    font-size: 18px;
+    color: #64748b;
+    cursor: pointer;
+}
+.drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.drawer-footer-actions {
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 12px;
+    background: #ffffff;
+}
+.drawer-footer-actions .btn {
+    flex: 1;
+    height: 40px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+/* TIME RANGE BOX */
+.time-range-box {
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 8px;
+    background: #fff;
+}
+.time-range-box input {
+    border: none !important;
+    outline: none !important;
+    flex: 1;
+    height: 30px !important;
+    padding: 0 !important;
+}
+
+/* KSK EMPTY STATE (MATCHING USER SCREENSHOT 1) */
+.ksk-empty-state {
+    text-align: center;
+    padding: 70px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.ksk-empty-state i {
+    font-size: 52px;
+    color: #cbd5e1;
+    margin-bottom: 16px;
+}
+.ksk-empty-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+.ksk-empty-desc {
+    font-size: 13.5px;
+    color: #64748b;
+}
+
+/* CUSTOM CHECKBOX SEARCHABLE DROPDOWN (CHÍNH XÁC THEO ẢNH MEDIA_1788729435431) */
+.custom-select-popover {
+    position: relative;
+    width: 100%;
+}
+.custom-select-trigger {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13.5px;
+    user-select: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.custom-select-trigger:hover {
+    border-color: #94a3b8;
+}
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+    padding: 8px 6px 6px 6px;
+    z-index: 1400;
+    display: none;
+}
+.custom-select-dropdown.show {
+    display: block;
+}
+.ksk-search-box-wrap {
+    position: relative;
+    padding: 2px 4px 8px 4px;
+}
+.ksk-search-box-wrap .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 17px;
+    color: #94a3b8;
+    font-size: 13px;
+    pointer-events: none;
+}
+.ksk-search-input {
+    width: 100% !important;
+    height: 34px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 4px !important;
+    padding: 0 10px 0 32px !important;
+    font-size: 13px !important;
+    color: #1e293b !important;
+    background: #ffffff !important;
+    outline: none !important;
+}
+.ksk-search-input:focus {
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.12) !important;
+}
+.ksk-options-checkbox-list {
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 2px;
+}
+.ksk-check-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 10px !important;
+    margin: 1px 0 !important;
+    border-radius: 4px !important;
+    font-size: 13.5px !important;
+    font-weight: normal !important;
+    color: #334155 !important;
+    cursor: pointer !important;
+    transition: background 0.12s ease !important;
+    user-select: none !important;
+}
+.ksk-check-item:hover {
+    background: #f1f5f9 !important;
+}
+.ksk-check-item input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    accent-color: #2A3F54 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 3px !important;
+    flex-shrink: 0 !important;
+}
+.ksk-check-item span {
+    color: #1e293b;
+    font-size: 13.5px;
+}
+</style>
+
+<link rel="stylesheet" href="css/common.css">
+<script src="js/sidebar.js" defer></script>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- SIDEBAR (UNIFIED MEDWORKING DESIGN) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="mwk-logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>MEDWORKING</span>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <!-- NHÓM CTV VCM -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-truck-ramp-box icon-left"></i>
+                        Cộng tác viên VCM
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-vcm"></i>
+                </div>
+                <div class="level-2" id="menu-vcm" style="display:block;">
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Cấu hình VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="cauhinhcongthuctinhcong.html" id="NAV_cauhinhcongthuctinhcong">
+                                <i class="fa-solid fa-money-bill-wave"></i> Cấu hình công thức tính công
+                            </a>
+                            <a href="cauhinhtuyenvanchuyen.html" id="NAV_cauhinhtuyenvanchuyen">
+                                <i class="fa-solid fa-route"></i> Cấu hình tuyến vận chuyển
+                            </a>
+                            <a href="cauhinhphucap.html" id="NAV_cauhinhphucap" class="active">
+                                <i class="fa-solid fa-gift"></i> Cấu hình phụ cấp
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="taomaulichctvvcm.html" id="NAV_taomaulichctvvcm">
+                                <i class="fa-solid fa-calendar-plus"></i> Tạo mẫu lịch
+                            </a>
+                            <a href="lichlamviecctvvcm.html" id="NAV_lichlamviecctvvcm">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc
+                            </a>
+                            <a href="yeucaudoilich.html" id="NAV_yeucaudoilich">
+                                <i class="fa-solid fa-right-left"></i> Yêu cầu đổi lịch
+                            </a>
+                            <a href="baolichnghictvvcm.html" id="NAV_baolichnghictvvcm">
+                                <i class="fa-solid fa-calendar-xmark"></i> Báo lịch nghỉ
+                            </a>
+                        </div>
+                    </div>
+                    <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công VCM</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvvcm.html" id="NAV_bangdulieucongctvvcm">
+                                <i class="fa-solid fa-table"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="bangtonghopcongctvvcm.html" id="NAV_bangtonghopcongctvvcm">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NHÓM CTV BV/PK -->
+            <div class="menu-item">
+                <div class="level-1">
+                    <div>
+                        <i class="fa-solid fa-user-doctor icon-left"></i>
+                        Cộng tác viên BV/PK
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow" id="arrow-bvpk"></i>
+                </div>
+                <div class="level-2" id="menu-bvpk" style="display:block;">
+                                        <div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Lịch làm việc BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="lichlamviecctvbvpk.html" id="NAV_lichlamviecctvbvpk">
+                                <i class="fa-solid fa-calendar-days"></i> Lịch làm việc & Phân lịch
+                            </a>
+                            <a href="dangkylicranhctvbvpk.html" id="NAV_dangkylicranhctvbvpk">
+                                <i class="fa-solid fa-calendar-check"></i> Đăng ký & Quản lý lịch rảnh
+                            </a>
+                        </div>
+                    </div>
+<div class="level-2-group">
+                        <div class="level-2-item">
+                            <span>Chấm công BV/PK</span>
+                        </div>
+                        <div class="level-3">
+                            <a href="bangdulieucongctvbvpk.html" id="NAV_bangdulieucongctvbvpk">
+                                <i class="fa-solid fa-clock"></i> Bảng dữ liệu chấm công
+                            </a>
+                            <a href="duyetgiaitrinhcongctvbvpk.html" id="NAV_duyetgiaitrinhcongctvbvpk">
+                                <i class="fa-solid fa-file-signature"></i> Duyệt giải trình công
+                            </a>
+                            <a href="bangdulieucongtrucctvbvpk.html" id="NAV_bangdulieucongtrucctvbvpk">
+                                <i class="fa-solid fa-user-nurse"></i> Bảng dữ liệu công trực
+                            </a>
+                            <a href="duyetgiaitrinhcongtrucctvbvpk.html" id="NAV_duyetgiaitrinhcongtrucctvbvpk">
+                                <i class="fa-solid fa-file-shield"></i> Duyệt giải trình công trực
+                            </a>
+                            <a href="bangtonghopcongctvbvpk.html" id="NAV_bangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-calculator"></i> Tổng hợp công
+                            </a>
+                            <a href="duyetbangtonghopcongctvbvpk.html" id="NAV_duyetbangtonghopcongctvbvpk">
+                                <i class="fa-solid fa-clipboard-check"></i> Duyệt bảng tổng hợp công
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+        <div class="page-header">
+            <div class="breadcrumb" id="pageBreadcrumb">
+                <i class="fa-solid fa-house"></i> <span>/</span> Quản trị hệ thống <span>/</span> Cấu hình <span>/</span> <strong>Cấu hình phụ cấp (VCM)</strong>
+            </div>
+            <div class="page-title">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="pageTitleText">Quản lý Cấu hình phụ cấp - Vận chuyển mẫu</span>
+                    <span class="badge" id="badgeModule" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd; font-weight:600;">YC02 - VCM</span>
+                </div>
+                <span style="font-size:12.5px; font-weight:500; color:#475569; background:#f1f5f9; padding:6px 12px; border-radius:4px; border:1px solid #cbd5e1;">
+                    <i class="fa-solid fa-user-gear" style="color:#2A3F54; margin-right:4px;"></i> Đối tượng sử dụng: <strong>Cán bộ quản lý</strong>
+                </span>
+            </div>
+        </div>
+
+        <!-- 2 TAB CONTROLS: VẬN CHUYỂN MẪU & KHÁM SỨC KHỎE -->
+        <div class="main-tab-bar">
+            <button class="main-tab-btn active" id="tabBtnVCM" onclick="switchMainTab('vcm')">
+                <i class="fa-solid fa-truck-ramp-box"></i> Vận chuyển mẫu
+            </button>
+            <button class="main-tab-btn" id="tabBtnKSK" onclick="switchMainTab('ksk')">
+                <i class="fa-solid fa-user-doctor"></i> Khám sức khỏe
+            </button>
+        </div>
+
+        <div class="container">
+
+            <!-- ========================================================
+                 TAB 1: CẤU HÌNH PHỤ CẤP VẬN CHUYỂN MẪU (VCM) - THEO YC02
+                 ======================================================== -->
+            <div id="tabPanelVCM" style="display:block;">
+                <!-- SEARCH VCM -->
+                <div class="card">
+                    <div class="card-body" style="padding:18px 20px;">
+                        <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="form-group">
+                                <label>Từ khóa / Tên phụ cấp</label>
+                                <input type="text" id="filterVcmKeyword" placeholder="Nhập tên phụ cấp...">
+                            </div>
+                            <div class="form-group">
+                                <label>Ngày áp dụng</label>
+                                <input type="date" id="filterVcmDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <select id="filterVcmStatus">
+                                    <option value="">-- Tất cả trạng thái --</option>
+                                    <option value="Hoạt động">Hoạt động</option>
+                                    <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:16px; display:flex; gap:10px;">
+                            <button class="btn btn-primary" onclick="searchVCM()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                            <button class="btn btn-reset" onclick="resetSearchVCM()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE VCM -->
+                <div class="card">
+                    <div class="card-header" style="background:#ffffff; border-bottom:1px solid #e2e8f0; height:54px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:8px; font-size:13.5px; color:#475569;">
+                            <span>Hiển thị</span>
+                            <select id="vcmPageSize" onchange="searchVCM()" style="height:32px; width:70px; border:1px solid #cbd5e1; border-radius:4px; padding:0 6px;">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>bản ghi.</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="openDrawerVCM('add')">
+                            <i class="fa-solid fa-plus"></i> Thêm mới
+                        </button>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <div class="table-container" style="border:none; margin:0;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="50" style="text-align:center;">STT</th>
+                                        <th width="220">Tên phụ cấp</th>
+                                        <th width="190" style="text-align:center;">Ngày áp dụng</th>
+                                        <th width="160" style="text-align:center;">Thời gian áp dụng</th>
+                                        <th width="140" style="text-align:right;">Phí phụ cấp</th>
+                                        <th>Ghi chú</th>
+                                        <th width="120" style="text-align:center;">Trạng thái</th>
+                                        <th width="110" style="text-align:center;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyVCM">
+                                    <!-- Rendered by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================
+                 TAB 2: CẤU HÌNH PHỤ CẤP KHÁM SỨC KHỎE (KSK) - THEO ẢNH CHỤP
+                 ======================================================== -->
+            <div id="tabPanelKSK" style="display:none;">
+                <!-- SEARCH KSK (CHÍNH XÁC THEO ẢNH 1) -->
+                <div class="card">
+                    <div class="card-body" style="padding:18px 20px;">
+                        <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+                            <div class="form-group">
+                                <label>Từ khóa / Ghi chú</label>
+                                <input type="text" id="filterKskKeyword" placeholder="Nhập từ khóa tìm kiếm...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Đối tượng áp dụng</label>
+                                <div class="custom-select-popover" id="popoverFilterKsk">
+                                    <div class="custom-select-trigger" onclick="toggleKskFilterDropdown(event)">
+                                        <span id="filterKskTargetDisplay" style="color:#64748b;">Chọn đối tượng áp dụng</span>
+                                        <i class="fa-solid fa-chevron-down" style="font-size:12px; color:#64748b;"></i>
+                                    </div>
+                                    <div class="custom-select-dropdown" id="filterKskDropdown">
+                                        <div class="ksk-search-box-wrap">
+                                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                            <input type="text" class="ksk-search-input" placeholder="Tìm đối tượng" oninput="filterKskTargetList(this, 'filterKskOptionsList')">
+                                        </div>
+                                        <div class="ksk-options-checkbox-list" id="filterKskOptionsList">
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Bác sĩ" onchange="onFilterKskTargetChange()">
+                                                <span>Bác sĩ</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Điều dưỡng" onchange="onFilterKskTargetChange()">
+                                                <span>Điều dưỡng</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Kỹ thuật viên" onchange="onFilterKskTargetChange()">
+                                                <span>Kỹ thuật viên</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Dược sĩ" onchange="onFilterKskTargetChange()">
+                                                <span>Dược sĩ</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Ngoài chuyên môn" onchange="onFilterKskTargetChange()">
+                                                <span>Ngoài chuyên môn</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Kỹ thuật viên HA" onchange="onFilterKskTargetChange()">
+                                                <span>Kỹ thuật viên HA</span>
+                                            </label>
+                                            <label class="ksk-check-item">
+                                                <input type="checkbox" value="Y sĩ" onchange="onFilterKskTargetChange()">
+                                                <span>Y sĩ</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Hình thức tính tiền</label>
+                                <select id="filterKskCalcType">
+                                    <option value="">Chọn hình thức tính tiền</option>
+                                    <option value="VNĐ">VNĐ</option>
+                                    <option value="% Lương">% Lương</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:16px; display:flex; gap:10px;">
+                            <button class="btn btn-primary" onclick="searchKSK()"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                            <button class="btn btn-reset" onclick="resetSearchKSK()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE / RESULTS KSK (THEO ẢNH 1) -->
+                <div class="card">
+                    <div class="card-header" style="background:#ffffff; border-bottom:1px solid #e2e8f0; height:54px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:8px; font-size:13.5px; color:#475569;">
+                            <span>Hiển thị</span>
+                            <select id="kskPageSize" onchange="searchKSK()" style="height:32px; width:70px; border:1px solid #cbd5e1; border-radius:4px; padding:0 6px;">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>bản ghi.</span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="openDrawerKSK('add')">
+                            <i class="fa-solid fa-plus"></i> Thêm mới
+                        </button>
+                    </div>
+
+                    <div class="card-body" style="padding:0;">
+                        <!-- TABLE HIỂN THỊ KHI CÓ BẢN GHI -->
+                        <div class="table-container" id="kskTableContainer" style="border:none; margin:0;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th width="50" style="text-align:center;">STT</th>
+                                        <th width="160">Đối tượng áp dụng</th>
+                                        <th width="180" style="text-align:center;">Ngày áp dụng</th>
+                                        <th width="130">Hình thức tính</th>
+                                        <th width="130" style="text-align:right;">Giá trị</th>
+                                        <th width="140" style="text-align:center;">Đi sớm tối thiểu</th>
+                                        <th width="140" style="text-align:center;">Về muộn tối thiểu</th>
+                                        <th>Ghi chú/Quy định áp dụng</th>
+                                        <th width="110" style="text-align:center;">Trạng thái</th>
+                                        <th width="100" style="text-align:center;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyKSK">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- EMPTY STATE (CHÍNH XÁC THEO ẢNH 1) -->
+                        <div class="ksk-empty-state" id="kskEmptyState" style="display:none;">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <div class="ksk-empty-title">Kết quả tìm kiếm</div>
+                            <div class="ksk-empty-desc">Không có kết quả thỏa mãn điều kiện tìm kiếm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+</div><!-- /wrapper -->
+
+<!-- ========================================================
+     DRAWER SLIDE-OVER MODAL VẬN CHUYỂN MẪU (VCM)
+     ======================================================== -->
+<div class="drawer-backdrop" id="drawerVCM">
+    <div class="drawer-panel">
+        <div class="drawer-head">
+            <span id="titleDrawerVCM">Thêm mới cấu hình phụ cấp CTV</span>
+            <i class="fa-solid fa-xmark" onclick="closeDrawerVCM()"></i>
+        </div>
+
+        <div class="drawer-body">
+            <div class="form-group">
+                <label>Tên phụ cấp <span style="color:#dc2626;">*</span></label>
+                <input type="text" id="vcmName" placeholder="Nhập tên phụ cấp, ví dụ: Phụ cấp sau 19h">
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                <input type="checkbox" id="vcmIsMonthly" onchange="toggleVcmDateTime()" style="width:16px !important; height:16px !important; cursor:pointer; margin:0; accent-color:#2A3F54;">
+                <label for="vcmIsMonthly" style="margin:0; cursor:pointer; color:#0f172a; font-weight:500;">Phụ cấp cố định hàng tháng (vd: Xăng xe)</label>
+            </div>
+
+            <div class="form-group" id="groupVcmDate">
+                <label>Ngày áp dụng <span style="color:#dc2626;">*</span></label>
+                <div class="time-range-box">
+                    <i class="fa-regular fa-calendar-days" style="color:#64748b;"></i>
+                    <input type="date" id="vcmDateFrom" style="flex:1;">
+                    <span style="font-weight:600; color:#64748b; margin: 0 6px;">đến</span>
+                    <input type="date" id="vcmDateTo" style="flex:1;">
+                </div>
+            </div>
+
+            <div class="form-group" id="groupVcmTime">
+                <label>Thời gian áp dụng <span style="color:#dc2626;">*</span></label>
+                <div class="time-range-box">
+                    <i class="fa-regular fa-clock" style="color:#64748b;"></i>
+                    <input type="time" id="vcmTimeFrom" value="19:00">
+                    <span style="font-weight:600; color:#64748b; margin: 0 6px;">đến</span>
+                    <input type="time" id="vcmTimeTo" value="23:59">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Phí phụ cấp (VNĐ) <span style="color:#dc2626;">*</span></label>
+                <div class="calc-type-group">
+                    <input type="number" id="vcmFee" placeholder="Nhập số tiền phụ cấp, ví dụ: 30000" min="0" step="1000" style="padding-right:60px;">
+                    <span class="calc-unit-badge">VNĐ</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ghi chú</label>
+                <textarea id="vcmNote" rows="3" placeholder="Nhập ghi chú hoặc quy định áp dụng..."></textarea>
+            </div>
+        </div>
+
+        <div class="drawer-footer-actions">
+            <button class="btn btn-primary" onclick="saveVCM()">Lưu</button>
+            <button class="btn btn-secondary" onclick="closeDrawerVCM()">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================
+     DRAWER SLIDE-OVER MODAL KHÁM SỨC KHỎE (CHÍNH XÁC THEO ẢNH 1, 2, 3)
+     ======================================================== -->
+<div class="drawer-backdrop" id="drawerKSK">
+    <div class="drawer-panel">
+        <div class="drawer-head">
+            <span id="titleDrawerKSK">Thêm mới cấu hình phụ cấp</span>
+            <i class="fa-solid fa-xmark" onclick="closeDrawerKSK()"></i>
+        </div>
+
+        <div class="drawer-body">
+            <!-- 1. ĐỐI TƯỢNG ÁP DỤNG (*) (Y HỆT ẢNH MEDIA_1788729435431) -->
+            <div class="form-group">
+                <label>Đối tượng áp dụng <span style="color:#dc2626;">(*)</span></label>
+                
+                <div class="custom-select-popover" id="popoverDrawerKsk">
+                    <div class="custom-select-trigger" onclick="toggleDrawerKskDropdown(event)">
+                        <span id="kskTargetDisplay" style="color:#64748b;">Chọn đối tượng áp dụng</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size:12px; color:#64748b;"></i>
+                    </div>
+
+                    <div class="custom-select-dropdown" id="drawerKskDropdown">
+                        <div class="ksk-search-box-wrap">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" class="ksk-search-input" placeholder="Tìm đối tượng" oninput="filterKskTargetList(this, 'drawerKskOptionsList')">
+                        </div>
+                        <div class="ksk-options-checkbox-list" id="drawerKskOptionsList">
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Bác sĩ" onchange="onDrawerKskTargetChange()">
+                                <span>Bác sĩ</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Điều dưỡng" onchange="onDrawerKskTargetChange()">
+                                <span>Điều dưỡng</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Kỹ thuật viên" onchange="onDrawerKskTargetChange()">
+                                <span>Kỹ thuật viên</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Dược sĩ" onchange="onDrawerKskTargetChange()">
+                                <span>Dược sĩ</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Ngoài chuyên môn" onchange="onDrawerKskTargetChange()">
+                                <span>Ngoài chuyên môn</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Kỹ thuật viên HA" onchange="onDrawerKskTargetChange()">
+                                <span>Kỹ thuật viên HA</span>
+                            </label>
+                            <label class="ksk-check-item">
+                                <input type="checkbox" value="Y sĩ" onchange="onDrawerKskTargetChange()">
+                                <span>Y sĩ</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NGÀY ÁP DỤNG (*) (GIỐNG VẬN CHUYỂN MẪU) -->
+            <div class="form-group">
+                <label>Ngày áp dụng <span style="color:#dc2626;">(*)</span></label>
+                <div class="time-range-box">
+                    <i class="fa-regular fa-calendar-days" style="color:#64748b;"></i>
+                    <input type="date" id="kskDateFrom" style="flex:1;">
+                    <span style="font-weight:600; color:#64748b; margin: 0 6px;">đến</span>
+                    <input type="date" id="kskDateTo" style="flex:1;">
+                </div>
+            </div>
+
+            <!-- 2. HÌNH THỨC TÍNH TIỀN (*) (THEO ẢNH 1, 2) -->
+            <div class="form-group">
+                <label>Hình thức tính tiền <span style="color:#dc2626;">(*)</span></label>
+                <select id="kskCalcType" onchange="onKskCalcTypeChange()">
+                    <option value="">Chọn hình thức tính tiền</option>
+                    <option value="VNĐ">VNĐ</option>
+                    <option value="% Lương">% Lương</option>
+                </select>
+            </div>
+
+            <!-- 3. GIÁ TRỊ (*) (THEO ẢNH 1) -->
+            <div class="form-group">
+                <label>Giá trị <span style="color:#dc2626;">(*)</span></label>
+                <div style="position:relative;">
+                    <input type="number" id="kskValue" placeholder="Nhập giá trị" min="0" style="padding-right:60px;">
+                    <span id="kskUnitSuffix" style="position:absolute; right:12px; top:8px; color:#64748b; font-weight:600; font-size:12.5px; pointer-events:none;">VNĐ</span>
+                </div>
+            </div>
+
+            <!-- 4 & 5. ĐI SỚM TỐI THIỂU & VỀ MUỘN TỐI THIỂU (THEO ẢNH 1: 2 CỘT SONG SONG) -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                <div class="form-group">
+                    <label>Đi sớm tối thiểu (phút)</label>
+                    <input type="number" id="kskEarlyMin" placeholder="Nhập số phút" min="0" step="5">
+                </div>
+                <div class="form-group">
+                    <label>Về muộn tối thiểu (phút)</label>
+                    <input type="number" id="kskLateMin" placeholder="Nhập số phút" min="0" step="5">
+                </div>
+            </div>
+
+            <!-- 6. GHI CHÚ/QUY ĐỊNH ÁP DỤNG (THEO ẢNH 1) -->
+            <div class="form-group">
+                <label>Ghi chú/Quy định áp dụng</label>
+                <textarea id="kskNote" placeholder="Nhập ghi chú/quy định áp dụng chi tiết cho cấu hình" style="height:90px;"></textarea>
+            </div>
+        </div>
+
+        <!-- FOOTER: NÚT LƯU VÀ THOÁT (CHÍNH XÁC THEO ẢNH 1) -->
+        <div class="drawer-footer-actions">
+            <button class="btn btn-primary" onclick="saveKSK()">Lưu</button>
+            <button class="btn btn-reset" onclick="closeDrawerKSK()">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// =========================================================================
+// DATA STORAGE CHO 2 TABS: VẬN CHUYỂN MẪU (VCM) & KHÁM SỨC KHỎE (KSK)
+// =========================================================================
+let activeTab = 'vcm';
+
+// 1. DATA VẬN CHUYỂN MẪU (VCM) THEO YC02
+function toggleVcmDateTime() {
+    const isMonthly = document.getElementById("vcmIsMonthly")?.checked;
+    
+    const dateFrom = document.getElementById("vcmDateFrom");
+    const dateTo = document.getElementById("vcmDateTo");
+    const timeFrom = document.getElementById("vcmTimeFrom");
+    const timeTo = document.getElementById("vcmTimeTo");
+    
+    if (dateFrom) dateFrom.disabled = isMonthly;
+    if (dateTo) dateTo.disabled = isMonthly;
+    if (timeFrom) timeFrom.disabled = isMonthly;
+    if (timeTo) timeTo.disabled = isMonthly;
+
+    const groupDate = document.getElementById("groupVcmDate");
+    const groupTime = document.getElementById("groupVcmTime");
+    
+    if (groupDate) {
+        groupDate.style.opacity = isMonthly ? "0.5" : "1";
+        groupDate.style.pointerEvents = isMonthly ? "none" : "auto";
+    }
+    if (groupTime) {
+        groupTime.style.opacity = isMonthly ? "0.5" : "1";
+        groupTime.style.pointerEvents = isMonthly ? "none" : "auto";
+    }
+}
+
+let allowancesDataVCM = [
+    {
+        id: 4,
+        name: "Phụ cấp xăng xe",
+        isMonthly: true,
+        dateFrom: "",
+        dateTo: "",
+        timeFrom: "",
+        timeTo: "",
+        fee: 500000,
+        unit: "tháng",
+        status: "Hoạt động",
+        note: "Phụ cấp xăng xe cố định hàng tháng"
+    },
+    {
+        id: 1,
+        name: "Phụ cấp sau 19h",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        timeFrom: "19:00",
+        timeTo: "23:59",
+        fee: 30000,
+        unit: "chuyến",
+        status: "Hoạt động",
+        note: "Áp dụng cho các tuyến phát sinh sau 19:00 theo quy định"
+    },
+    {
+        id: 2,
+        name: "Phụ cấp ca đêm muộn",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        timeFrom: "22:00",
+        timeTo: "05:00",
+        fee: 50000,
+        unit: "chuyến",
+        status: "Hoạt động",
+        note: "Áp dụng cho các tuyến vận chuyển đêm cấp cứu"
+    },
+    {
+        id: 3,
+        name: "Phụ cấp hỏa tốc nội đô",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        timeFrom: "06:00",
+        timeTo: "22:00",
+        fee: 25000,
+        unit: "chuyến",
+        status: "Hoạt động",
+        note: "Yêu cầu vận chuyển hỏa tốc giao dưới 30 phút"
+    }
+];
+
+// 2. DATA KHÁM SỨC KHỎE (KSK) THEO THIẾT KẾ THỰC TẾ TRONG ẢNH
+let allowancesDataKSK = [
+    {
+        id: 1,
+        code: "PC-KSK01",
+        target: "Bác sĩ",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        calcType: "VNĐ",
+        val: 150000,
+        earlyMin: 30,
+        lateMin: 45,
+        note: "Phụ cấp Bác sĩ chuyên khoa phụ trách đoàn khám ngoại viện đi sớm về muộn",
+        status: "Hoạt động"
+    },
+    {
+        id: 2,
+        code: "PC-KSK02",
+        target: "Điều dưỡng",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        calcType: "VNĐ",
+        val: 80000,
+        earlyMin: 30,
+        lateMin: 30,
+        note: "Hỗ trợ chuẩn bị trang thiết bị y tế và tiếp đón đoàn khám công ty",
+        status: "Hoạt động"
+    },
+    {
+        id: 3,
+        code: "PC-KSK03",
+        target: "Kỹ thuật viên HA",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        calcType: "VNĐ",
+        val: 100000,
+        earlyMin: 45,
+        lateMin: 30,
+        note: "Vận hành xe chụp X-quang lưu động và thiết bị chẩn đoán hình ảnh",
+        status: "Hoạt động"
+    },
+    {
+        id: 4,
+        code: "PC-KSK04",
+        target: "Cộng tác viên",
+        dateFrom: "2026-09-01",
+        dateTo: "2026-12-31",
+        calcType: "% Lương",
+        val: 10,
+        earlyMin: 30,
+        lateMin: 60,
+        note: "Cộng tác viên điều phối đoàn khám ngoại tỉnh trên 300 người",
+        status: "Hoạt động"
+    }
+];
+
+// =========================================================================
+// CHUYỂN ĐỔI TAB CONTROL
+// =========================================================================
+function switchMainTab(tabKey) {
+    activeTab = tabKey;
+    const btnVcm = document.getElementById("tabBtnVCM");
+    const btnKsk = document.getElementById("tabBtnKSK");
+    const panelVcm = document.getElementById("tabPanelVCM");
+    const panelKsk = document.getElementById("tabPanelKSK");
+    const pageTitleText = document.getElementById("pageTitleText");
+    const badgeModule = document.getElementById("badgeModule");
+    const breadcrumb = document.getElementById("pageBreadcrumb");
+
+    if (tabKey === 'vcm') {
+        btnVcm.classList.add("active");
+        btnKsk.classList.remove("active");
+        panelVcm.style.display = "block";
+        panelKsk.style.display = "none";
+        
+        pageTitleText.textContent = "Quản lý Cấu hình phụ cấp - Vận chuyển mẫu";
+        badgeModule.textContent = "YC02 - VCM";
+        breadcrumb.innerHTML = `<i class="fa-solid fa-house"></i> <span>/</span> Quản trị hệ thống <span>/</span> Cấu hình <span>/</span> <strong>Cấu hình phụ cấp (VCM)</strong>`;
+        renderTableVCM(allowancesDataVCM);
+    } else {
+        btnKsk.classList.add("active");
+        btnVcm.classList.remove("active");
+        panelVcm.style.display = "none";
+        panelKsk.style.display = "block";
+        
+        pageTitleText.textContent = "Cấu hình phụ cấp - Khám sức khỏe";
+        badgeModule.textContent = "Điều phối KSK";
+        breadcrumb.innerHTML = `<i class="fa-solid fa-house"></i> <span>/</span> Điều phối khám sức khỏe <span>/</span> Cấu hình hệ thống <span>/</span> <strong>Cấu hình phụ cấp</strong>`;
+        renderTableKSK(allowancesDataKSK);
+    }
+}
+
+// =========================================================================
+// LOGIC TAB 1: VẬN CHUYỂN MẪU (VCM)
+// =========================================================================
+let editingVcmId = null;
+
+function formatDateDisplay(dStr) {
+    if (!dStr) return "--";
+    const parts = dStr.split("-");
+    if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    return dStr;
+}
+
+function renderTableVCM(data) {
+    const tbody = document.getElementById("tbodyVCM");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:32px; color:#64748b;">Không tìm thấy cấu hình phụ cấp VCM nào.</td></tr>`;
+        return;
+    }
+
+    data.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+        const statusBadge = item.status === 'Hoạt động' 
+            ? `<span class="badge b-ok">Hoạt động</span>` 
+            : `<span class="badge b-no-in">Ngừng hoạt động</span>`;
+        const dateBadge = item.isMonthly ? `<span class="badge" style="background:#f0fdf4; color:#166534; font-weight:600; border-color:#bbf7d0;">Theo tháng</span>` : `<span class="badge" style="background:#f8fafc; color:#334155; font-weight:600;"><i class="fa-regular fa-calendar-days" style="color:#64748b; margin-right:4px;"></i>${formatDateDisplay(item.dateFrom)} - ${formatDateDisplay(item.dateTo)}</span>`;
+        const timeBadge = item.isMonthly ? `<span style="color:#94a3b8;">--</span>` : `<span class="badge" style="background:#f8fafc; color:#334155; font-weight:600;"><i class="fa-regular fa-clock" style="color:#64748b; margin-right:4px;"></i>${item.timeFrom} - ${item.timeTo}</span>`;
+        const feeFormatted = `${item.fee.toLocaleString('vi-VN')} đ`;
+        const noteText = item.note ? item.note : `<span style="color:#94a3b8; font-style:italic;">--</span>`;
+        const unitLabel = item.unit ? item.unit : (item.isMonthly ? "tháng" : "chuyến");
+
+        tr.innerHTML = `
+            <td style="text-align:center; color:#64748b; font-weight:600;">${idx + 1}</td>
+            <td><strong style="color:#2A3F54;">${item.name}</strong></td>
+            <td style="text-align:center;">${dateBadge}</td>
+            <td style="text-align:center;">${timeBadge}</td>
+            <td style="text-align:right;"><strong style="color:#0f172a;">${feeFormatted}</strong> <span style="font-size:11px; color:#64748b;">/${unitLabel}</span></td>
+            <td><span style="font-size:12.5px; color:#475569;">${noteText}</span></td>
+            <td style="text-align:center;">${statusBadge}</td>
+            <td style="text-align:center; white-space:nowrap;">
+                <button class="action-icon view" title="Xem chi tiết" onclick="viewVCM(${item.id})"><i class="fa-regular fa-eye"></i></button>
+                <button class="action-icon edit" title="Chỉnh sửa" onclick="openDrawerVCM('edit', ${item.id})"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="action-icon delete" title="Xóa" onclick="deleteVCM(${item.id})"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function searchVCM() {
+    const keyword = document.getElementById("filterVcmKeyword").value.trim().toLowerCase();
+    const filterDate = document.getElementById("filterVcmDate").value;
+    const status = document.getElementById("filterVcmStatus").value;
+    const pageSize = parseInt(document.getElementById("vcmPageSize") ? document.getElementById("vcmPageSize").value : 10) || 10;
+
+    const filtered = allowancesDataVCM.filter(item => {
+        if (status && item.status !== status) return false;
+        if (keyword) {
+            const matchName = item.name.toLowerCase().includes(keyword);
+            const matchNote = item.note && item.note.toLowerCase().includes(keyword);
+            if (!matchName && !matchNote) return false;
+        }
+        if (filterDate) {
+            if (!item.isMonthly) {
+                if (item.dateFrom && filterDate < item.dateFrom) return false;
+                if (item.dateTo && filterDate > item.dateTo) return false;
+            }
+        }
+        return true;
+    });
+    renderTableVCM(filtered.slice(0, pageSize));
+}
+
+function resetSearchVCM() {
+    document.getElementById("filterVcmKeyword").value = "";
+    document.getElementById("filterVcmDate").value = "";
+    document.getElementById("filterVcmStatus").value = "";
+    renderTableVCM(allowancesDataVCM);
+}
+
+function openDrawerVCM(mode, id) {
+    editingVcmId = id || null;
+    const drawer = document.getElementById("drawerVCM");
+    const title = document.getElementById("titleDrawerVCM");
+
+    if (mode === 'edit' && id) {
+        title.textContent = "Chỉnh sửa cấu hình phụ cấp CTV";
+        const item = allowancesDataVCM.find(a => a.id === id);
+        if (item) {
+            document.getElementById("vcmName").value = item.name;
+            document.getElementById("vcmIsMonthly").checked = !!item.isMonthly;
+            document.getElementById("vcmDateFrom").value = item.dateFrom || "";
+            document.getElementById("vcmDateTo").value = item.dateTo || "";
+            document.getElementById("vcmTimeFrom").value = item.timeFrom || "19:00";
+            document.getElementById("vcmTimeTo").value = item.timeTo || "23:59";
+            document.getElementById("vcmFee").value = item.fee;
+            document.getElementById("vcmNote").value = item.note || "";
+            toggleVcmDateTime();
+        }
+    } else {
+        title.textContent = "Thêm mới cấu hình phụ cấp CTV";
+        document.getElementById("vcmName").value = "";
+        document.getElementById("vcmIsMonthly").checked = false;
+        const todayStr = new Date().toISOString().split("T")[0];
+        const currentYear = new Date().getFullYear();
+        document.getElementById("vcmDateFrom").value = todayStr;
+        document.getElementById("vcmDateTo").value = `${currentYear}-12-31`;
+        document.getElementById("vcmTimeFrom").value = "19:00";
+        document.getElementById("vcmTimeTo").value = "23:59";
+        document.getElementById("vcmFee").value = "";
+        document.getElementById("vcmNote").value = "";
+        toggleVcmDateTime();
+    }
+    if (drawer) drawer.classList.add("show");
+}
+
+function openModalVCM(mode, id) {
+    openDrawerVCM(mode, id);
+}
+
+function closeDrawerVCM() {
+    const drawer = document.getElementById("drawerVCM");
+    if (drawer) drawer.classList.remove("show");
+}
+
+function closeModalVCM() {
+    closeDrawerVCM();
+}
+
+function saveVCM() {
+    const name = document.getElementById("vcmName").value.trim();
+    const isMonthly = document.getElementById("vcmIsMonthly").checked;
+    const dateFrom = document.getElementById("vcmDateFrom").value;
+    const dateTo = document.getElementById("vcmDateTo").value;
+    const timeFrom = document.getElementById("vcmTimeFrom").value;
+    const timeTo = document.getElementById("vcmTimeTo").value;
+    const fee = parseFloat(document.getElementById("vcmFee").value);
+    const note = document.getElementById("vcmNote").value.trim();
+
+    if (!name) {
+        alert("Vui lòng nhập [Tên phụ cấp (*)]!");
+        document.getElementById("vcmName").focus();
+        return;
+    }
+    
+    if (!isMonthly) {
+        if (!dateFrom || !dateTo) {
+            alert("Vui lòng chọn đầy đủ [Ngày áp dụng (*)] từ ngày đến ngày!");
+            return;
+        }
+        if (dateFrom > dateTo) {
+            alert("Ngày bắt đầu không được lớn hơn ngày kết thúc!");
+            return;
+        }
+    }
+
+    if (isNaN(fee) || fee <= 0) {
+        alert("Vui lòng nhập [Phí phụ cấp (*)] hợp lệ!");
+        document.getElementById("vcmFee").focus();
+        return;
+    }
+
+    if (editingVcmId) {
+        const item = allowancesDataVCM.find(a => a.id === editingVcmId);
+        if (item) {
+            item.name = name;
+            item.isMonthly = isMonthly;
+            item.dateFrom = isMonthly ? "" : dateFrom;
+            item.dateTo = isMonthly ? "" : dateTo;
+            item.timeFrom = isMonthly ? "" : timeFrom;
+            item.timeTo = isMonthly ? "" : timeTo;
+            item.fee = fee;
+            item.unit = isMonthly ? "tháng" : "chuyến";
+            item.note = note;
+        }
+    } else {
+        const newId = allowancesDataVCM.length > 0 ? Math.max(...allowancesDataVCM.map(a => a.id)) + 1 : 1;
+        allowancesDataVCM.push({
+            id: newId,
+            name: name,
+            isMonthly: isMonthly,
+            dateFrom: isMonthly ? "" : dateFrom,
+            dateTo: isMonthly ? "" : dateTo,
+            timeFrom: isMonthly ? "" : timeFrom,
+            timeTo: isMonthly ? "" : timeTo,
+            fee: fee,
+            unit: isMonthly ? "tháng" : "chuyến",
+            status: "Hoạt động",
+            note: note
+        });
+    }
+
+    closeDrawerVCM();
+    renderTableVCM(allowancesDataVCM);
+    alert("Đã lưu cấu hình phụ cấp CTV thành công!");
+}
+
+function deleteVCM(id) {
+    if (confirm("Bạn có chắc chắn muốn xóa cấu hình phụ cấp VCM này không?")) {
+        allowancesDataVCM = allowancesDataVCM.filter(a => a.id !== id);
+        renderTableVCM(allowancesDataVCM);
+    }
+}
+
+function viewVCM(id) {
+    openDrawerVCM('edit', id);
+    document.getElementById("titleDrawerVCM").textContent = "Chi tiết cấu hình phụ cấp CTV";
+}
+
+// =========================================================================
+// LOGIC TAB 2: KHÁM SỨC KHỎE (KSK) - CHUẨN XÁC THEO ẢNH 1, 2, 3
+// =========================================================================
+let editingKskId = null;
+let selectedKskTarget = "";
+
+function renderTableKSK(data) {
+    const tbody = document.getElementById("tbodyKSK");
+    const container = document.getElementById("kskTableContainer");
+    const emptyState = document.getElementById("kskEmptyState");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+        if (container) container.style.display = "none";
+        if (emptyState) emptyState.style.display = "flex";
+        return;
+    }
+
+    if (container) container.style.display = "block";
+    if (emptyState) emptyState.style.display = "none";
+
+    data.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+        const statusBadge = item.status === 'Hoạt động' 
+            ? `<span class="badge b-ok">Hoạt động</span>` 
+            : `<span class="badge b-no-in">Ngừng hoạt động</span>`;
+        
+        const dateBadge = `<span class="badge" style="background:#f8fafc; color:#334155; font-weight:600;"><i class="fa-regular fa-calendar-days" style="color:#64748b; margin-right:4px;"></i>${formatDateDisplay(item.dateFrom)} - ${formatDateDisplay(item.dateTo)}</span>`;
+
+        const valFormatted = item.calcType === '% Lương' 
+            ? `<strong style="color:#0f172a;">${item.val}% Lương</strong>` 
+            : `<strong style="color:#0f172a;">${item.val.toLocaleString('vi-VN')} VNĐ</strong>`;
+
+        tr.innerHTML = `
+            <td style="text-align:center; color:#64748b; font-weight:600;">${idx + 1}</td>
+            <td><span class="badge" style="background:#eff6ff; color:#1e40af; border-color:#bfdbfe; font-weight:600;"><i class="fa-solid fa-user-doctor" style="margin-right:4px;"></i>${item.target}</span></td>
+            <td style="text-align:center;">${dateBadge}</td>
+            <td>${item.calcType}</td>
+            <td style="text-align:right;">${valFormatted}</td>
+            <td style="text-align:center;">${item.earlyMin ? item.earlyMin + ' phút' : '-'}</td>
+            <td style="text-align:center;">${item.lateMin ? item.lateMin + ' phút' : '-'}</td>
+            <td style="max-width:280px; white-space:normal;" title="${item.note || ''}">${item.note || '-'}</td>
+            <td style="text-align:center;">${statusBadge}</td>
+            <td style="text-align:center; white-space:nowrap;">
+                <button class="action-icon view" title="Xem chi tiết" onclick="viewKSK(${item.id})"><i class="fa-regular fa-eye"></i></button>
+                <button class="action-icon edit" title="Chỉnh sửa" onclick="openDrawerKSK('edit', ${item.id})"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button class="action-icon delete" title="Xóa" onclick="deleteKSK(${item.id})"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+let selectedFilterKskTargets = [];
+let selectedDrawerKskTargets = [];
+
+function toggleKskFilterDropdown(e) {
+    e.stopPropagation();
+    const dd = document.getElementById("filterKskDropdown");
+    const otherDd = document.getElementById("drawerKskDropdown");
+    if (otherDd) otherDd.classList.remove("show");
+    if (dd) {
+        dd.classList.toggle("show");
+        if (dd.classList.contains("show")) {
+            const inp = dd.querySelector(".ksk-search-input");
+            if (inp) inp.focus();
+        }
+    }
+}
+
+function onFilterKskTargetChange() {
+    const checkboxes = document.querySelectorAll("#filterKskOptionsList input[type='checkbox']:checked");
+    selectedFilterKskTargets = Array.from(checkboxes).map(cb => cb.value);
+    
+    const display = document.getElementById("filterKskTargetDisplay");
+    if (display) {
+        if (selectedFilterKskTargets.length === 0) {
+            display.textContent = "Chọn đối tượng áp dụng";
+            display.style.color = "#64748b";
+        } else if (selectedFilterKskTargets.length <= 2) {
+            display.textContent = selectedFilterKskTargets.join(", ");
+            display.style.color = "#1e293b";
+        } else {
+            display.textContent = `${selectedFilterKskTargets.slice(0, 2).join(", ")} (+${selectedFilterKskTargets.length - 2})`;
+            display.style.color = "#1e293b";
+        }
+    }
+}
+
+function filterKskTargetList(inputEl, listId) {
+    const q = (inputEl.value || "").trim().toLowerCase();
+    const items = document.querySelectorAll(`#${listId} .ksk-check-item`);
+    items.forEach(item => {
+        const text = item.querySelector("span") ? item.querySelector("span").textContent.toLowerCase() : item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? "flex" : "none";
+    });
+}
+
+function searchKSK() {
+    const calcType = document.getElementById("filterKskCalcType").value;
+    const keyword = document.getElementById("filterKskKeyword").value.trim().toLowerCase();
+    const pageSize = parseInt(document.getElementById("kskPageSize") ? document.getElementById("kskPageSize").value : 10) || 10;
+
+    const filtered = allowancesDataKSK.filter(item => {
+        if (selectedFilterKskTargets.length > 0) {
+            const itemTargets = item.target.split(",").map(t => t.trim());
+            const hasMatch = selectedFilterKskTargets.some(st => itemTargets.includes(st) || item.target.includes(st));
+            if (!hasMatch) return false;
+        }
+        if (calcType && item.calcType !== calcType) return false;
+        if (keyword) {
+            const matchNote = (item.note || "").toLowerCase().includes(keyword);
+            const matchTarget = item.target.toLowerCase().includes(keyword);
+            if (!matchNote && !matchTarget) return false;
+        }
+        return true;
+    });
+    renderTableKSK(filtered.slice(0, pageSize));
+}
+
+function resetSearchKSK() {
+    document.getElementById("filterKskKeyword").value = "";
+    document.getElementById("filterKskCalcType").value = "";
+    selectedFilterKskTargets = [];
+    const checkboxes = document.querySelectorAll("#filterKskOptionsList input[type='checkbox']");
+    checkboxes.forEach(cb => cb.checked = false);
+    const display = document.getElementById("filterKskTargetDisplay");
+    if (display) {
+        display.textContent = "Chọn đối tượng áp dụng";
+        display.style.color = "#64748b";
+    }
+    const searchInput = document.querySelector("#filterKskDropdown .ksk-search-input");
+    if (searchInput) {
+        searchInput.value = "";
+        filterKskTargetList(searchInput, 'filterKskOptionsList');
+    }
+    const pageSize = parseInt(document.getElementById("kskPageSize") ? document.getElementById("kskPageSize").value : 10) || 10;
+    renderTableKSK(allowancesDataKSK.slice(0, pageSize));
+}
+
+// DROPDOWN LOGIC TRONG DRAWER
+function toggleDrawerKskDropdown(e) {
+    e.stopPropagation();
+    const dd = document.getElementById("drawerKskDropdown");
+    const otherDd = document.getElementById("filterKskDropdown");
+    if (otherDd) otherDd.classList.remove("show");
+    if (dd) {
+        dd.classList.toggle("show");
+        if (dd.classList.contains("show")) {
+            const inp = dd.querySelector(".ksk-search-input");
+            if (inp) inp.focus();
+        }
+    }
+}
+
+function onDrawerKskTargetChange() {
+    const checkboxes = document.querySelectorAll("#drawerKskOptionsList input[type='checkbox']:checked");
+    selectedDrawerKskTargets = Array.from(checkboxes).map(cb => cb.value);
+    
+    const display = document.getElementById("kskTargetDisplay");
+    if (display) {
+        if (selectedDrawerKskTargets.length === 0) {
+            display.textContent = "Chọn đối tượng áp dụng";
+            display.style.color = "#64748b";
+        } else if (selectedDrawerKskTargets.length <= 2) {
+            display.textContent = selectedDrawerKskTargets.join(", ");
+            display.style.color = "#1e293b";
+        } else {
+            display.textContent = `${selectedDrawerKskTargets.slice(0, 2).join(", ")} (+${selectedDrawerKskTargets.length - 2})`;
+            display.style.color = "#1e293b";
+        }
+    }
+}
+
+function setDrawerKskTargets(targets) {
+    let targetArr = [];
+    if (Array.isArray(targets)) {
+        targetArr = targets;
+    } else if (targets) {
+        targetArr = targets.split(",").map(s => s.trim());
+    }
+    selectedDrawerKskTargets = targetArr;
+    
+    const checkboxes = document.querySelectorAll("#drawerKskOptionsList input[type='checkbox']");
+    checkboxes.forEach(cb => {
+        cb.checked = targetArr.includes(cb.value);
+    });
+    
+    const display = document.getElementById("kskTargetDisplay");
+    if (display) {
+        if (selectedDrawerKskTargets.length === 0) {
+            display.textContent = "Chọn đối tượng áp dụng";
+            display.style.color = "#64748b";
+        } else if (selectedDrawerKskTargets.length <= 2) {
+            display.textContent = selectedDrawerKskTargets.join(", ");
+            display.style.color = "#1e293b";
+        } else {
+            display.textContent = `${selectedDrawerKskTargets.slice(0, 2).join(", ")} (+${selectedDrawerKskTargets.length - 2})`;
+            display.style.color = "#1e293b";
+        }
+    }
+}
+
+// THAY ĐỔI HÌNH THỨC TÍNH TIỀN (VNĐ HOẶC % LƯƠNG) -> CẬP NHẬT SUFFIX
+function onKskCalcTypeChange() {
+    const type = document.getElementById("kskCalcType").value;
+    const suffix = document.getElementById("kskUnitSuffix");
+    if (suffix) {
+        suffix.textContent = type === "% Lương" ? "%" : "VNĐ";
+    }
+}
+
+// MỞ DRAWER KSK
+function openDrawerKSK(mode, id) {
+    editingKskId = id || null;
+    const drawer = document.getElementById("drawerKSK");
+    const title = document.getElementById("titleDrawerKSK");
+
+    // Close any open popover
+    const menu = document.getElementById("drawerKskDropdown");
+    if (menu) menu.classList.remove("show");
+    const searchInput = document.querySelector("#drawerKskDropdown .ksk-search-input");
+    if (searchInput) {
+        searchInput.value = "";
+        filterKskTargetList(searchInput, 'drawerKskOptionsList');
+    }
+
+    if (mode === 'edit' && id) {
+        title.textContent = "Chỉnh sửa cấu hình phụ cấp";
+        const item = allowancesDataKSK.find(a => a.id === id);
+        if (item) {
+            setDrawerKskTargets(item.target);
+            document.getElementById("kskDateFrom").value = item.dateFrom || "";
+            document.getElementById("kskDateTo").value = item.dateTo || "";
+            document.getElementById("kskCalcType").value = item.calcType;
+            document.getElementById("kskValue").value = item.val;
+            document.getElementById("kskEarlyMin").value = item.earlyMin || "";
+            document.getElementById("kskLateMin").value = item.lateMin || "";
+            document.getElementById("kskNote").value = item.note || "";
+            onKskCalcTypeChange();
+        }
+    } else {
+        title.textContent = "Thêm mới cấu hình phụ cấp";
+        setDrawerKskTargets([]);
+        const todayStr = new Date().toISOString().split("T")[0];
+        const currentYear = new Date().getFullYear();
+        document.getElementById("kskDateFrom").value = todayStr;
+        document.getElementById("kskDateTo").value = `${currentYear}-12-31`;
+        document.getElementById("kskCalcType").value = "";
+        document.getElementById("kskValue").value = "";
+        document.getElementById("kskEarlyMin").value = "";
+        document.getElementById("kskLateMin").value = "";
+        document.getElementById("kskNote").value = "";
+        onKskCalcTypeChange();
+    }
+
+    if (drawer) drawer.classList.add("show");
+}
+
+function closeDrawerKSK() {
+    const drawer = document.getElementById("drawerKSK");
+    if (drawer) drawer.classList.remove("show");
+    const menu = document.getElementById("drawerKskDropdown");
+    if (menu) menu.classList.remove("show");
+}
+
+function saveKSK() {
+    if (selectedDrawerKskTargets.length === 0) {
+        alert("Vui lòng chọn [Đối tượng áp dụng (*)]!");
+        return;
+    }
+    const target = selectedDrawerKskTargets.join(", ");
+    const dateFrom = document.getElementById("kskDateFrom").value;
+    const dateTo = document.getElementById("kskDateTo").value;
+    if (!dateFrom || !dateTo) {
+        alert("Vui lòng chọn đầy đủ [Ngày áp dụng (*)] từ ngày đến ngày!");
+        return;
+    }
+    if (dateFrom > dateTo) {
+        alert("Ngày bắt đầu không được lớn hơn ngày kết thúc!");
+        return;
+    }
+    const calcType = document.getElementById("kskCalcType").value;
+    if (!calcType) {
+        alert("Vui lòng chọn [Hình thức tính tiền (*)]!");
+        document.getElementById("kskCalcType").focus();
+        return;
+    }
+    const val = parseFloat(document.getElementById("kskValue").value);
+    if (isNaN(val) || val <= 0) {
+        alert("Vui lòng nhập [Giá trị (*)] hợp lệ!");
+        document.getElementById("kskValue").focus();
+        return;
+    }
+    const earlyMin = parseInt(document.getElementById("kskEarlyMin").value) || 0;
+    const lateMin = parseInt(document.getElementById("kskLateMin").value) || 0;
+    const note = document.getElementById("kskNote").value.trim();
+
+    if (editingKskId) {
+        const item = allowancesDataKSK.find(a => a.id === editingKskId);
+        if (item) {
+            item.target = target;
+            item.dateFrom = dateFrom;
+            item.dateTo = dateTo;
+            item.calcType = calcType;
+            item.val = val;
+            item.earlyMin = earlyMin;
+            item.lateMin = lateMin;
+            item.note = note;
+        }
+    } else {
+        const nextNum = allowancesDataKSK.length + 1;
+        allowancesDataKSK.push({
+            id: allowancesDataKSK.length > 0 ? Math.max(...allowancesDataKSK.map(a => a.id)) + 1 : 1,
+            code: `PC-KSK0${nextNum}`,
+            target: target,
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            calcType: calcType,
+            val: val,
+            earlyMin: earlyMin,
+            lateMin: lateMin,
+            note: note,
+            status: "Hoạt động"
+        });
+    }
+
+    closeDrawerKSK();
+    searchKSK();
+    alert("Đã lưu cấu hình phụ cấp KSK thành công!");
+}
+
+function deleteKSK(id) {
+    if (confirm("Bạn có chắc chắn muốn xóa cấu hình phụ cấp KSK này không?")) {
+        allowancesDataKSK = allowancesDataKSK.filter(a => a.id !== id);
+        renderTableKSK(allowancesDataKSK);
+    }
+}
+
+function viewKSK(id) {
+    openDrawerKSK('edit', id);
+    document.getElementById("titleDrawerKSK").textContent = "Chi tiết cấu hình phụ cấp KSK";
+}
+
+// ĐÓNG POPUP KHI CLICK NGOÀI
+document.addEventListener("click", function(e) {
+    const popoverFilter = document.getElementById("popoverFilterKsk");
+    const popoverDrawer = document.getElementById("popoverDrawerKsk");
+    
+    if (popoverFilter && !popoverFilter.contains(e.target)) {
+        const dd = document.getElementById("filterKskDropdown");
+        if (dd) dd.classList.remove("show");
+    }
+    if (popoverDrawer && !popoverDrawer.contains(e.target)) {
+        const dd = document.getElementById("drawerKskDropdown");
+        if (dd) dd.classList.remove("show");
+    }
+});
+
+const drawerKSK = document.getElementById("drawerKSK");
+if (drawerKSK) {
+    drawerKSK.addEventListener("click", function(e) {
+        if (e.target === this) closeDrawerKSK();
+    });
+}
+
+const drawerVCM = document.getElementById("drawerVCM");
+if (drawerVCM) {
+    drawerVCM.addEventListener("click", function(e) {
+        if (e.target === this) closeDrawerVCM();
+    });
+}
+
+// KHỞI CHẠY LẦN ĐẦU
+document.addEventListener("DOMContentLoaded", function() {
+    renderTableVCM(allowancesDataVCM);
+    renderTableKSK(allowancesDataKSK);
+});
+</script>
+
+</body>
+</html>
